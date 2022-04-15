@@ -1,0 +1,15 @@
+{% extends 'core/base.html' %}
+
+{% block content %}
+
+<h1>INDEX PAGE</h1>
+<h3>Are you a teacher or a student?</h3>
+
+<a href="{% url 'student-login' %}"> STUDENT </a>
+<br>
+<a href="{% url 'teacher-login' %}"> TEACHER </a>
+
+{% endblock content %}
+
+
+

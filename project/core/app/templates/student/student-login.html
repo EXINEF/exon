@@ -1,0 +1,22 @@
+{% extends 'core/base.html' %}
+
+{% block content %}
+
+<h1>STUDENT LOGIN</h1>
+<h3>Please insert your Matricola Code, and your token for join the exam.</h3>
+
+<form>
+    <label for="fname">MATRICOLA CODE:</label><br>
+    <input type="text" id="fname" name="fname"><br>
+    <label for="lname">TOKEN CODE:</label><br>
+    <input type="text" id="lname" name="lname">
+    <input type="submit" value="Submit">
+  </form>
+
+  <a href="{% url 'student-exam' %}"> JOIN THE EXAM (TO REMOVE) </a>
+  <br>
+
+{% endblock content %}
+
+
+
