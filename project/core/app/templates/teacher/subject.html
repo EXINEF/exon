@@ -1,0 +1,21 @@
+{% extends 'core/base.html' %}
+
+{% block content %}
+
+<h1>{{subject.name}}</h1>
+<p>{{subject.description}}</p>
+
+<a href="">Load From File</a>
+<a href="{% url 'all-questions' subject.id %}">Edit Questions</a>
+
+<h4>Number of questions: {{num_questions}}</h4>
+<h4>Success Rate: TODO</h4>
+
+<br>
+<br>
+<h4>Last sessions:</h4>
+<p>TODO, show all the exam sessions</p>
+{% endblock content %}
+
+
+

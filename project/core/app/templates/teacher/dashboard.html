@@ -1,0 +1,25 @@
+{% extends 'core/base.html' %}
+
+{% block content %}
+
+<h1>DASHBOARD</h1>
+
+<h3>Subjects</h3>
+{% for subject in subjects %}
+    <a href="{% url 'teacher-subject' subject.id %}">
+    <h5>{{subject.name}}</h5>
+    </a>
+
+    <a href="">Edit</a>
+    <a href="">Delete</a>
+{% endfor %}
+
+<a href="{% url 'teacher-add-subject' %}"> ADD NEW SUBJECT </a>
+<br>
+<br>
+<a href="{% url 'logout' %}"> LOGOUT </a>
+
+{% endblock content %}
+
+
+
