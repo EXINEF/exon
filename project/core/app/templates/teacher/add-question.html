@@ -1,0 +1,27 @@
+{% extends 'core/base.html' %}
+
+{% block content %}
+
+<h1>Add Question</h1>
+    <form method="POST" action="">
+        {% csrf_token %}
+            {{form.as_p}}
+
+            {% for i in range %}
+            <div class="card">
+            <label for="answer{{i}}">Answer {{i}}:</label>
+            <input type="text" id="answer{{i}}" name="answer{{i}}">
+
+            <label for="answer{{i}}">Is Correct ?:</label>
+            <input class="form-check-input mt-0" type="checkbox" id="is_correct{{i}}" name="is_correct{{i}}" value="1">
+            </div>
+            {% endfor %}
+            
+
+            <input type="submit" value="Add Question">
+    </form>
+
+{% endblock content %}
+
+
+

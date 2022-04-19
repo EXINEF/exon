@@ -1,4 +1,3 @@
-from statistics import mode
 from django.db import models
 from django.contrib.auth.models import User
 
@@ -29,6 +28,7 @@ class Question(models.Model):
 	text = models.TextField(null=True)
 	difficulty = models.IntegerField(null=True)
 	subject = models.ForeignKey(Subject, on_delete=models.CASCADE, null=True)
+	teacher = models.ForeignKey(Teacher, on_delete=models.CASCADE, null=True)
 	
 	creation_datetime = models.DateTimeField(auto_now_add=True, null=True)
 	
@@ -40,6 +40,7 @@ class Answer(models.Model):
 	is_correct = models.BooleanField(default=False, null=True)
 	creation_datetime = models.DateTimeField(auto_now_add=True, null=True)
 	question = models.ForeignKey(Question, on_delete=models.CASCADE, null=True)
+	teacher = models.ForeignKey(Teacher, on_delete=models.CASCADE, null=True)
 	
 	def __str__(self):
 		return str(self.is_correct) + ' - ' + self.text

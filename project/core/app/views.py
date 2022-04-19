@@ -21,6 +21,11 @@ def studentExam(request):
 def studentResult(request):
     return render(request,'student/result.html')
 
+@login_required(login_url='index')
+def logoutPage(request):
+    logout(request)
+    return redirect('index')
+
 @unauthenticated_user
 def teacherLogin(request):
     if request.method == 'POST':
@@ -39,45 +44,3 @@ def teacherLogin(request):
 
     context = {}
     return render(request,'teacher/login.html', context)
-
-def teacherDashboard(request):
-    subjects = Subject.objects.all()
-
-    context = {'subjects':subjects, }
-    return render(request,'teacher/dashboard.html', context)
-
-def teacherSubject(request, pk):
-    subject = get_object_or_404(Subject, id=pk)
-    num_questions = Question.objects.filter(subject=subject).count()
-    context = {'subject':subject, 'num_questions':num_questions }
-    return render(request,'teacher/subject.html', context)
-
-@login_required(login_url='index')
-@teacher_only
-def addSubject(request):   
-    form = SubjectForm()
-    if request.method == 'POST':
-        form = SubjectForm(request.POST)
-        if form.is_valid():
-            t = Teacher.objects.get(user=request.user)     
-            new_subject = form.save(commit=False)
-            new_subject.teacher = t
-            new_subject.save()
-            form.save_m2m()
-
-            messages.success(request, 'New subject added successful')
-            return redirect('teacher-dashboard')
-
-    context = {'form':form}
-    return render(request, 'teacher/add-subject.html', context)
-
-@login_required(login_url='index')
-def logoutPage(request):
-    logout(request)
-    return redirect('index')
-
-def allQuestions(request, pk):
-    subject = get_object_or_404(Subject, id=pk)
-    questions = Question.objects.filter(subject = subject)
-    context = {'subject':subject, 'questions' : questions}
-    return render(request,'teacher/all-questions.html', context)

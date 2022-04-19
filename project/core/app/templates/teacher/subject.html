@@ -6,7 +6,8 @@
 <p>{{subject.description}}</p>
 
 <a href="">Load From File</a>
-<a href="{% url 'all-questions' subject.id %}">Edit Questions</a>
+<br>
+<a href="{% url 'teacher-all-questions' subject.id %}">Edit Questions</a>
 
 <h4>Number of questions: {{num_questions}}</h4>
 <h4>Success Rate: TODO</h4>

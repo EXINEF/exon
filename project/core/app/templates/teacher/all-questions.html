@@ -4,14 +4,21 @@
 
 <h3>Edit Questions of: {{subject.name}}</h3>
 <h5>Number of Questions: {{questions.count}}</h5>
-<h5>Questions</h5>
+<h5>Questions:</h5>
 {% for question in questions %}
+    <a href="{% url 'teacher-question' question.id %}">
+
+    
     <h5>{{question.text}}</h5>
-    </a>
+</a>
+    
 
     <a href="">Edit</a>
     <a href="">Delete</a>
 {% endfor %}
+<br>
+<br>
+<a href="{% url 'teacher-add-question' subject.id %}">Add question</a>
 
 {% endblock content %}
 
