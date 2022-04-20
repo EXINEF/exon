@@ -59,20 +59,11 @@ def deleteSubject(request, pk):
 
 @login_required(login_url='index')
 @teacher_only
-def allQuestions(request, pk):
+def editQuestions(request, pk):
     subject = get_object_or_404(Subject, id=pk)
     questions = Question.objects.filter(subject = subject)
     context = {'subject':subject, 'questions' : questions}
-    return render(request,'teacher/all-questions.html', context)
-
-@login_required(login_url='index')
-@teacher_only
-def question(request, pk):
-    teacher = get_object_or_404(Teacher, user=request.user)
-    question = get_object_or_404(Question, id=pk, teacher=teacher)
-    answers = Answer.objects.filter(question = question)
-    context = {'question':question, 'answers':answers}
-    return render(request,'teacher/question.html', context)
+    return render(request,'teacher/edit-questions.html', context)
 
 @login_required(login_url='index')
 @teacher_only
@@ -100,7 +91,7 @@ def addQuestion(request, pk):
                 answer.save()
     
             messages.success(request, 'New question added successful')
-            return redirect('teacher-all-questions', pk)
+            return redirect('teacher-edit-questions', pk)
 
     context = {'form':form, 'range':range(4),}
     return render(request, 'teacher/add-question.html', context)
@@ -121,16 +112,15 @@ def editQuestion(request, subjectpk, pk):
             c = 1
             for answer in answers:
                 text = request.POST.get('answer'+str(c))
-                print(text)
                 answer.text = text
                 answer.is_correct = getAnswerValue(request.POST.get('is_correct'+str(c)))
                 answer.save()
                 c+=1
     
-            messages.success(request, 'New question added successful')
-            return redirect('teacher-all-questions', subjectpk)
+            messages.success(request, 'Question saved successfuly')
+            return redirect('teacher-edit-questions', subjectpk)
 
-    context = {'form':form, 'range':range(4), 'answers':answers}
+    context = {'form':form, 'answers':answers}
     return render(request, 'teacher/edit-question.html', context)
 
 def getAnswerValue(value):
@@ -140,6 +130,33 @@ def getAnswerValue(value):
 
 @login_required(login_url='index')
 @teacher_only
-def deleteQuestion(request, pk):
-    context = {}
-    return render(request, 'teacher/delete-subject.html', context)
+def deleteQuestion(request, subjectpk, pk):
+    teacher = get_object_or_404(Teacher, user=request.user)
+    question = get_object_or_404(Question, id=pk, teacher=teacher)
+    
+    if request.method == 'POST':
+        messages.success(request,'The Question %s was deleted successfuly' % question.text)
+        Question.delete(question)
+        return redirect('teacher-edit-questions', subjectpk)
+
+    context = {'question':question}
+    return render(request, 'teacher/delete-question.html', context)
+
+@login_required(login_url='index')
+@teacher_only
+def editSubject(request, pk):   
+    t = get_object_or_404(Teacher, user=request.user)  
+    subject = get_object_or_404(Subject, id=pk, teacher=t)
+
+    form = SubjectForm(instance = subject)
+    
+    if request.method == 'POST':
+        form = SubjectForm(request.POST, instance = subject)
+        
+        if form.is_valid():
+            form.save()
+            messages.success(request, 'Subject saved successfuly')
+            return redirect('teacher-dashboard')
+
+    context = {'form':form,}
+    return render(request, 'teacher/edit-subject.html', context)

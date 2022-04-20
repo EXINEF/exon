@@ -17,13 +17,13 @@ urlpatterns = [
     path('teacher/subject/<str:pk>', subject, name='teacher-subject'),
     path('teacher/add-subject', addSubject, name='teacher-add-subject'),
     path('teacher/delete-subject/<str:pk>', deleteSubject, name='teacher-delete-subject'),
-    path('teacher/all-questions/<str:pk>', allQuestions, name='teacher-all-questions'),
+    path('teacher/edit-subject/<str:pk>', editSubject, name='teacher-edit-subject'),
+    path('teacher/edit-questions/<str:pk>', editQuestions, name='teacher-edit-questions'),
 
     # QUESTION
-    path('teacher/question/<str:pk>', question, name='teacher-question'),
     path('teacher/add-question/<str:pk>', addQuestion, name='teacher-add-question'),
     path('teacher/edit-question/<str:subjectpk>/<str:pk>', editQuestion, name='teacher-edit-question'),
-    path('teacher/delete-question/<str:pk>', deleteQuestion, name='teacher-delete-question'),
+    path('teacher/delete-question/<str:subjectpk>/<str:pk>', deleteQuestion, name='teacher-delete-question'),
 
     
 ]

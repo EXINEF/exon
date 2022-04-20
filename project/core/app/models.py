@@ -11,7 +11,10 @@ class Teacher(models.Model):
 	creation_datetime = models.DateTimeField(auto_now_add=True, null=True)
 	
 	def __str__(self):
-		return '%s ( %s %s )' % (self.user.username, self.first_name, self.last_name)
+		return '%s - %s %s' % (self.user.username, self.first_name, self.last_name)
+
+	def full_name(self):
+		return '%s %s' % (self.first_name, self.last_name)
 
 
 class Subject(models.Model):
@@ -22,7 +25,7 @@ class Subject(models.Model):
 	creation_datetime = models.DateTimeField(auto_now_add=True, null=True)
 	
 	def __str__(self):
-		return self.name
+		return '%s - %s' % (self.teacher.full_name(), self.name)
 
 class Question(models.Model):
 	text = models.TextField(null=True)
@@ -33,7 +36,7 @@ class Question(models.Model):
 	creation_datetime = models.DateTimeField(auto_now_add=True, null=True)
 	
 	def __str__(self):
-		return self.text
+		return '%s - %s' % (self.teacher.full_name(), self.text)
 
 class Answer(models.Model):
 	text = models.TextField(null=True)
@@ -45,7 +48,7 @@ class Answer(models.Model):
 	def __str__(self):
 		if(self.text is None):
 			return 'NONE'
-		return str(self.is_correct) + ' - ' + self.text
+		return self.question.__str__() + ' --- ' +self.text  +' --- ' +  str(self.is_correct)
 
 
 

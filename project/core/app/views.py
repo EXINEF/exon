@@ -44,3 +44,6 @@ def teacherLogin(request):
 
     context = {}
     return render(request,'teacher/login.html', context)
+
+def page_404(request, exception):
+    return render(request, 'error/404.html')

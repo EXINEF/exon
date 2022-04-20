@@ -10,7 +10,7 @@
     <h5>{{subject.name}}</h5>
     </a>
 
-    <a href="">Edit</a>
+    <a href="{% url 'teacher-edit-subject' subject.id %}">Edit</a>
     <a href="{% url 'teacher-delete-subject' subject.id %}">Delete</a>
 {% endfor %}
 
