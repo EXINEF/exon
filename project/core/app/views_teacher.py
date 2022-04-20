@@ -78,6 +78,7 @@ def question(request, pk):
 @teacher_only
 def addQuestion(request, pk):   
     form = QuestionForm()
+    answerForm = AnswerForm()
 
     if request.method == 'POST':
         form = QuestionForm(request.POST)
@@ -102,7 +103,7 @@ def addQuestion(request, pk):
             messages.success(request, 'New question added successful')
             return redirect('teacher-all-questions', pk)
 
-    context = {'form':form, 'range':range(4)}
+    context = {'form':form, 'range':range(4), 'answerForm':answerForm}
     return render(request, 'teacher/add-question.html', context)
 
 def getAnswerValue(value):
