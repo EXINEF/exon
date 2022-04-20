@@ -22,6 +22,7 @@ urlpatterns = [
     # QUESTION
     path('teacher/question/<str:pk>', question, name='teacher-question'),
     path('teacher/add-question/<str:pk>', addQuestion, name='teacher-add-question'),
+    path('teacher/edit-question/<str:subjectpk>/<str:pk>', editQuestion, name='teacher-edit-question'),
     path('teacher/delete-question/<str:pk>', deleteQuestion, name='teacher-delete-question'),
 
     

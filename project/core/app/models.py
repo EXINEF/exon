@@ -43,6 +43,8 @@ class Answer(models.Model):
 	teacher = models.ForeignKey(Teacher, on_delete=models.CASCADE, null=True)
 	
 	def __str__(self):
+		if(self.text is None):
+			return 'NONE'
 		return str(self.is_correct) + ' - ' + self.text
 
 

@@ -1,0 +1,26 @@
+{% extends 'core/base.html' %}
+
+{% block content %}
+
+<h1>Edit Question</h1>
+    <form method="POST" action="">
+        {% csrf_token %}
+            {{form.as_p}}
+
+            {% for answer in answers %}
+                <div class="card">
+                <label for="answer{{forloop.counter}}">Answer {{forloop.counter}}:</label>
+                <input type="text" id="answer{{i}}" name="answer{{forloop.counter}}" value="{{answer.text}}">
+
+                <label for="answer{{forloop.counter}}">Is Correct ?:</label>
+                <input class="form-check-input mt-0" type="checkbox" id="is_correct{{forloop.counter}}" name="is_correct{{forloop.counter}}" {% if answer.is_correct %}checked{% endif %} value="{{answer.is_correct}}">
+                </div>
+            {% endfor %}
+
+            <input type="submit" value="Save">
+    </form>
+
+{% endblock content %}
+
+
+

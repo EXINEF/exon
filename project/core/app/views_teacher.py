@@ -78,10 +78,10 @@ def question(request, pk):
 @teacher_only
 def addQuestion(request, pk):   
     form = QuestionForm()
-    answerForm = AnswerForm()
 
     if request.method == 'POST':
         form = QuestionForm(request.POST)
+
         if form.is_valid():
             t = get_object_or_404(Teacher, user=request.user)  
             s = get_object_or_404(Subject, id=pk)
@@ -90,7 +90,6 @@ def addQuestion(request, pk):
             new_question.subject = s
             new_question.save()
             form.save_m2m()
-
             for i in range(4):
                 text = request.POST.get('answer'+str(i))
                 answer = Answer()
@@ -103,8 +102,36 @@ def addQuestion(request, pk):
             messages.success(request, 'New question added successful')
             return redirect('teacher-all-questions', pk)
 
-    context = {'form':form, 'range':range(4), 'answerForm':answerForm}
+    context = {'form':form, 'range':range(4),}
     return render(request, 'teacher/add-question.html', context)
+
+@login_required(login_url='index')
+@teacher_only
+def editQuestion(request, subjectpk, pk):   
+    t = get_object_or_404(Teacher, user=request.user)  
+    question = get_object_or_404(Question, id=pk, teacher=t)
+    answers = get_list_or_404(Answer, question=question)
+    form = QuestionForm(instance = question)
+    
+    if request.method == 'POST':
+        form = QuestionForm(request.POST, instance = question)
+        
+        if form.is_valid():
+            form.save()
+            c = 1
+            for answer in answers:
+                text = request.POST.get('answer'+str(c))
+                print(text)
+                answer.text = text
+                answer.is_correct = getAnswerValue(request.POST.get('is_correct'+str(c)))
+                answer.save()
+                c+=1
+    
+            messages.success(request, 'New question added successful')
+            return redirect('teacher-all-questions', subjectpk)
+
+    context = {'form':form, 'range':range(4), 'answers':answers}
+    return render(request, 'teacher/edit-question.html', context)
 
 def getAnswerValue(value):
     if value is None:
