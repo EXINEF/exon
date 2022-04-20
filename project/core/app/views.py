@@ -13,7 +13,7 @@ def indexPage(request):
     return render(request,'index.html', context)
 
 def studentLogin(request):
-    return render(request,'student/login.html')
+    return render(request,'auth/student-login.html')
 
 def studentExam(request):
     return render(request,'student/exam.html')
@@ -43,7 +43,7 @@ def teacherLogin(request):
             messages.error(request, 'Username OR password is incorrect')
 
     context = {}
-    return render(request,'teacher/login.html', context)
+    return render(request,'auth/teacher-login.html', context)
 
 def page_404(request, exception):
     return render(request, 'error/404.html')

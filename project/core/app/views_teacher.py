@@ -22,7 +22,7 @@ def subject(request, pk):
     subject = get_object_or_404(Subject, id=pk)
     num_questions = Question.objects.filter(subject=subject).count()
     context = {'subject':subject, 'num_questions':num_questions }
-    return render(request,'teacher/subject.html', context)
+    return render(request,'teacher/subject/subject.html', context)
 
 @login_required(login_url='index')
 @teacher_only
@@ -41,7 +41,7 @@ def addSubject(request):
             return redirect('teacher-dashboard')
 
     context = {'form':form}
-    return render(request, 'teacher/add-subject.html', context)
+    return render(request, 'teacher/subject/add-subject.html', context)
 
 @login_required(login_url='index')
 @teacher_only
@@ -55,7 +55,26 @@ def deleteSubject(request, pk):
         return redirect('teacher-dashboard')
 
     context = {'subject':subject}
-    return render(request, 'teacher/delete-subject.html', context)
+    return render(request, 'teacher/subject/delete-subject.html', context)
+
+@login_required(login_url='index')
+@teacher_only
+def editSubject(request, pk):   
+    t = get_object_or_404(Teacher, user=request.user)  
+    subject = get_object_or_404(Subject, id=pk, teacher=t)
+
+    form = SubjectForm(instance = subject)
+    
+    if request.method == 'POST':
+        form = SubjectForm(request.POST, instance = subject)
+        
+        if form.is_valid():
+            form.save()
+            messages.success(request, 'Subject saved successfuly')
+            return redirect('teacher-dashboard')
+
+    context = {'form':form,}
+    return render(request, 'teacher/subject/edit-subject.html', context)
 
 @login_required(login_url='index')
 @teacher_only
@@ -63,7 +82,7 @@ def editQuestions(request, pk):
     subject = get_object_or_404(Subject, id=pk)
     questions = Question.objects.filter(subject = subject)
     context = {'subject':subject, 'questions' : questions}
-    return render(request,'teacher/edit-questions.html', context)
+    return render(request,'teacher/subject/edit-questions.html', context)
 
 @login_required(login_url='index')
 @teacher_only
@@ -94,7 +113,7 @@ def addQuestion(request, pk):
             return redirect('teacher-edit-questions', pk)
 
     context = {'form':form, 'range':range(4),}
-    return render(request, 'teacher/add-question.html', context)
+    return render(request, 'teacher/question/add-question.html', context)
 
 @login_required(login_url='index')
 @teacher_only
@@ -121,7 +140,7 @@ def editQuestion(request, subjectpk, pk):
             return redirect('teacher-edit-questions', subjectpk)
 
     context = {'form':form, 'answers':answers}
-    return render(request, 'teacher/edit-question.html', context)
+    return render(request, 'teacher/question/edit-question.html', context)
 
 def getAnswerValue(value):
     if value is None:
@@ -140,23 +159,5 @@ def deleteQuestion(request, subjectpk, pk):
         return redirect('teacher-edit-questions', subjectpk)
 
     context = {'question':question}
-    return render(request, 'teacher/delete-question.html', context)
+    return render(request, 'teacher/question/delete-question.html', context)
 
-@login_required(login_url='index')
-@teacher_only
-def editSubject(request, pk):   
-    t = get_object_or_404(Teacher, user=request.user)  
-    subject = get_object_or_404(Subject, id=pk, teacher=t)
-
-    form = SubjectForm(instance = subject)
-    
-    if request.method == 'POST':
-        form = SubjectForm(request.POST, instance = subject)
-        
-        if form.is_valid():
-            form.save()
-            messages.success(request, 'Subject saved successfuly')
-            return redirect('teacher-dashboard')
-
-    context = {'form':form,}
-    return render(request, 'teacher/edit-subject.html', context)
