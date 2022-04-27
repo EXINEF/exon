@@ -4,15 +4,18 @@ from .views_teacher import *
 
 urlpatterns = [
     path('', indexPage, name='index'),
-
-    path('student/login', studentLogin, name='student-login'),
-    path('student/exam', studentExam, name='student-exam'),
-    path('student/result', studentResult, name='student-result'),
-
+    
+    # AUTH
     path('teacher/login', teacherLogin, name='teacher-login'),
     path('teacher/dashboard', dashboard, name='teacher-dashboard'),
     path('logout', logoutPage, name='logout'),
     
+    # STUDENT
+    path('student/login', studentLogin, name='student-login'),
+    path('student/exam', studentExam, name='student-exam'),
+    path('student/result', studentResult, name='student-result'),
+
+    # TEACHER
     # SUBJECT
     path('teacher/subject/<str:pk>', subject, name='teacher-subject'),
     path('teacher/add-subject', addSubject, name='teacher-add-subject'),
