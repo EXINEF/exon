@@ -24,4 +24,4 @@ urlpatterns = [
 handler404 = 'app.views.page_404'
 
 admin.site.site_header = 'WEBSITE_NAME Super-Admin Panel'
-admin.site.site_title = 'WEBSITE_NAME Tpms Super-Admin Panel'
+admin.site.site_title = 'WEBSITE_NAME Super-Admin Panel'

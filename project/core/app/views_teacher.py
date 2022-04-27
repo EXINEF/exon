@@ -6,7 +6,7 @@ from django.contrib import messages
 from .decorators import *
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import authenticate, login, logout
-
+from .utils import random_token_generator
 
 @login_required(login_url='index')
 @teacher_only
@@ -19,9 +19,12 @@ def dashboard(request):
 @login_required(login_url='index')
 @teacher_only
 def subject(request, pk):
+    teacher = get_object_or_404(Teacher, user=request.user)
     subject = get_object_or_404(Subject, id=pk)
     num_questions = Question.objects.filter(subject=subject).count()
-    context = {'subject':subject, 'num_questions':num_questions }
+    sessions = Session.objects.filter(subject=subject, teacher=teacher)
+
+    context = {'subject':subject, 'num_questions':num_questions, 'sessions':sessions}
     return render(request,'teacher/subject/subject.html', context)
 
 @login_required(login_url='index')
@@ -161,3 +164,60 @@ def deleteQuestion(request, subjectpk, pk):
     context = {'question':question}
     return render(request, 'teacher/question/delete-question.html', context)
 
+@login_required(login_url='index')
+@teacher_only
+def addSession(request, pk):
+    teacher = get_object_or_404(Teacher, user=request.user)
+    subject = get_object_or_404(Subject, id=pk, teacher=teacher)
+
+    form = SessionForm()
+    if request.method == 'POST':
+        form = SessionForm(request.POST)
+        if form.is_valid():   
+            new_session = form.save(commit=False)
+            new_session.subject = subject
+            new_session.teacher = teacher
+            new_session.save()
+            form.save_m2m()
+
+            generateNExamsForSession(new_session)
+
+            messages.success(request, 'New Exam Session added successful')
+            return redirect('teacher-subject', subject.id)
+
+    context = {'subject':subject, 'form':form}
+    return render(request,'teacher/session/add-session.html', context)
+
+
+@login_required(login_url='index')
+@teacher_only
+def deleteSession(request, pk):
+    teacher = get_object_or_404(Teacher, user=request.user)
+    session = get_object_or_404(Session, id=pk, teacher=teacher)
+    
+    if request.method == 'POST':
+        messages.success(request,'The Session Exam %s was deleted successfuly' % session.start_datetime)
+        Session.delete(session)
+        return redirect('teacher-subject', session.subject.id)
+
+    context = {'session':session} 
+    return render(request, 'teacher/session/delete-session.html', context)
+
+
+@login_required(login_url='index')
+@teacher_only
+def session(request, pk):
+    teacher = get_object_or_404(Teacher, user=request.user)
+    session = get_object_or_404(Session, id=pk)
+
+    context = {'subject':subject, 'session':session}
+    return render(request,'teacher/session/session.html', context)
+
+def generateNExamsForSession(session):
+    SIZE = 10
+    for i in range(session.number_of_exams):
+        token = random_token_generator(SIZE)
+        while(Exam.objects.filter(token=token).exists()):
+            token = random_token_generator(SIZE)
+        exam = Exam(token=token, matricola='TODO',session=session)
+        exam.save()

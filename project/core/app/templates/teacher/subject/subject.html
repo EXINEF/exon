@@ -14,8 +14,18 @@
 
 <br>
 <br>
+<br>
+<a href="{% url 'teacher-add-session' subject.id %}">Add New Exam Session</a>
 <h4>Last sessions:</h4>
-<p>TODO, show all the exam sessions</p>
+{% for session in sessions %}
+    <a href="{% url 'teacher-session' session.id %}">
+        <h5>{{session.start_datetime}}</h5>
+    </a>
+    
+    <a href="#">EDIT(TODO)</a>
+    <a href="{% url 'teacher-delete-session' session.id %}">Delete</a>
+{% endfor %}
+
 {% endblock content %}
 
 
