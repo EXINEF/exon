@@ -3,17 +3,28 @@
 {% block content %}
 
 <h1>STUDENT LOGIN</h1>
-<h3>Please insert your Matricola Code, and your token for join the exam.</h3>
+<h3 class="text-white"  >Please insert your Matricola Code, and your token for joining the exam.</h3>
 
-<form>
-    <label for="fname">MATRICOLA CODE:</label><br>
-    <input type="text" id="fname" name="fname"><br>
-    <label for="lname">TOKEN CODE:</label><br>
-    <input type="text" id="lname" name="lname">
-    <input type="submit" value="Submit">
-  </form>
+<body class = "bg-dark">
+<div class = "container mt-5 pt-5">
+  <div class= "row">
+    <div class=".col-12.col-sm-8.col-md-6 m-auto">
+      <div class="card ">
+        <div class="card-body">
+          <form action="">
+            <input type="text" name="" id="" class="form-control my-3 py.2" placeholder="ID Number">
+            <input type="text" name="" id="" class="form-control my-3 py.2" placeholder="Token">
+            <div class = "text-center">
+              <button class="btn btn-primary">Login</button>
 
-  <a href="{% url 'student-exam' %}"> JOIN THE EXAM (TO REMOVE) </a>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+  
   <br>
 
 {% endblock content %}

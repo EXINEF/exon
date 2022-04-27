@@ -1,18 +1,33 @@
 {% extends 'core/base.html' %}
+    <link rel = "stylesheet" type="text/css" href="index.css"/<
 
 {% block content %}
 
 <!--Body with dark background-->
 <body class = "bg-dark">
-    <div class = "container my-5">
-        <h3 class ="text-center text-white">Are you a Teacher or a Student?</h3>
-        <div class="container text-center">
-            <button type="button" class="btn btn-light btn-lg">
-                <a href="{% url 'student-login' %}"> STUDENT </a>
-            </button>
-            <button type="button" class="btn btn-light btn-lg">
-                <a href="{% url 'teacher-login' %}"> TEACHER </a>
-            </button>
+    <div class="mx-auto" style="width: 200px;"></div>
+    <div class = "container my-5 m-50">
+            <h3 class ="text-center text-white">Are you a Teacher or a Student?</h3>
+        <div class="container text-center vh-100 ">
+            <div class="row">
+                <div class="col-sm-6">Col One
+                    <button type="button" class="btn btn-light btn-lg">
+                        <a href="{% url 'student-login' %}"> STUDENT </a>
+                    </button>
+                </div>
+                <div class="col-sm-6">Col Two
+                    <button type="button" class="btn btn-light btn-lg">
+                        <a href="{% url 'teacher-login' %}"> TEACHER </a>
+                    </button>
+                </div>
+                
+                    
+                    
+                
+            </div>
+           
+          </div>
+        
     </div>
         
 
