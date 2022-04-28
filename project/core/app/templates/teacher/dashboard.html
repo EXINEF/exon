@@ -1,31 +1,46 @@
 {% extends 'core/base.html' %}
 
 {% block content %}
-<ul class="nav">
-    <li class="nav-item">
-      <a class="nav-link active" aria-current="page" href="#">Active</a>
-    </li>
-    <li class="nav-item">
-      <a class="nav-link" href="#">Link</a>
-    </li>
-    <li class="nav-item">
-      <a class="nav-link" href="#">Link</a>
-    </li>
-    <li class="nav-item">
-      <a class="nav-link disabled">Disabled</a>
-    </li>
-  </ul>
-<h1>DASHBOARD</h1>
+<body class="bg-dark">
+        <h1 class = "text-white">DASHBOARD</h1>
+        
+        
+        {% for subject in subjects %}
+        <div class="row">
+            <div class="col-sm-6">
+              <div class="card">
+                <div class="card-body">
+                  <h5 class="card-title">{{subject.name}}</h5>
+                  <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
+                  <a href="#" class="btn btn-dark">Edit</a>
+                  <button type="button" class="btn btn-dark">
+                    <a href="{% url 'teacher-delete-subject' subject.id %}"> DELETE</a>
+                  </button>
+                 
+                </div>
+              </div>
+            </div>
+            <div class="col-sm-6">
+              <div class="card">
+                <div class="card-body">
+                  <h5 class="card-title">Special title treatment</h5>
+                  <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
+                  <a href="#" class="btn btn-primary">Go somewhere</a>
+                </div>
+              </div>
+            </div>
+          </div>
+            <a href="{% url 'teacher-subject' subject.id %}">
+            <h5>{{subject.name}}</h5>
+            </a>
+            <a href="">Edit</a>
+            <a href="{% url 'teacher-delete-subject' subject.id %}">Delete</a>
+        {% endfor %}
+    
+      
 
-<h3>Subjects</h3>
-{% for subject in subjects %}
-    <a href="{% url 'teacher-subject' subject.id %}">
-    <h5>{{subject.name}}</h5>
-    </a>
-
-    <a href="">Edit</a>
-    <a href="{% url 'teacher-delete-subject' subject.id %}">Delete</a>
-{% endfor %}
+</body>
+  
 
 {% endblock content %}
 
