@@ -5,8 +5,14 @@ from .models import *
 class TeacherAdmin(admin.ModelAdmin):
     model = Teacher
 
+    list_display = ('__str__','user','full_name')
+    search_fields = ['full_name']
+
 class SubjectAdmin(admin.ModelAdmin):
     model = Subject
+
+    list_display = ('__str__','name','teacher')
+    search_fields = ['name']
 
 class AnswerAdmin(admin.ModelAdmin):
     model = Answer
