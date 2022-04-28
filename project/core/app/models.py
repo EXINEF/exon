@@ -68,6 +68,9 @@ class Session(models.Model):
     def __str__(self):
         return '%s - %s - %s' % (self.teacher, self.subject.name, self.start_datetime)
 
+    def getName(self):
+        return '%s - %s' % (self.start_datetime, self.expiration_datetime)
+
 class Exam(models.Model):
     token = models.CharField(max_length=16, null=True, unique=True)
     matricola = models.CharField(max_length=16, null=True)
@@ -79,7 +82,7 @@ class Exam(models.Model):
     finish_datetime = models.DateTimeField(null=True)
     
     def __str__(self):
-        return '%s - %s' % (self.matricola, self.session.subject.name)
+        return '%s - %s - %s' % (self.token, self.matricola, self.session.subject.name)
 
 class ExamQuestion(models.Model):
 

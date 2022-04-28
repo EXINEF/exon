@@ -19,7 +19,7 @@
 <h4>Last sessions:</h4>
 {% for session in sessions %}
     <a href="{% url 'teacher-session' session.id %}">
-        <h5>{{session.start_datetime}}</h5>
+        <h5>{{session.getName}}</h5>
     </a>
     
     <a href="#">EDIT(TODO)</a>

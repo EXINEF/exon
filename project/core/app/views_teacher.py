@@ -6,7 +6,7 @@ from django.contrib import messages
 from .decorators import *
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import authenticate, login, logout
-from .utils import random_token_generator
+from .utils import generateNExamsForSession
 
 @login_required(login_url='index')
 @teacher_only
@@ -213,11 +213,3 @@ def session(request, pk):
     context = {'subject':subject, 'session':session}
     return render(request,'teacher/session/session.html', context)
 
-def generateNExamsForSession(session):
-    SIZE = 10
-    for i in range(session.number_of_exams):
-        token = random_token_generator(SIZE)
-        while(Exam.objects.filter(token=token).exists()):
-            token = random_token_generator(SIZE)
-        exam = Exam(token=token, matricola='TODO',session=session)
-        exam.save()
