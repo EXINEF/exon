@@ -27,6 +27,14 @@ def subject(request, pk):
     context = {'subject':subject, 'num_questions':num_questions, 'sessions':sessions}
     return render(request,'teacher/subject/subject.html', context)
 
+
+@login_required(login_url='index')
+@teacher_only
+def loadQuestionsFile(request, pk):
+    context = {}
+    return render(request,'teacher/subject/load-questions-file.html', context)
+
+
 @login_required(login_url='index')
 @teacher_only
 def addSubject(request):   
@@ -209,9 +217,11 @@ def deleteSession(request, pk):
 def session(request, pk):
     teacher = get_object_or_404(Teacher, user=request.user)
     session = get_object_or_404(Session, id=pk, teacher=teacher)
-    exams = Exam.objects.filter(session=session)
+    exams = session.getExams()
+    num_started_exams = session.getStartedExams(exams)
+    num_finished_exams = session.getFinishedExams(exams)
 
-    context = {'session':session, 'exams':exams}
+    context = {'session':session, 'exams':exams, 'num_started_exams':num_started_exams, 'num_finished_exams':num_finished_exams}
     return render(request,'teacher/session/session.html', context)
 
 @login_required(login_url='index')

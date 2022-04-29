@@ -18,6 +18,7 @@ urlpatterns = [
     # TEACHER
     # SUBJECT
     path('teacher/subject/<str:pk>', subject, name='teacher-subject'),
+    path('teacher/load-questions-file/<str:pk>', loadQuestionsFile, name='teacher-load-questions-file'),
     path('teacher/add-subject', addSubject, name='teacher-add-subject'),
     path('teacher/delete-subject/<str:pk>', deleteSubject, name='teacher-delete-subject'),
     path('teacher/edit-subject/<str:pk>', editSubject, name='teacher-edit-subject'),

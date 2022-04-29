@@ -6,6 +6,9 @@
 <h5>Subject: {{session.subject}}</h5>
 <h5>Questions: {{session.number_of_questions}}</h5>
 <h5>Students: {{session.number_of_exams}}</h5>
+
+<h5>Started Exams: {{num_started_exams}}/{{session.number_of_exams}}</h5>
+<h5>Finished Exams: {{num_finished_exams}}/{{session.number_of_exams}}</h5>
 <br>
 <h4>EXAMS: </h4>
 {% for exam in exams %}

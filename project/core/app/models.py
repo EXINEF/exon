@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
+from requests import session
 
 # Create your models here.
 class Teacher(models.Model):
@@ -70,6 +71,23 @@ class Session(models.Model):
 
     def getName(self):
         return '%s - %s' % (self.start_datetime, self.expiration_datetime)
+
+    def getExams(self):
+        return Exam.objects.filter(session=self)
+
+    def getStartedExams(self, exams):
+        counter = 0
+        for exam in exams:
+            if exam.is_started():
+                counter+=1
+        return counter
+    
+    def getFinishedExams(self, exams):
+        counter = 0
+        for exam in exams:
+            if exam.is_finished():
+                counter+=1
+        return counter
 
 class Exam(models.Model):
     token = models.CharField(max_length=16, null=True, unique=True)
