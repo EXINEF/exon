@@ -1,5 +1,5 @@
 from django.forms.models import ModelForm
-from .models import Subject, Question, Answer, Session
+from .models import Subject, Question, Answer, Session, Student
 
 class SubjectForm(ModelForm):
     class Meta:
@@ -24,3 +24,10 @@ class SessionForm(ModelForm):
         model = Session
         fields = '__all__'
         exclude = ['teacher','subject']
+
+
+class StudentForm(ModelForm):
+    class Meta:
+        model = Student
+        fields = '__all__'
+        exclude = ['teacher',]

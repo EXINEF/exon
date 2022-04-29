@@ -1,0 +1,14 @@
+{% extends 'core/base.html' %}
+
+{% block content %}
+
+<h2>All Students</h2>
+
+{% for student in students %}
+    <h5>{{student}}</h5>
+{% endfor %}
+
+{% endblock content %}
+
+
+

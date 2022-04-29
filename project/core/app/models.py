@@ -29,6 +29,9 @@ class Subject(models.Model):
     def __str__(self):
         return '%s - %s' % (self.name, self.teacher.full_name())
 
+    def getNumOfQuestion(self):
+        return Question.objects.filter(subject=self).count()
+
 class Question(models.Model):
     text = models.TextField(null=True)
     difficulty = models.IntegerField(null=True)
@@ -91,8 +94,8 @@ class Session(models.Model):
 
 class Exam(models.Model):
     token = models.CharField(max_length=16, null=True, unique=True)
-    matricola = models.CharField(max_length=16, null=True)
-    
+
+    student = models.OneToOneField(User, on_delete=models.CASCADE, null=True)
     session = models.ForeignKey(Session, on_delete=models.CASCADE, null=True)
     
     creation_datetime = models.DateTimeField(auto_now_add=True, null=True)
@@ -117,3 +120,15 @@ class ExamQuestion(models.Model):
     
     def __str__(self):
         return '%s - %s %s' % (self.exam, self.question, self.answer)
+
+class Student(models.Model):
+    first_name = models.CharField(max_length=255, null=True)
+    last_name = models.CharField(max_length=255, null=True)
+    matricola = models.CharField(max_length=50, null=True)
+    teacher = models.ForeignKey(Teacher, on_delete=models.CASCADE, null=True)
+
+    def __str__(self):
+        return '%s - %s' % (self.matricola, self.full_name())
+
+    def full_name(self):
+        return '%s %s' % (self.last_name, self.first_name)

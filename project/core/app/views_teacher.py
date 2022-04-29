@@ -183,11 +183,13 @@ def addSession(request, pk):
         form = SessionForm(request.POST)
         if form.is_valid():   
             new_session = form.save(commit=False)
+            if(new_session.number_of_questions>subject.getNumOfQuestion()):
+                messages.error(request, 'ERROR: there are not enough questions, asked:%s, available:%s' % (new_session.number_of_questions, subject.getNumOfQuestion()))
+                return redirect('teacher-subject', subject.id)
             new_session.subject = subject
             new_session.teacher = teacher
             new_session.save()
             form.save_m2m()
-
             generateNExamsForSession(new_session)
 
             messages.success(request, 'New Exam Session added successful')
@@ -235,3 +237,30 @@ def exam(request, session_pk, exam_pk):
     context = {'session':session, 'exam':exam, 'exam_questions':exam_questions}
     return render(request,'teacher/exam/exam.html', context)
 
+@login_required(login_url='index')
+@teacher_only
+def addStudent(request):   
+    form = StudentForm()
+    if request.method == 'POST':
+        form = StudentForm(request.POST)
+        if form.is_valid():
+            t = Teacher.objects.get(user=request.user)     
+            new_student = form.save(commit=False)
+            new_student.teacher = t
+            new_student.save()
+            form.save_m2m()
+
+            messages.success(request, 'New Student %s added successful',new_student.__str__())
+            return redirect('teacher-dashboard')
+
+    context = {'form':form}
+    return render(request, 'teacher/student/add-student.html', context)
+
+@login_required(login_url='index')
+@teacher_only
+def allStudents(request):   
+    teacher = get_object_or_404(Teacher, user=request.user)
+    students = Student.objects.filter(teacher=teacher)
+
+    context = {'students':students}
+    return render(request, 'teacher/student/all-students.html', context)

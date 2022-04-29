@@ -16,9 +16,20 @@ def generateNExamsForSession(session):
         exam.save()
         generateNQuestionsForExam(exam, session.number_of_questions)
 
-# TODO choose only different questions to avoid to repeat them
+def generateNStudentsAccountForSession(session):
+    # TODO generate accounts username with matricola code and password with token
+    return
+
+# ALL THE QUESTIONS IN AN EXAM ARE DIFFERENT
 def generateNQuestionsForExam(exam, n):
+    lst = []
     for i in range(n):
         question = Question.objects.order_by('?')[0]
         exam_question = ExamQuestion(exam=exam, question=question)
+        
+        while(question.text in lst):
+            question = Question.objects.order_by('?')[0]
+            exam_question = ExamQuestion(exam=exam, question=question)
+        
         exam_question.save()
+        lst.append(question.text)

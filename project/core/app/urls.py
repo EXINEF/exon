@@ -29,6 +29,9 @@ urlpatterns = [
     path('teacher/edit-question/<str:subjectpk>/<str:pk>', editQuestion, name='teacher-edit-question'),
     path('teacher/delete-question/<str:subjectpk>/<str:pk>', deleteQuestion, name='teacher-delete-question'),
 
+    # TEACHER's STUDENTS
+    path('teacher/add-student', addStudent, name='teacher-add-student'),
+    path('teacher/all-students', allStudents, name='teacher-all-students'),
 
     # SESSION
     path('teacher/session/<str:pk>', session, name='teacher-session'), 
