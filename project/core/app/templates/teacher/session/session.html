@@ -2,7 +2,23 @@
 
 {% block content %}
 
-<h1>SESSION: {{session.getName}}</h1>
+<h3>SESSION: {{session.getName}}</h3>
+<h5>Subject: {{session.subject}}</h5>
+<h5>Questions: {{session.number_of_questions}}</h5>
+<h5>Students: {{session.number_of_exams}}</h5>
+<br>
+<h4>EXAMS: </h4>
+{% for exam in exams %}
+    <a href="{% url 'teacher-exam' session.id exam.id %}">
+        <h5>EXAM</h5>
+        <h6>TOKEN: {{exam.token}}</h6>
+        <h6>Matricola: {{exam.matricola}}</h6>
+        <h6>Started ? : {{exam.is_started}}</h6>
+        <h6>Finished ? : {{exam.is_finished}}</h6>
+        <br>
+    </a>
+{% endfor %}
+
 
 {% endblock content %}
 

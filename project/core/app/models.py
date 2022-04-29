@@ -84,8 +84,13 @@ class Exam(models.Model):
     def __str__(self):
         return '%s - %s - %s' % (self.token, self.matricola, self.session.subject.name)
 
-class ExamQuestion(models.Model):
+    def is_started(self):
+        return self.start_datetime is not None
+    
+    def is_finished(self):
+        return self.finish_datetime is not None
 
+class ExamQuestion(models.Model):
     exam = models.ForeignKey(Exam, on_delete=models.CASCADE, null=True)
     question = models.ForeignKey(Question, on_delete=models.CASCADE, null=True)
     answer = models.ForeignKey(Answer, on_delete=models.CASCADE, null=True)

@@ -208,8 +208,20 @@ def deleteSession(request, pk):
 @teacher_only
 def session(request, pk):
     teacher = get_object_or_404(Teacher, user=request.user)
-    session = get_object_or_404(Session, id=pk)
+    session = get_object_or_404(Session, id=pk, teacher=teacher)
+    exams = Exam.objects.filter(session=session)
 
-    context = {'subject':subject, 'session':session}
+    context = {'session':session, 'exams':exams}
     return render(request,'teacher/session/session.html', context)
+
+@login_required(login_url='index')
+@teacher_only
+def exam(request, session_pk, exam_pk):
+    teacher = get_object_or_404(Teacher, user=request.user)
+    session = get_object_or_404(Session, id=session_pk)
+    exam = get_object_or_404(Exam, id=exam_pk, session=session)
+    exam_questions = ExamQuestion.objects.filter(exam=exam)
+
+    context = {'session':session, 'exam':exam, 'exam_questions':exam_questions}
+    return render(request,'teacher/exam/exam.html', context)
 

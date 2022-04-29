@@ -33,5 +33,6 @@ urlpatterns = [
     path('teacher/session/<str:pk>', session, name='teacher-session'), 
     path('teacher/add-session/<str:pk>', addSession, name='teacher-add-session'), 
     path('teacher/delete-session/<str:pk>', deleteSession, name='teacher-delete-session'), 
+    path('teacher/exam/<str:session_pk>/<str:exam_pk>', exam, name='teacher-exam'), 
     
 ]
