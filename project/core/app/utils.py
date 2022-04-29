@@ -16,10 +16,6 @@ def generateNExamsForSession(session):
         exam.save()
         generateNQuestionsForExam(exam, session.number_of_questions)
 
-def generateNStudentsAccountForSession(session):
-    # TODO generate accounts username with matricola code and password with token
-    return
-
 # ALL THE QUESTIONS IN AN EXAM ARE DIFFERENT
 def generateNQuestionsForExam(exam, n):
     lst = []

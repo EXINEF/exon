@@ -177,25 +177,36 @@ def deleteQuestion(request, subjectpk, pk):
 def addSession(request, pk):
     teacher = get_object_or_404(Teacher, user=request.user)
     subject = get_object_or_404(Subject, id=pk, teacher=teacher)
+    students = Student.objects.filter(teacher=teacher)
 
     form = SessionForm()
     if request.method == 'POST':
         form = SessionForm(request.POST)
         if form.is_valid():   
             new_session = form.save(commit=False)
-            if(new_session.number_of_questions>subject.getNumOfQuestion()):
+            if new_session.number_of_questions>subject.getNumOfQuestion():
                 messages.error(request, 'ERROR: there are not enough questions, asked:%s, available:%s' % (new_session.number_of_questions, subject.getNumOfQuestion()))
                 return redirect('teacher-subject', subject.id)
             new_session.subject = subject
             new_session.teacher = teacher
             new_session.save()
             form.save_m2m()
-            generateNExamsForSession(new_session)
+
+            students = request.POST.get('students')
+            #TODO select a way to insert students in the session
+            # TODO select a way to display students to add in add session
+            # TODO so that is not too difficult to insert them
+            # TODO CONNECT TO THE BACK END and create exam with unique users for each student
+            print('QUE LO QUE'+students)
+
+            #generateNExamsForSession(new_session)
+
+            
 
             messages.success(request, 'New Exam Session added successful')
             return redirect('teacher-subject', subject.id)
 
-    context = {'subject':subject, 'form':form}
+    context = {'subject':subject, 'form':form, 'students':students}
     return render(request,'teacher/session/add-session.html', context)
 
 
@@ -246,11 +257,14 @@ def addStudent(request):
         if form.is_valid():
             t = Teacher.objects.get(user=request.user)     
             new_student = form.save(commit=False)
+            if Student.objects.filter(teacher=t, matricola=new_student.matricola).exists(): 
+                messages.error(request, 'STUDENT WITH THIS MATRICOLA CODE ALREADY EXISTS')
+                return redirect('teacher-dashboard')
             new_student.teacher = t
             new_student.save()
             form.save_m2m()
 
-            messages.success(request, 'New Student %s added successful',new_student.__str__())
+            messages.success(request, 'New Student %s added successful' % (new_student.__str__()))
             return redirect('teacher-dashboard')
 
     context = {'form':form}
