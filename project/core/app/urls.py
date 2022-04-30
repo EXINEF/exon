@@ -1,6 +1,8 @@
 from django.urls import path
 from .views import *
 from .views_teacher import *
+from .views_teacher_session import *
+from .views_teacher_subject import *
 
 urlpatterns = [
     path('', indexPage, name='index'),

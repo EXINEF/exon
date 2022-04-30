@@ -42,7 +42,7 @@ def teacherLogin(request):
                 return redirect('teacher-dashboard')
             else:
                 messages.error(request, 'You are not a teacher, Log In as a Student, to do the exam.')
-                return redirect('student-login')
+                return redirect('index')
         else:
             messages.error(request, 'Username OR password is incorrect')
 
