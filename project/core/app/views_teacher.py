@@ -5,7 +5,6 @@ from .forms import *
 from django.contrib import messages
 from .decorators import *
 from django.contrib.auth.decorators import login_required
-from django.contrib.auth import authenticate, login, logout
 from .utils import generateUserExamQuestionsForStudent, getAnswerValue
 
 @login_required(login_url='index')
@@ -192,7 +191,6 @@ def addSession(request, pk):
             for student in students:
                 
                 if request.POST.get(student.matricola) == '1':
-                    print(student)
                     generateUserExamQuestionsForStudent(new_session,student)
 
             messages.success(request, 'New Exam Session added successful')
@@ -209,8 +207,12 @@ def deleteSession(request, pk):
     session = get_object_or_404(Session, id=pk, teacher=teacher)
     
     if request.method == 'POST':
-        messages.success(request,'The Session Exam %s was deleted successfuly' % session.start_datetime)
+        messages.success(request,'The Session Exam %s was deleted successfuly' % session.getName())
+        exams = Exam.objects.filter(session=session)
+        for exam in exams:
+            User.delete(exam.student)
         Session.delete(session)
+
         return redirect('teacher-subject', session.subject.id)
 
     context = {'session':session} 

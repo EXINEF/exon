@@ -60,8 +60,7 @@ class Answer(models.Model):
 
 class Session(models.Model):
     number_of_questions = models.IntegerField(null=True)
-    number_of_exams = models.IntegerField(null=True)
-    
+
     subject = models.ForeignKey(Subject, on_delete=models.CASCADE, null=True)
     teacher = models.ForeignKey(Teacher, on_delete=models.CASCADE, null=True)
     
@@ -74,6 +73,9 @@ class Session(models.Model):
 
     def getName(self):
         return '%s - %s' % (self.start_datetime, self.expiration_datetime)
+
+    def getExamsNumber(self):
+        return Exam.objects.filter(session=self).count()
 
     def getExams(self):
         return Exam.objects.filter(session=self)
@@ -110,6 +112,10 @@ class Exam(models.Model):
     
     def is_finished(self):
         return self.finish_datetime is not None
+    
+    def getStudentMatricola(self):
+        s = self.student.username.split('_')
+        return s[1]
 
 class ExamQuestion(models.Model):
     exam = models.ForeignKey(Exam, on_delete=models.CASCADE, null=True)

@@ -35,10 +35,14 @@ def teacherLogin(request):
         user = authenticate(request, username=username, password=password)
 
         if user is not None:
-            login(request, user)
-            # redirect to index, that will redirect in home or admin
-            messages.success(request, 'Authentication successful')
-            return redirect('teacher-dashboard')
+            if Teacher.objects.filter(user=user).exists():
+                login(request, user)
+                # redirect to index, that will redirect in home or admin
+                messages.success(request, 'Authentication successful')
+                return redirect('teacher-dashboard')
+            else:
+                messages.error(request, 'You are not a teacher, Log In as a Student, to do the exam.')
+                return redirect('student-login')
         else:
             messages.error(request, 'Username OR password is incorrect')
 
