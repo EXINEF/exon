@@ -6,7 +6,7 @@ from django.contrib import messages
 from .decorators import *
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import authenticate, login, logout
-from .utils import generateNExamsForSession
+from .utils import generateUserExamQuestionsForStudent, getAnswerValue
 
 @login_required(login_url='index')
 @teacher_only
@@ -153,10 +153,7 @@ def editQuestion(request, subjectpk, pk):
     context = {'form':form, 'answers':answers}
     return render(request, 'teacher/question/edit-question.html', context)
 
-def getAnswerValue(value):
-    if value is None:
-        return 0
-    return 1
+
 
 @login_required(login_url='index')
 @teacher_only
@@ -192,16 +189,11 @@ def addSession(request, pk):
             new_session.save()
             form.save_m2m()
 
-            students = request.POST.get('students')
-            #TODO select a way to insert students in the session
-            # TODO select a way to display students to add in add session
-            # TODO so that is not too difficult to insert them
-            # TODO CONNECT TO THE BACK END and create exam with unique users for each student
-            print('QUE LO QUE'+students)
-
-            #generateNExamsForSession(new_session)
-
-            
+            for student in students:
+                
+                if request.POST.get(student.matricola) == '1':
+                    print(student)
+                    generateUserExamQuestionsForStudent(new_session,student)
 
             messages.success(request, 'New Exam Session added successful')
             return redirect('teacher-subject', subject.id)

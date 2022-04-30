@@ -103,7 +103,7 @@ class Exam(models.Model):
     finish_datetime = models.DateTimeField(null=True)
     
     def __str__(self):
-        return '%s - %s - %s' % (self.token, self.matricola, self.session.subject.name)
+        return '%s - %s - %s' % (self.token, self.student.username, self.session.subject.name)
 
     def is_started(self):
         return self.start_datetime is not None

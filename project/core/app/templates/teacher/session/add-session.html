@@ -8,13 +8,14 @@
         {{form.as_p}}
         <br><br>
 
-        <label for="students">Choose students for this session:</label>
-        <select name="students" id="students" multiple>
-            {% for student in students %}
-                <option value="{{student.matricola}}">{{student}}</option>
-            {% endfor %}
-        </select>
-        
+        <h5>Select which students will do the exam:</h5>
+
+        {% for student in students %}
+            <label for="{{student.matricola}}">{{student}}</label>
+            <input class="form-check-input mt-0" type="checkbox" id="{{student.matricola}}" name="{{student.matricola}}" value="1">
+            <br>
+        {% endfor %}  
+
         <input type="submit" value="Add New Session">
     </form>
 
