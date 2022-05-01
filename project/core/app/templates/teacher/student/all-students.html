@@ -2,12 +2,15 @@
 
 {% block content %}
 
-<h2>All Students</h2>
+<h2>All Students:</h2>
 
 {% for student in students %}
     <h5>{{student}}</h5>
+    <a href="{% url 'teacher-edit-student' student.id %}">Edit</a>
+    <a href="{% url 'teacher-delete-student' student.id %}">Delete</a>
+    <br>
+    <br>
 {% endfor %}
-
 {% endblock content %}
 
 

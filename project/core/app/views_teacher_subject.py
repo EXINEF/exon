@@ -1,15 +1,14 @@
-from django.shortcuts import get_list_or_404, get_object_or_404, render, redirect
+from django.shortcuts import get_object_or_404, render, redirect
 from .models import *
 from .forms import *
 from django.contrib import messages
 from .decorators import *
 from django.contrib.auth.decorators import login_required
-from .utils import generateUserExamQuestionsForStudent, getAnswerValue
 
 
 @login_required(login_url='index')
 @teacher_only
-def subject(request, pk):
+def subjectPage(request, pk):
     teacher = get_object_or_404(Teacher, user=request.user)
     subject = get_object_or_404(Subject, id=pk, teacher=teacher)
     num_questions = Question.objects.filter(subject=subject).count()

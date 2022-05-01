@@ -1,10 +1,10 @@
-from django.shortcuts import get_list_or_404, get_object_or_404, render, redirect
+from django.shortcuts import get_object_or_404, render, redirect
 from .models import *
 from .forms import *
 from django.contrib import messages
 from .decorators import *
 from django.contrib.auth.decorators import login_required
-from .utils import generateUserExamQuestionsForStudent, getAnswerValue
+from .utils import generateUserExamQuestionsForStudent
 
 
 @login_required(login_url='index')
@@ -60,7 +60,7 @@ def deleteSession(request, pk):
 
 @login_required(login_url='index')
 @teacher_only
-def session(request, pk):
+def sessionPage(request, pk):
     teacher = get_object_or_404(Teacher, user=request.user)
     session = get_object_or_404(Session, id=pk, teacher=teacher)
     exams = session.getExams()
