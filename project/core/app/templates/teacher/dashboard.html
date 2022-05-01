@@ -2,12 +2,13 @@
 
 {% block content %}
 <body class="bg-dark">
+  <div class="container-fluid">
         <h1 class = "text-white">DASHBOARD</h1>
         
         
-        {% for subject in subjects %}
+          {% for subject in subjects %}
         <div class="row">
-            <div class="col-sm-6">
+            <div class="col-2">
               <div class="card">
                 <div class="card-body">
                   <a href="">
@@ -22,7 +23,16 @@
                 </div>
               </div>
             </div>
-            <div class="col-sm-6">
+            <div class="col-2">
+              <div class="card">
+                <div class="card-body">
+                  <h5 class="card-title">Special title treatment</h5>
+                  <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
+                  <a href="#" class="btn btn-primary">Go somewhere</a>
+                </div>
+              </div>
+            </div>
+            <div class="col-2">
               <div class="card">
                 <div class="card-body">
                   <h5 class="card-title">Special title treatment</h5>
@@ -38,6 +48,9 @@
             
         {% endfor %}
     
+
+        </div>
+        
       
 
 </body>
