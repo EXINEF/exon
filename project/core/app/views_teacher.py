@@ -10,7 +10,8 @@ from .utils import generateUserExamQuestionsForStudent, getAnswerValue
 @login_required(login_url='index')
 @teacher_only
 def dashboard(request):
-    subjects = Subject.objects.all()
+    teacher = get_object_or_404(Teacher, user=request.user) 
+    subjects = Subject.objects.filter(teacher=teacher)
 
     context = {'subjects':subjects, }
     return render(request,'teacher/dashboard.html', context)
@@ -49,8 +50,8 @@ def addQuestion(request, pk):
 @login_required(login_url='index')
 @teacher_only
 def editQuestion(request, subjectpk, pk):   
-    t = get_object_or_404(Teacher, user=request.user)  
-    question = get_object_or_404(Question, id=pk, teacher=t)
+    teacher = get_object_or_404(Teacher, user=request.user)  
+    question = get_object_or_404(Question, id=pk, teacher=teacher)
     answers = get_list_or_404(Answer, question=question)
     form = QuestionForm(instance = question)
     

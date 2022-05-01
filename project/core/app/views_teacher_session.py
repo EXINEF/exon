@@ -74,7 +74,7 @@ def session(request, pk):
 @teacher_only
 def exam(request, session_pk, exam_pk):
     teacher = get_object_or_404(Teacher, user=request.user)
-    session = get_object_or_404(Session, id=session_pk)
+    session = get_object_or_404(Session, id=session_pk, teacher=teacher)
     exam = get_object_or_404(Exam, id=exam_pk, session=session)
     exam_questions = ExamQuestion.objects.filter(exam=exam)
 

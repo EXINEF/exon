@@ -11,7 +11,7 @@ from .utils import generateUserExamQuestionsForStudent, getAnswerValue
 @teacher_only
 def subject(request, pk):
     teacher = get_object_or_404(Teacher, user=request.user)
-    subject = get_object_or_404(Subject, id=pk)
+    subject = get_object_or_404(Subject, id=pk, teacher=teacher)
     num_questions = Question.objects.filter(subject=subject).count()
     sessions = Session.objects.filter(subject=subject, teacher=teacher)
 
@@ -62,8 +62,8 @@ def deleteSubject(request, pk):
 @login_required(login_url='index')
 @teacher_only
 def editSubject(request, pk):   
-    t = get_object_or_404(Teacher, user=request.user)  
-    subject = get_object_or_404(Subject, id=pk, teacher=t)
+    teacher = get_object_or_404(Teacher, user=request.user)  
+    subject = get_object_or_404(Subject, id=pk, teacher=teacher)
 
     form = SubjectForm(instance = subject)
     
@@ -81,7 +81,8 @@ def editSubject(request, pk):
 @login_required(login_url='index')
 @teacher_only
 def editQuestions(request, pk):
-    subject = get_object_or_404(Subject, id=pk)
+    teacher = get_object_or_404(Teacher, user=request.user)  
+    subject = get_object_or_404(Subject, id=pk, teacher=teacher)
     questions = Question.objects.filter(subject = subject)
     context = {'subject':subject, 'questions' : questions}
     return render(request,'teacher/subject/edit-questions.html', context)
