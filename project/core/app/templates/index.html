@@ -5,39 +5,41 @@
 
 <!--Body with dark background-->
 <body class = "bg-dark">
-    <div class="mx-auto" style="width: 200px;"></div>
-    <div class = "container my-5 m-50">
         <div class= "container d-flex align-items-center justify-content-center vh-100">
             <h3 class ="text-white">Are you a Teacher or a Student?</h3>
         </div>
-        <div class= "container d-flex align-items-center justify-content-center">
-            <div class="row">
-                <div class="col-sm-6">
-                    <button type="button" class="btn btn-light btn-lg">
-                        <a href="{% url 'student-login' %}"> STUDENT </a>
-                    </button>
-                </div>
-                <div class="col-sm-6">
-                    <button type="button" class="btn btn-light btn-lg">
-                        <a href="{% url 'teacher-login' %}"> TEACHER </a>
-                    </button>
-                </div>
-                
-                    
-                    
-                
+    <div class="container d-flex align-items-center justify-content-center ">
+        <div class="row">
+            <div class="col-6">
+                <button type="button" class="btn btn-light btn-lg">
+                    <a href="{% url 'student-login' %}"> STUDENT </a>
+                </button>
             </div>
-        </div>
+            <div class="col-6">
+                <button type="button" class="btn btn-light btn-lg">
+                    <a href="{% url 'teacher-login' %}"> TEACHER </a>
+                </button>
+            </div>
+            
                 
-               
-              
+                
+            
+            
+            
         </div>
+    </div>
             
         
-    </div>
+             
+               
+              
+        
+            
+        
+    
         
 
-        </div>
+        
        
 </div>
 
