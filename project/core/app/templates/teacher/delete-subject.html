@@ -2,18 +2,26 @@
 
 {% block content %}
 
-
-
-    <h1>Delete SUBJECT {{subject.name}}</h1>
-    <h2>Are you sure to delete it?</h2>
+    <!--Center the div-->
+    <div class="container-fluid">
+        <div class= "container d-flex align-items-center justify-content-center vh-100">
+            <h1>Delete SUBJECT {{subject.name}}</h1>
+            <h2>Are you sure to delete it?</h2> 
+            
+                    <form action="" method="POST">
+                        {% csrf_token %}
+                        <button type="submit" class="btn btn-primary">Yes, delete it</button>
+                    </form>
+        
+                    <a href="{% url 'teacher-dashboard' %}">No, keep it</a>
+         
     
-            <form action="" method="POST">
-                {% csrf_token %}
-                <button type="submit" class="btn btn-primary">Yes, delete it</button>
-            </form>
+        </div>
+    </div>
 
-            <a href="{% url 'teacher-dashboard' %}">No, keep it</a>
- 
+        
+        
+    
 
 
 {% endblock content %}
