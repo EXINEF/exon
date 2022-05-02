@@ -60,6 +60,7 @@ class Answer(models.Model):
 
 class Session(models.Model):
     number_of_questions = models.IntegerField(null=True)
+    duration = models.IntegerField(null=True)
 
     subject = models.ForeignKey(Subject, on_delete=models.CASCADE, null=True)
     teacher = models.ForeignKey(Teacher, on_delete=models.CASCADE, null=True)
@@ -126,6 +127,9 @@ class ExamQuestion(models.Model):
     
     def __str__(self):
         return '%s - %s %s' % (self.exam, self.question, self.answer)
+
+    def is_answered(self):
+        return self.answer is not None
 
 class Student(models.Model):
     first_name = models.CharField(max_length=255, null=True)

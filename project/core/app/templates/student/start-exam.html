@@ -6,7 +6,15 @@
 <h3>Are you ready to start your Exam?</h3>
 
 
-<p>Click here to <a href="{% url 'student-result' %}">Start it</a></p>
+<h5>Number of questions: {{exam.session.number_of_questions}}</h5>
+<h5>Duration in minutes: {{exam.session.duration}}</h5>
+
+
+<form action="" method="POST">
+    {% csrf_token %}
+    <button type="submit" class="btn btn-primary">Start it</button>
+</form>
+
 {% endblock content %}
 
 

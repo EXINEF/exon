@@ -5,6 +5,7 @@ from django.contrib import messages
 from .decorators import *
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import authenticate, login, logout
+from django.db.models.functions import Now
 
 # Create your views here.
 @unauthenticated_user
@@ -36,10 +37,46 @@ def studentLogin(request):
     return render(request,'auth/student-login.html', context)
 
 def studentStartExam(request):
-    return render(request,'student/start-exam.html')
+    exam = Exam.objects.get(student=request.user)
 
-def studentExam(request):
-    return render(request,'student/exam.html')
+    if request.method == 'POST':
+        exam.start_datetime = Now()
+        exam.save()
+        return redirect('student-exam')
+
+    context = {'exam':exam, }
+    return render(request,'student/start-exam.html', context)
+
+def studentExam(request,):
+    exam = Exam.objects.get(student=request.user)
+    questions = ExamQuestion.objects.filter(exam=exam).order_by('pk')
+    for q in questions:
+        if q.answer is None:
+            return redirect('student-exam-question', q.pk)
+    return redirect('student-finish-exam')
+
+def studentExamQuestion(request, pk):
+    exam = Exam.objects.get(student=request.user)
+    main_question = get_object_or_404(ExamQuestion, id=pk)
+    answers_main_question = Answer.objects.filter(question=main_question.question)
+    questions = ExamQuestion.objects.filter(exam=exam).order_by('pk')
+
+    if request.method == 'POST':
+
+        for answer in answers_main_question:
+            print(request.POST.get(answer.pk))
+            if request.POST.get('answer'+str(answer.pk)) == '1':
+                main_question.answer = answer
+                break
+
+        main_question.save()
+        return redirect('student-exam')
+
+    context = {'exam':exam, 'questions':questions, 'main_question':main_question, 'answers_main_question':answers_main_question, }
+    return render(request,'student/exam.html', context)
+
+def studentFinishExam(request):
+    return render(request,'student/finish-exam.html')
 
 def studentResult(request):
     return render(request,'student/result.html')
