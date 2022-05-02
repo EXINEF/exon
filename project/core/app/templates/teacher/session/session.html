@@ -10,7 +10,10 @@
 <h5>Started Exams: {{num_started_exams}}/{{session.getExamsNumber}}</h5>
 <h5>Finished Exams: {{num_finished_exams}}/{{session.getExamsNumber}}</h5>
 <br>
+<a href="{% url 'teacher-all-credentials' session.id %}">Show credentials for joining exam(TODO in pdf)</a>
+<br>
 <h4>EXAMS: </h4>
+
 {% for exam in exams %}
     <a href="{% url 'teacher-exam' session.id exam.id %}">
         <h5>EXAM</h5>

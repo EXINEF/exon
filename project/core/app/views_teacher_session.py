@@ -80,3 +80,14 @@ def exam(request, session_pk, exam_pk):
 
     context = {'session':session, 'exam':exam, 'exam_questions':exam_questions}
     return render(request,'teacher/exam/exam.html', context)
+
+
+@login_required(login_url='index')
+@teacher_only
+def sessionAllCredentials(request, pk):
+    teacher = get_object_or_404(Teacher, user=request.user)
+    session = get_object_or_404(Session, id=pk, teacher=teacher)
+    exams = session.getExams()
+
+    context = {'session':session, 'exams':exams }
+    return render(request,'teacher/session/all-credentials.html', context)

@@ -3,7 +3,7 @@ from .views import *
 from .views_teacher import dashboard
 
 from .views_teacher_question import addQuestion, editQuestion, deleteQuestion
-from .views_teacher_session import addSession, deleteSession, sessionPage, exam
+from .views_teacher_session import addSession, deleteSession, sessionPage, exam, sessionAllCredentials
 from .views_teacher_student import addStudent, allStudents, deleteStudent, editStudent
 from .views_teacher_subject import addSubject, deleteSubject, editQuestions, editSubject, loadQuestionsFile, subjectPage
 
@@ -18,6 +18,7 @@ urlpatterns = [
     
     ### STUDENT
     path('student/login', studentLogin, name='student-login'),
+    path('student/start-exam', studentStartExam, name='student-start-exam'),
     path('student/exam', studentExam, name='student-exam'),
     path('student/result', studentResult, name='student-result'),
 
@@ -34,6 +35,7 @@ urlpatterns = [
     path('teacher/add-session/<str:pk>', addSession, name='teacher-add-session'), 
     path('teacher/delete-session/<str:pk>', deleteSession, name='teacher-delete-session'), 
     path('teacher/exam/<str:session_pk>/<str:exam_pk>', exam, name='teacher-exam'), 
+    path('teacher/all-credentials/<str:pk>', sessionAllCredentials, name='teacher-all-credentials'), 
 
     # STUDENT
     path('teacher/add-student', addStudent, name='teacher-add-student'),

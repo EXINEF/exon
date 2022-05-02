@@ -25,7 +25,7 @@ def generateUserExamQuestionsForStudent(session, student):
     TOKEN_SIZE = 10
     token = random_token_generator(TOKEN_SIZE)
     new_username = 'E' + str(session.id)+'_'+student.matricola
-    new_student_user = User.objects.create_user(username = new_username, password=token)
+    new_student_user = User.objects.create_user(username = new_username, password=token, first_name=student.first_name, last_name=student.last_name)
 
     exam = Exam(token=token, student=new_student_user, session=session)
     exam.save()

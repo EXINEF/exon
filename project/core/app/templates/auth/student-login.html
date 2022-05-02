@@ -5,18 +5,21 @@
 <h1>STUDENT LOGIN</h1>
 <h3>Please insert your Matricola Code, and your token for join the exam.</h3>
 
-<form>
-    <label for="fname">MATRICOLA CODE:</label><br>
-    <input type="text" id="fname" name="fname"><br>
-    <label for="lname">TOKEN CODE:</label><br>
-    <input type="text" id="lname" name="lname">
+<form method="POST" action="">
+    {% csrf_token %}
+    <label for="username">Matricola:</label><br>
+    <input type="text" id="username" name="username"><br>
+    <label for="password">Token:</label><br>
+    <input type="password" id="password" name="password">
     <input type="submit" value="Submit">
-  </form>
+</form>
 
-  <a href="{% url 'student-exam' %}"> JOIN THE EXAM (TO REMOVE) </a>
-  <br>
+<a href="{% url 'teacher-dashboard' %}"> JOIN THE EXAM</a>
+<br>
 
 {% endblock content %}
+
+
 
 
 

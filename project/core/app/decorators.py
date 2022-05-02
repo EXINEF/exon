@@ -8,7 +8,12 @@ def teacher_only(view_func):
         if request.user.is_staff:
             return redirect('/admin')
     
-        t = Teacher.objects.get(user=request.user)
+        try:
+            t = Teacher.objects.get(user=request.user)
+            
+        except Teacher.DoesNotExist:
+            t = None
+
         if t is not None:
             return view_func(request, *args, **kwargs)      
         else:
@@ -24,11 +29,16 @@ def unauthenticated_user(view_func):
             if request.user.is_staff:
                 return redirect('/admin')
 
-            t = Teacher.objects.get(user=request.user)
+            try:
+                t = Teacher.objects.get(user=request.user)
+            
+            except Teacher.DoesNotExist:
+                t = None
+
             if t is not None:
                 return redirect('teacher-dashboard')   
             else:
-                return HttpResponse('You are a student')		
+                return redirect('student-start-exam')		
         
         else:
             return view_func(request, *args, **kwargs)

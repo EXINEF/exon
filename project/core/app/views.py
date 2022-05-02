@@ -12,8 +12,31 @@ def indexPage(request):
     context = {}
     return render(request,'index.html', context)
 
+@unauthenticated_user
 def studentLogin(request):
-    return render(request,'auth/student-login.html')
+    if request.method == 'POST':
+        username = request.POST.get('username')
+        password = request.POST.get('password')
+
+        user = authenticate(request, username=username, password=password)
+
+        if user is not None:
+            if Teacher.objects.filter(user=user).exists():
+                # redirect to index, that will redirect in home or admin
+                messages.error(request, 'You are a teacher, you have to log in as a teacher')
+                return redirect('index')
+            else:
+                login(request, user)
+                messages.success(request, 'Authentication as a student successful')
+                return redirect('student-start-exam')
+        else:
+            messages.error(request, 'Username OR password is incorrect')
+
+    context = {}
+    return render(request,'auth/student-login.html', context)
+
+def studentStartExam(request):
+    return render(request,'student/start-exam.html')
 
 def studentExam(request):
     return render(request,'student/exam.html')
@@ -38,7 +61,7 @@ def teacherLogin(request):
             if Teacher.objects.filter(user=user).exists():
                 login(request, user)
                 # redirect to index, that will redirect in home or admin
-                messages.success(request, 'Authentication successful')
+                messages.success(request, 'Authentication as a teacher successful')
                 return redirect('teacher-dashboard')
             else:
                 messages.error(request, 'You are not a teacher, Log In as a Student, to do the exam.')
