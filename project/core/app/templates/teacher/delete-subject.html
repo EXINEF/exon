@@ -3,14 +3,15 @@
 {% block content %}
 
     <!--Center the div-->
-    <div class="container-fluid">
-        <div class= "container d-flex align-items-center justify-content-center vh-100">
-            <h1>Delete SUBJECT {{subject.name}}</h1>
+    <div class="container-col-lg-4">
+        <div class= "card shadow-lg bg-dark text-white border-light rounded-lg mt-5" style="text-align:center;">
+            <div class="card-header">
+                 <h1>Delete SUBJECT {{subject.name}}</h1>
+            </div>
             <h2>Are you sure to delete it?</h2> 
-            
                     <form action="" method="POST">
                         {% csrf_token %}
-                        <button type="submit" class="btn btn-primary">Yes, delete it</button>
+                        <button type="submit" class="btn btn-danger">Yes, delete it</button>
                     </form>
         
                     <a href="{% url 'teacher-dashboard' %}">No, keep it</a>
