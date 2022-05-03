@@ -1,12 +1,16 @@
-@font-face{
-    font-family:"virtuous-slab-bold";
-    src:url("https://dafonttop.com/wp-data/v/38/8038/file/Virtuous-Slab Bold.otf") format("woff"),
-    url("https://dafonttop.com/wp-data/v/38/8038/file/Virtuous-Slab Bold.otf") format("opentype"),
-    url("https://dafonttop.com/wp-data/v/38/8038/file/Virtuous-Slab Bold.otf") format("truetype");
+a .table{
+    color:black; 
+}
+a{
+    color:white;
 }
 
-body{
-
-
+.info{
+    margin-bottom: 20px;
 }
-
+h1,h2,h3,h4,h5 .table{
+    color: black;
+}
+h1,h2,h3,h4,h5{
+    color:white; 
+}
