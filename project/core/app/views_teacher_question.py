@@ -7,7 +7,7 @@ from django.contrib.auth.decorators import login_required
 from .utils import getAnswerValue
 
 
-@login_required(login_url='index')
+
 @teacher_only
 def addQuestion(request, pk):   
     form = QuestionForm()
@@ -38,7 +38,7 @@ def addQuestion(request, pk):
     context = {'form':form, 'range':range(4),}
     return render(request, 'teacher/question/add-question.html', context)
 
-@login_required(login_url='index')
+
 @teacher_only
 def editQuestion(request, subjectpk, pk):   
     teacher = get_object_or_404(Teacher, user=request.user)  
@@ -67,7 +67,7 @@ def editQuestion(request, subjectpk, pk):
 
 
 
-@login_required(login_url='index')
+
 @teacher_only
 def deleteQuestion(request, subjectpk, pk):
     teacher = get_object_or_404(Teacher, user=request.user)

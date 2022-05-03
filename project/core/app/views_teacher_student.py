@@ -3,10 +3,8 @@ from .models import *
 from .forms import *
 from django.contrib import messages
 from .decorators import *
-from django.contrib.auth.decorators import login_required
 
 
-@login_required(login_url='index')
 @teacher_only
 def allStudents(request):   
     teacher = get_object_or_404(Teacher, user=request.user)
@@ -16,7 +14,6 @@ def allStudents(request):
     return render(request, 'teacher/student/all-students.html', context)
 
 
-@login_required(login_url='index')
 @teacher_only
 def addStudent(request):   
     form = StudentForm()
@@ -38,7 +35,7 @@ def addStudent(request):
     context = {'form':form}
     return render(request, 'teacher/student/add-student.html', context)
 
-@login_required(login_url='index')
+
 @teacher_only
 def editStudent(request, pk):   
     teacher = get_object_or_404(Teacher, user=request.user)  
@@ -58,7 +55,6 @@ def editStudent(request, pk):
     return render(request, 'teacher/student/edit-student.html', context)
 
 
-@login_required(login_url='index')
 @teacher_only
 def deleteStudent(request, pk):
     teacher = get_object_or_404(Teacher, user=request.user)

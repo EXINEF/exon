@@ -6,7 +6,7 @@ from .decorators import *
 from django.contrib.auth.decorators import login_required
 
 
-@login_required(login_url='index')
+
 @teacher_only
 def subjectPage(request, pk):
     teacher = get_object_or_404(Teacher, user=request.user)
@@ -18,14 +18,14 @@ def subjectPage(request, pk):
     return render(request,'teacher/subject/subject.html', context)
 
 
-@login_required(login_url='index')
+
 @teacher_only
 def loadQuestionsFile(request, pk):
     context = {}
     return render(request,'teacher/subject/load-questions-file.html', context)
 
 
-@login_required(login_url='index')
+
 @teacher_only
 def addSubject(request):   
     form = SubjectForm()
@@ -44,7 +44,7 @@ def addSubject(request):
     context = {'form':form}
     return render(request, 'teacher/subject/add-subject.html', context)
 
-@login_required(login_url='index')
+
 @teacher_only
 def deleteSubject(request, pk):
     teacher = get_object_or_404(Teacher, user=request.user)
@@ -58,7 +58,7 @@ def deleteSubject(request, pk):
     context = {'subject':subject}
     return render(request, 'teacher/subject/delete-subject.html', context)
 
-@login_required(login_url='index')
+
 @teacher_only
 def editSubject(request, pk):   
     teacher = get_object_or_404(Teacher, user=request.user)  
@@ -77,7 +77,7 @@ def editSubject(request, pk):
     context = {'form':form,}
     return render(request, 'teacher/subject/edit-subject.html', context)
 
-@login_required(login_url='index')
+
 @teacher_only
 def editQuestions(request, pk):
     teacher = get_object_or_404(Teacher, user=request.user)  

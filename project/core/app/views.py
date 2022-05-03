@@ -36,6 +36,8 @@ def studentLogin(request):
     context = {}
     return render(request,'auth/student-login.html', context)
 
+
+@student_only
 def studentStartExam(request):
     exam = Exam.objects.get(student=request.user)
 
@@ -47,14 +49,17 @@ def studentStartExam(request):
     context = {'exam':exam, }
     return render(request,'student/start-exam.html', context)
 
+@student_only
 def studentExam(request,):
     exam = Exam.objects.get(student=request.user)
     questions = ExamQuestion.objects.filter(exam=exam).order_by('pk')
     for q in questions:
         if q.answer is None:
             return redirect('student-exam-question', q.pk)
-    return redirect('student-finish-exam')
+    return redirect('student-exam-question', questions[0].pk)
 
+
+@student_only
 def studentExamQuestion(request, pk):
     exam = Exam.objects.get(student=request.user)
     main_question = get_object_or_404(ExamQuestion, id=pk)
@@ -62,10 +67,10 @@ def studentExamQuestion(request, pk):
     questions = ExamQuestion.objects.filter(exam=exam).order_by('pk')
 
     if request.method == 'POST':
-
         for answer in answers_main_question:
-            print(request.POST.get(answer.pk))
-            if request.POST.get('answer'+str(answer.pk)) == '1':
+
+            if int(request.POST.get('answer')) == answer.id:
+                
                 main_question.answer = answer
                 break
 
@@ -75,13 +80,31 @@ def studentExamQuestion(request, pk):
     context = {'exam':exam, 'questions':questions, 'main_question':main_question, 'answers_main_question':answers_main_question, }
     return render(request,'student/exam.html', context)
 
-def studentFinishExam(request):
-    return render(request,'student/finish-exam.html')
 
+
+@student_only
+def studentConfirmationFinishExam(request):
+    exam = Exam.objects.get(student=request.user)
+    questions = ExamQuestion.objects.filter(exam=exam).order_by('pk')
+    num_questions_answer = 0
+    for q in questions:
+        if q.answer is not None:
+            num_questions_answer += 1
+    context = {'exam':exam, 'questions':questions, 'num_questions_answer':num_questions_answer, }
+    return render(request,'student/confirmation-finish-exam.html', context)
+
+@student_only
+def studentNoExamAvailable(request):
+    return render(request,'student/no-exam-available.html')
+
+
+
+@student_only
 def studentResult(request):
     return render(request,'student/result.html')
 
-@login_required(login_url='index')
+
+
 def logoutPage(request):
     logout(request)
     return redirect('index')

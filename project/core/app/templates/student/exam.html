@@ -13,11 +13,12 @@
                 
                 {% for answer in answers_main_question %}
                     <label for="answer{{answer.id}}">{{answer.text}}</label>
-                    <input class="form-check-input mt-0" type="checkbox" id="answer{{answer.id}}" name="answer{{answer.id}}" value="1">
+                    
+                    <input class="form-check-input mt-0" type="radio" id="answer{{answer.id}}" name="answer" value="{{answer.id}}" {% if main_question.answer.id == answer.id %}checked{% endif %}>
                     <br>
                 {% endfor %}
 
-                <button type="submit" class="btn btn-primary">Next</button>
+                <button type="submit" class="btn btn-primary">Save and go to the next</button>
             </form>
         </div>
 
@@ -35,7 +36,7 @@
         </div>
 
         <div class="col-2">
-            <a href="#" type="submit" class="btn btn-danger" >TERMINATE THE EXAM</a>
+            <a href="{% url 'student-confiramtion-finish-exam' %}" type="submit" class="btn btn-danger" >TERMINATE THE EXAM</a>
         </div>
     </div>
 </div>

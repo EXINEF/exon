@@ -7,7 +7,7 @@ from django.contrib.auth.decorators import login_required
 from .utils import generateUserExamQuestionsForStudent
 
 
-@login_required(login_url='index')
+
 @teacher_only
 def addSession(request, pk):
     teacher = get_object_or_404(Teacher, user=request.user)
@@ -39,7 +39,7 @@ def addSession(request, pk):
     return render(request,'teacher/session/add-session.html', context)
 
 
-@login_required(login_url='index')
+
 @teacher_only
 def deleteSession(request, pk):
     teacher = get_object_or_404(Teacher, user=request.user)
@@ -58,7 +58,7 @@ def deleteSession(request, pk):
     return render(request, 'teacher/session/delete-session.html', context)
 
 
-@login_required(login_url='index')
+
 @teacher_only
 def sessionPage(request, pk):
     teacher = get_object_or_404(Teacher, user=request.user)
@@ -70,7 +70,7 @@ def sessionPage(request, pk):
     context = {'session':session, 'exams':exams, 'num_started_exams':num_started_exams, 'num_finished_exams':num_finished_exams}
     return render(request,'teacher/session/session.html', context)
 
-@login_required(login_url='index')
+
 @teacher_only
 def exam(request, session_pk, exam_pk):
     teacher = get_object_or_404(Teacher, user=request.user)
@@ -82,7 +82,7 @@ def exam(request, session_pk, exam_pk):
     return render(request,'teacher/exam/exam.html', context)
 
 
-@login_required(login_url='index')
+
 @teacher_only
 def sessionAllCredentials(request, pk):
     teacher = get_object_or_404(Teacher, user=request.user)
