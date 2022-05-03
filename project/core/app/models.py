@@ -61,6 +61,9 @@ class Answer(models.Model):
 class Session(models.Model):
     number_of_questions = models.IntegerField(null=True)
     duration = models.IntegerField(null=True)
+    weight_correct_answer = models.FloatField(null=True, default=3)
+    weight_blank_answer = models.FloatField(null=True, default=0)
+    weight_wrong_answer = models.FloatField(null=True, default=-1)
 
     subject = models.ForeignKey(Subject, on_delete=models.CASCADE, null=True)
     teacher = models.ForeignKey(Teacher, on_delete=models.CASCADE, null=True)
@@ -95,6 +98,9 @@ class Session(models.Model):
                 counter+=1
         return counter
 
+class ExamQuestion(models.Model):
+    pass
+
 class Exam(models.Model):
     token = models.CharField(max_length=16, null=True, unique=True)
 
@@ -117,6 +123,26 @@ class Exam(models.Model):
     def getStudentMatricola(self):
         s = self.student.username.split('_')
         return s[1]
+
+    def getVotation(self):
+        if not self.is_finished:
+            raise Exception('Exam must be finish to give a result')
+        
+        questions = ExamQuestion.objects.filter(exam=self)
+
+        correct_num = 0
+        blank_num = 0
+        wrong_num = 0
+        for q in questions:
+            if q.answer is None:
+                blank_num+=1
+            elif q.answer.is_correct:
+                correct_num+=1
+            else:
+                wrong_num+=1
+        
+        return (correct_num*self.session.weight_correct_answer + blank_num*self.session.weight_blank_answer + wrong_num*self.session.weight_wrong_answer) /  questions.count() * self.session.weight_correct_answer
+            
 
 class ExamQuestion(models.Model):
     exam = models.ForeignKey(Exam, on_delete=models.CASCADE, null=True)

@@ -123,8 +123,16 @@ def studentNoExamAvailable(request):
 
 @student_only
 def studentResult(request):
-    return render(request,'student/result.html')
+    exam = Exam.objects.get(student=request.user)
+    questions = ExamQuestion.objects.filter(exam=exam)
 
+    if not exam.is_started():
+        return redirect('student-start-exam')
+    if not exam.is_finished():
+        return redirect('student-exam')
+    
+    context = {'exam':exam, 'questions':questions, }
+    return render(request,'student/result.html', context)
 
 
 def logoutPage(request):
