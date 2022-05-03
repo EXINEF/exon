@@ -29,7 +29,7 @@ def addQuestion(request, pk):
                 answer.text = text
                 answer.question = new_question
                 answer.teacher = t
-                answer.is_correct = getAnswerValue(request.POST.get('is_correct'+str(i)))
+                answer.is_correct = int(request.POST.get('answer')) == i
                 answer.save()
     
             messages.success(request, 'New question added successful')
@@ -55,7 +55,7 @@ def editQuestion(request, subjectpk, pk):
             for answer in answers:
                 text = request.POST.get('answer'+str(c))
                 answer.text = text
-                answer.is_correct = getAnswerValue(request.POST.get('is_correct'+str(c)))
+                answer.is_correct = int(request.POST.get('answer')) == c
                 answer.save()
                 c+=1
     

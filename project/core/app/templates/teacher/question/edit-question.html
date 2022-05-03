@@ -13,7 +13,7 @@
                 <input type="text" id="answer{{i}}" name="answer{{forloop.counter}}" value="{{answer.text}}">
 
                 <label for="answer{{forloop.counter}}">Is Correct ?:</label>
-                <input class="form-check-input mt-0" type="checkbox" id="is_correct{{forloop.counter}}" name="is_correct{{forloop.counter}}" {% if answer.is_correct %}checked{% endif %} value="{{answer.is_correct}}">
+                <input class="form-check-input mt-0" type="radio" id="is_correct{{forloop.counter}}" name="answer" {% if answer.is_correct %} checked {% endif %} value="{{forloop.counter}}">
                 </div>
             {% endfor %}
 
