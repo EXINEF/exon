@@ -2,21 +2,16 @@
 {% load crispy_forms_tags %}
 
 {% block content %}
-<link rel="stylesheet" href="project\core\static\css\form.css">
+
 
 <body class="bg-dark">
-    <div class="container col-lg-6">
-
-        <div class="card shadow-lg bg-dark text-white border-light rounded-lg mt-5" style="text-align:center; ">
-            <div class=" card-header">
-                <h1 class="text-light">Add a new vehicle</h1>
-            </div>
-            <form action="" method="POST">
+    <div class="container col-lg-4">
+                <h1 class="text-white">Add a new Subject</h1>
+            <form action="" method="POST" class="text-white">
                 {% csrf_token %}
                 {{form | crispy}}
                 <input type="submit" value="Add Vehicle" class="btn btn-success">
             </form> 
-        </div>
         
     </div>
 </body>
