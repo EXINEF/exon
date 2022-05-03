@@ -1,22 +1,25 @@
 {% extends 'core/base.html' %}
+{% load crispy_forms_tags %}
 
 {% block content %}
 <link rel="stylesheet" href="project\core\static\css\form.css">
 
-<div class="container col-lg-7">
-    <div class="card shadow-lg bg-dark text-white border-light rounded-lg mt-5" style="text-align:center; ">
-        <div class=" card-header">
-            <h1 class="text-light">Add a Subject</h1>
+<body class="bg-dark">
+    <div class="container col-lg-6">
+
+        <div class="card shadow-lg bg-dark text-white border-light rounded-lg mt-5" style="text-align:center; ">
+            <div class=" card-header">
+                <h1 class="text-light">Add a new vehicle</h1>
+            </div>
+            <form action="" method="POST">
+                {% csrf_token %}
+                {{form | crispy}}
+                <input type="submit" value="Add Vehicle" class="btn btn-success">
+            </form> 
         </div>
-        <form action="" method="POST">
-            {% csrf_token %}
-            {{form.as_p}}
-            <input type="submit" value="Add Subject" class="btn btn-success">
-        </form>
+        
     </div>
-    
-    
-</div>
+</body>
     
     
 
