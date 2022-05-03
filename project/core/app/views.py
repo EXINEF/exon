@@ -40,6 +40,8 @@ def studentLogin(request):
 @student_only
 def studentStartExam(request):
     exam = Exam.objects.get(student=request.user)
+    if exam.is_started():
+        return redirect('student-exam')
 
     if request.method == 'POST':
         exam.start_datetime = Now()
@@ -52,6 +54,11 @@ def studentStartExam(request):
 @student_only
 def studentExam(request,):
     exam = Exam.objects.get(student=request.user)
+    if not exam.is_started():
+        return redirect('student-start-exam')
+    if exam.is_finished():
+        return redirect('student-exam-result')
+
     questions = ExamQuestion.objects.filter(exam=exam).order_by('pk')
     for q in questions:
         if q.answer is None:
@@ -62,6 +69,10 @@ def studentExam(request,):
 @student_only
 def studentExamQuestion(request, pk):
     exam = Exam.objects.get(student=request.user)
+    if not exam.is_started():
+        return redirect('student-start-exam')
+    if exam.is_finished():
+        return redirect('student-exam-result')
     main_question = get_object_or_404(ExamQuestion, id=pk)
     answers_main_question = Answer.objects.filter(question=main_question.question)
     questions = ExamQuestion.objects.filter(exam=exam).order_by('pk')
@@ -81,10 +92,21 @@ def studentExamQuestion(request, pk):
     return render(request,'student/exam.html', context)
 
 
-
 @student_only
 def studentConfirmationFinishExam(request):
     exam = Exam.objects.get(student=request.user)
+
+    if not exam.is_started():
+        return redirect('student-start-exam')
+    if exam.is_finished():
+        return redirect('student-exam-result')
+
+    if request.method == 'POST':
+        messages.success(request,'Your exam was sent successfuly')
+        exam.finish_datetime = Now()
+        exam.save()
+        return redirect('student-exam-result')
+
     questions = ExamQuestion.objects.filter(exam=exam).order_by('pk')
     num_questions_answer = 0
     for q in questions:

@@ -21,7 +21,7 @@ urlpatterns = [
     path('student/start-exam', studentStartExam, name='student-start-exam'),
     path('student/exam', studentExam, name='student-exam'),
     path('student/exam/<str:pk>', studentExamQuestion, name='student-exam-question'),
-    path('student/result', studentResult, name='student-result'),
+    path('student/exam-result', studentResult, name='student-exam-result'),
     path('student/confirmation-finish-exam', studentConfirmationFinishExam, name='student-confiramtion-finish-exam'),
     path('student/no-exam-available', studentNoExamAvailable, name='student-no-exam-available'),
 
