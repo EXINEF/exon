@@ -4,6 +4,21 @@
 
 <br>
 <div class="container">
+    <h4 class="text-end">{{request.user.last_name}} {{request.user.first_name}} - MAT: {{request.user.username}}</h4>
+    <h6 class="text-end">Is Expired: {{exam.isExpired}}</h6>
+    <div class="col-md-6 col-sm-6 col-xs-12">
+        <div class="row">
+                 <h2>Remaining time: </h2>
+                 <ul id="countdown-1" class="countdown">
+                    <li><span id="hours"></span> Hours </li>
+                    <li><span id="minutes"></span> Minutes </li>
+                    <li><span id="seconds"></span> Seconds </li>
+                 </ul>
+        </div>
+     </div>
+  </div>
+
+    
     <div class="row">
         <div class="col-7">
             <h3>{{main_question.question.text}}</h3>
@@ -41,7 +56,34 @@
     </div>
 </div>
 
-
+<script>
+    function makeTimer() {
+       var endTime=new Date({{ exam.getExpirationTime|date:"U" }} * 1000);
+        endTime = (Date.parse(endTime) / 1000);
+    
+            var now = new Date();
+            now = (Date.parse(now) / 1000);
+    
+            var timeLeft = endTime - now;
+    
+            var days = Math.floor(timeLeft / 86400);
+            var hours = Math.floor((timeLeft - (days * 86400)) / 3600);
+            var minutes = Math.floor((timeLeft - (days * 86400) - (hours * 3600 )) / 60);
+            var seconds = Math.floor((timeLeft - (days * 86400) - (hours * 3600) - (minutes * 60)));
+    
+            if (hours < "10") { hours = "0" + hours; }
+            if (minutes < "10") { minutes = "0" + minutes; }
+            if (seconds < "10") { seconds = "0" + seconds; }
+    
+            $("#days").html(days);
+            $("#hours").html(hours);
+            $("#minutes").html(minutes);
+            $("#seconds").html(seconds);
+    
+    }
+    
+    setInterval(function() { makeTimer(); }, 1000);
+    </script>
 <br>
 
 {% endblock content %}

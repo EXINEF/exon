@@ -1,6 +1,10 @@
 from django.db import models
 from django.contrib.auth.models import User
+from pytz import utc
 from requests import session
+from datetime import timedelta
+import datetime
+from django.db.models.functions import Now
 
 # Create your models here.
 class Teacher(models.Model):
@@ -126,7 +130,13 @@ class Exam(models.Model):
     
     def is_finished(self):
         return self.finish_datetime is not None
-    
+
+    def getExpirationTime(self):
+        return self.start_datetime + timedelta(minutes=self.session.duration)
+        
+    def isExpired(self):
+        return self.getExpirationTime()<datetime.datetime.now(datetime.timezone.utc)
+
     def getStudentMatricola(self):
         s = self.student.username.split('_')
         return s[1]
