@@ -2,6 +2,7 @@ import random
 import string
 from .models import Exam, ExamQuestion, Question
 from django.contrib.auth.models import User
+from django.contrib.auth.models import Group
 
 def random_token_generator(str_size):
     allowed_chars = string.ascii_letters
@@ -26,6 +27,9 @@ def generateUserExamQuestionsForStudent(session, student):
     token = random_token_generator(TOKEN_SIZE)
     new_username = 'E' + str(session.id)+'_'+student.matricola
     new_student_user = User.objects.create_user(username = new_username, password=token, first_name=student.first_name, last_name=student.last_name)
+
+    teacher_group = Group.objects.get(name='student') 
+    teacher_group.user_set.add(new_student_user)
 
     exam = Exam(token=token, student=new_student_user, session=session)
     exam.save()
