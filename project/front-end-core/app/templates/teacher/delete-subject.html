@@ -3,16 +3,23 @@
 {% block content %}
 
     <!--Center the div-->
-    <div class="container fluid">
-        <div class= "card shadow-lg bg-dark text-white border-light rounded-lg mt-5" style="text-align:center;">
+    <div class="container vh-100">
+        <div class= "card shadow-lg bg-dark text-white rounded-lg mt-5" style="text-align:center;">
             <div class="card-header">
-                 <h1>Delete SUBJECT {{subject.name}}</h1>
+                 <h1 class="text-white mt-5">Delete SUBJECT {{subject.name}}</h1>
             </div>
-            <h2>Are you sure to delete it?</h2> 
+            <h2 class="text-white mt-5">Are you sure to delete it?</h2> 
                     <form action="" method="POST">
                         {% csrf_token %}
-                        <button type="submit" class="btn btn-danger">Yes, delete it</button>
-                        <a class="btn btn-success"href="{% url 'teacher-dashboard' %}">No, keep it</a>
+                        <div class="row">
+                            <div class="col-6">
+                                <button type="submit" class="btn btn-danger mt-5 mb-5 ">Yes, delete it</button>
+                            </div>
+                            <div class="col-6">
+                                <a class="btn btn-success mt-5 mb-5"href="{% url 'teacher-dashboard' %}">No, keep it</a>
+                        </div>
+                        
+                       
                     </form>
         
                     
