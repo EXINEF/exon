@@ -1,0 +1,23 @@
+{% extends 'core/base.html' %}
+
+{% block content %}
+
+<h1>TEACHER LOGIN</h1>
+<h3>Please insert your credentials for login in your personal page.</h3>
+
+<form method="POST" action="">
+    {% csrf_token %}
+    <label for="username">Email:</label><br>
+    <input type="text" id="username" name="username"><br>
+    <label for="password">Password:</label><br>
+    <input type="password" id="password" name="password">
+    <input type="submit" value="Submit">
+</form>
+
+<a href="{% url 'teacher-dashboard' %}"> LOGIN(TO REMOVE) </a>
+<br>
+
+{% endblock content %}
+
+
+

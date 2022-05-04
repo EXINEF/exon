@@ -1,0 +1,17 @@
+{% extends 'core/base.html' %}
+
+{% block content %}
+
+<h1>{{question.text}}</h1>
+
+{% for answer in answers %}
+    <p>{{answer.text}}</p>
+    <p>{{answer.is_correct}}</p>
+    <br>
+{% endfor %}
+
+
+{% endblock content %}
+
+
+

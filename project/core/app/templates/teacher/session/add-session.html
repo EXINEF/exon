@@ -1,0 +1,26 @@
+{% extends 'core/base.html' %}
+
+{% block content %}
+
+<h2>Add Exam Session for {{subject.name}}</h2>
+    <form method="POST" action="">
+        {% csrf_token %}
+        {{form.as_p}}
+        <br><br>
+
+        <h5>Select which students will do the exam:</h5>
+
+        {% for student in students %}
+            <label for="{{student.matricola}}">{{student}}</label>
+            <input class="form-check-input mt-0" type="checkbox" id="{{student.matricola}}" name="{{student.matricola}}" value="1">
+            <br>
+        {% endfor %}  
+
+        <input type="submit" value="Add New Session">
+    </form>
+
+    <p>TODO for adding a date use this format. EX: 2022-04-27 10:00</p>
+{% endblock content %}
+
+
+

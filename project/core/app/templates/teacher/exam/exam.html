@@ -1,0 +1,14 @@
+{% extends 'core/base.html' %}
+
+{% block content %}
+
+<h3>EXAM: {{exam.token}}</h3>
+
+{% for q in exam_questions %}
+    <p>{{q.question.text}}</p>
+{% endfor %}
+
+{% endblock content %}
+
+
+

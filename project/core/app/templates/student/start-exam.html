@@ -1,0 +1,21 @@
+{% extends 'core/base.html' %}
+
+{% block content %}
+
+<h2>Welcome, {{request.user.last_name}} {{request.user.first_name}} - MAT: {{request.user.username}}</h2>
+<h3>Are you ready to start your Exam?</h3>
+
+
+<h5>Number of questions: {{exam.session.number_of_questions}}</h5>
+<h5>Duration in minutes: {{exam.session.duration}}</h5>
+
+
+<form action="" method="POST">
+    {% csrf_token %}
+    <button type="submit" class="btn btn-primary">Start it</button>
+</form>
+
+{% endblock content %}
+
+
+

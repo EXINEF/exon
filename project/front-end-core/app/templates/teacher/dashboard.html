@@ -1,0 +1,49 @@
+{% extends 'core/base.html' %}
+
+{% block content %}
+<body class="bg-dark">
+  <div class="container-fluid">
+    <div class="row">
+      <h1 class = "text-white">DASHBOARD</h1>
+      <div class="d-grid gap-1 d-md-flex justify-content-md-end ">
+        <a href="{% url 'teacher-add-subject' %}" class="btn btn-light">Add Subject</a>
+        </div>  
+      
+  </div>
+ 
+  <div class = "row g-3">
+    {% for subject in subjects %}
+    <div class="col-6 col-md-4 col-lg-3">
+      <div class="card">
+        <div class="card-body">
+          <h5 class="card-title">{{subject.name}}</h5>
+          <p class="card-text">a description of this subject</p>
+          <button type="button" class="btn btn-dark">
+            <a href="#" >Edit</a>
+          </button>
+          <button type="button" class="btn btn-dark">
+            <a href="{% url 'teacher-delete-subject' subject.id %}" > DELETE</a>
+          </button>
+            
+          
+          
+        </div>
+      </div>
+        
+          
+       
+            
+        {% endfor %}
+    
+
+        </div>
+        
+      
+
+</body>
+  
+
+{% endblock content %}
+
+
+

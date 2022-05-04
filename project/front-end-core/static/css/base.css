@@ -1,0 +1,17 @@
+a .table{
+    color:black; 
+}
+a{
+    color:white;
+}
+
+.info{
+    margin-bottom: 20px;
+}
+h1,h2,h3,h4,h5 .table{
+    color: black;
+}
+h1,h2,h3,h4,h5{
+    color:white; 
+}
+

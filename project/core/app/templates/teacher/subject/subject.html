@@ -1,0 +1,32 @@
+{% extends 'core/base.html' %}
+
+{% block content %}
+
+<h1>{{subject.name}}</h1>
+<p>{{subject.description}}</p>
+
+<a href="{% url 'teacher-load-questions-file' subject.id %}">Load From File</a>
+<br>
+<a href="{% url 'teacher-edit-questions' subject.id %}">Edit Questions</a>
+
+<h4>Number of questions: {{num_questions}}</h4>
+<h4>Success Rate: TODO</h4>
+
+<br>
+<br>
+<br>
+<a href="{% url 'teacher-add-session' subject.id %}">Add New Exam Session</a>
+<h4>Last sessions:</h4>
+{% for session in sessions %}
+    <a href="{% url 'teacher-session' session.id %}">
+        <h5>{{session.getName}}</h5>
+    </a>
+    
+    <a href="#">EDIT(TODO)</a>
+    <a href="{% url 'teacher-delete-session' session.id %}">Delete</a>
+{% endfor %}
+
+{% endblock content %}
+
+
+

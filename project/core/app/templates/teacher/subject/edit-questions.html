@@ -1,0 +1,22 @@
+{% extends 'core/base.html' %}
+
+{% block content %}
+
+<h3>Edit Questions of: {{subject.name}}</h3>
+<h5>Number of Questions: {{questions.count}}</h5>
+<h5>Questions:</h5>
+{% for question in questions %}
+    <a href="{% url 'teacher-edit-question' subject.id question.id %}">
+        <h5>{{question.text}}</h5>
+    </a>
+    <a href="{% url 'teacher-delete-question' subject.id question.id %}">Delete</a>
+    <br><br>
+{% endfor %}
+<br>
+<br>
+<a href="{% url 'teacher-add-question' subject.id %}">Add question</a>
+
+{% endblock content %}
+
+
+
