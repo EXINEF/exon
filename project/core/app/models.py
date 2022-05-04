@@ -98,6 +98,9 @@ class Session(models.Model):
                 counter+=1
         return counter
 
+    def getMaximumScore(self):
+        return self.weight_correct_answer * self.number_of_questions
+
 class ExamQuestion(models.Model):
     pass
 
@@ -110,6 +113,10 @@ class Exam(models.Model):
     creation_datetime = models.DateTimeField(auto_now_add=True, null=True)
     start_datetime = models.DateTimeField(null=True)
     finish_datetime = models.DateTimeField(null=True)
+    correct_num = models.IntegerField(null=True)
+    blank_num = models.IntegerField(null=True, default=0)
+    wrong_num = models.IntegerField(null=True, default=0)
+    votation = models.FloatField(null=True, default=0)
     
     def __str__(self):
         return '%s - %s - %s' % (self.token, self.student.username, self.session.subject.name)
@@ -124,24 +131,26 @@ class Exam(models.Model):
         s = self.student.username.split('_')
         return s[1]
 
-    def getVotation(self):
+    def analyzeExam(self):
         if not self.is_finished:
-            raise Exception('Exam must be finish to give a result')
+            raise Exception('Exam must be finish to be analyzed')
         
         questions = ExamQuestion.objects.filter(exam=self)
 
-        correct_num = 0
-        blank_num = 0
-        wrong_num = 0
+        self.correct_num = 0
+        self.blank_num = 0
+        self.wrong_num = 0
+        self.votation = 0
+
         for q in questions:
             if q.answer is None:
-                blank_num+=1
+                self.blank_num+=1
             elif q.answer.is_correct:
-                correct_num+=1
+                self.correct_num+=1
             else:
-                wrong_num+=1
+                self.wrong_num+=1
         
-        return (correct_num*self.session.weight_correct_answer + blank_num*self.session.weight_blank_answer + wrong_num*self.session.weight_wrong_answer) /  questions.count() * self.session.weight_correct_answer
+        self.votation = (self.correct_num*self.session.weight_correct_answer + self.blank_num*self.session.weight_blank_answer + self.wrong_num*self.session.weight_wrong_answer) /  questions.count() * self.session.weight_correct_answer
             
 
 class ExamQuestion(models.Model):

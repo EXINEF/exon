@@ -104,6 +104,7 @@ def studentConfirmationFinishExam(request):
     if request.method == 'POST':
         messages.success(request,'Your exam was sent successfuly')
         exam.finish_datetime = Now()
+        exam.analyzeExam()
         exam.save()
         return redirect('student-exam-result')
 
@@ -125,13 +126,17 @@ def studentNoExamAvailable(request):
 def studentResult(request):
     exam = Exam.objects.get(student=request.user)
     questions = ExamQuestion.objects.filter(exam=exam)
+    answersList = []
+    for q in questions:
+        answers = Answer.objects.filter(question=q.question)
+        answersList.append(answers)
 
     if not exam.is_started():
         return redirect('student-start-exam')
     if not exam.is_finished():
         return redirect('student-exam')
     
-    context = {'exam':exam, 'questions':questions, }
+    context = {'exam':exam, 'questions':questions, 'answersList':answersList, }
     return render(request,'student/result.html', context)
 
 
