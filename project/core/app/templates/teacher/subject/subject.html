@@ -16,15 +16,45 @@
 <br>
 <br>
 <a href="{% url 'teacher-add-session' subject.id %}">Add New Exam Session</a>
-<h4>Last sessions:</h4>
+<h3>SESSIONS: {{sessions.count}}</h3>
+
+<h4>Open sessions:</h4>
 {% for session in sessions %}
-    <a href="{% url 'teacher-session' session.id %}">
-        <h5>{{session.getName}}</h5>
-    </a>
+    {% if session.is_open %}
+        <a href="{% url 'teacher-session' session.id %}">
+            <h5>{{session.getName}}</h5>
+        </a>
     
-    <a href="#">EDIT(TODO)</a>
-    <a href="{% url 'teacher-delete-session' session.id %}">Delete</a>
+        <a href="#">EDIT(TODO)</a>
+        <a href="{% url 'teacher-delete-session' session.id %}">Delete</a>
+    {% endif %}
 {% endfor %}
+
+<h4>Future sessions:</h4>
+{% for session in sessions %}
+    {% if session.is_not_started %}  
+        <a href="{% url 'teacher-session' session.id %}">
+            <h5>{{session.getName}}</h5>
+        </a>
+    
+        <a href="#">EDIT(TODO)</a>
+        <a href="{% url 'teacher-delete-session' session.id %}">Delete</a>
+    {% endif %}
+{% endfor %}
+
+<h4>Finished sessions:</h4>
+{% for session in sessions %}
+    {% if session.is_finished %}
+        
+        <a href="{% url 'teacher-session' session.id %}">
+            <h5>{{session.getName}}</h5>
+        </a>
+    
+        <a href="#">EDIT(TODO)</a>
+        <a href="{% url 'teacher-delete-session' session.id %}">Delete</a>
+    {% endif %}
+{% endfor %}
+
 
 {% endblock content %}
 

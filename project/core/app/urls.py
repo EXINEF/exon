@@ -1,7 +1,8 @@
 from django.urls import path
 from .views import *
-from .views_teacher import dashboard
 
+from .views_student import *
+from .views_teacher import dashboard
 from .views_teacher_question import addQuestion, editQuestion, deleteQuestion
 from .views_teacher_session import addSession, deleteSession, sessionPage, exam, sessionAllCredentials
 from .views_teacher_student import addStudent, allStudents, deleteStudent, editStudent

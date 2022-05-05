@@ -3,6 +3,7 @@
 {% block content %}
 
 <h3>SESSION: {{session.getName}}</h3>
+<h4>STATUS: {{session.get_status}}</h4>
 <h5>Subject: {{session.subject}}</h5>
 <h5>Questions: {{session.number_of_questions}}</h5>
 <h5>Students: {{session.getExamsNumber}}</h5>

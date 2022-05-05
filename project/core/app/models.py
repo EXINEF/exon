@@ -82,6 +82,23 @@ class Session(models.Model):
     def getName(self):
         return '%s - %s' % (self.start_datetime, self.expiration_datetime)
 
+    def is_open(self):
+        return self.start_datetime<datetime.datetime.now(datetime.timezone.utc) and self.expiration_datetime>datetime.datetime.now(datetime.timezone.utc)
+
+    def is_not_started(self):
+        return not self.is_open() and self.start_datetime>datetime.datetime.now(datetime.timezone.utc) 
+
+    def is_finished(self):
+        return not self.is_open() and self.expiration_datetime<datetime.datetime.now(datetime.timezone.utc)
+
+    def get_status(self):
+        if self.is_open():
+            return 'OPEN'
+        if self.is_not_started():
+            return 'NOT STARTED'
+        if self.is_finished():
+            return 'FINISHED' 
+
     def getExamsNumber(self):
         return Exam.objects.filter(session=self).count()
 
@@ -130,7 +147,7 @@ class Exam(models.Model):
     
     def is_finished(self):
         return self.finish_datetime is not None
-
+    
     def getExpirationTime(self):
         return self.start_datetime + timedelta(minutes=self.session.duration)
         
