@@ -25,6 +25,9 @@ urlpatterns = [
     path('student/exam-result', studentResult, name='student-exam-result'),
     path('student/confirmation-finish-exam', studentConfirmationFinishExam, name='student-confiramtion-finish-exam'),
     path('student/exam-error', studentExamError, name='student-exam-error'),
+    path('student/student-exam-time-expired', studentExamTimeExpired, name='student-exam-time-expired'),
+
+    
 
     ### TEACHER
     

@@ -14,7 +14,7 @@ def studentStartExam(request):
 
     if exam.is_started():
         return redirect('student-exam')
-
+    
     if request.method == 'POST':
         exam.start_datetime = Now()
         exam.save()
@@ -28,6 +28,7 @@ def studentExam(request,):
     exam = Exam.objects.get(student=request.user)
     if not exam.is_started():
         return redirect('student-start-exam')
+        
     if exam.is_finished():
         return redirect('student-exam-result')
 
@@ -38,6 +39,9 @@ def studentExam(request,):
     return redirect('student-exam-question', questions[0].pk)
 
 
+def studentExamTimeExpired(request):
+    return render(request,'student/exam-time-expired.html')
+
 @student_only
 def studentExamQuestion(request, pk):
     exam = Exam.objects.get(student=request.user)
@@ -45,6 +49,13 @@ def studentExamQuestion(request, pk):
         return redirect('student-start-exam')
     if exam.is_finished():
         return redirect('student-exam-result')
+
+    if exam.isExpired():
+        exam.finish_datetime = Now()
+        exam.analyzeExam()
+        exam.save()
+        return redirect('student-exam-time-expired')
+        
     main_question = get_object_or_404(ExamQuestion, id=pk)
     answers_main_question = Answer.objects.filter(question=main_question.question)
     questions = ExamQuestion.objects.filter(exam=exam).order_by('pk')

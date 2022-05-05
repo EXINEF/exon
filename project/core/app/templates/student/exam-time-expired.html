@@ -1,0 +1,17 @@
+{% extends 'core/base.html' %}
+
+{% block content %}
+
+
+
+<h1>TIME EXPIRED</h1>
+<p>Your time for doing the exam is finished, so we counted only the questions that you have already selected.</p>
+
+<a href="{% url 'student-exam-result' %}">Go to Exam Result</a>
+<br>
+
+<br>
+{% endblock content %}
+
+
+
