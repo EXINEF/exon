@@ -5,9 +5,23 @@
 <h1>INDEX PAGE</h1>
 <h3>Are you a teacher or a student?</h3>
 
-<a href="{% url 'student-login' %}"> STUDENT </a>
-<br>
-<a href="{% url 'teacher-login' %}"> TEACHER </a>
+<div class= "container d-flex align-items-center justify-content-center mt-5">
+    <h3 class ="text-white">Are you a Teacher or a Student?</h3>
+</div>
+<div class="container d-flex align-items-center justify-content-center ">
+    <div class="row">
+        <div class="col-6">
+                <button type="button" class="btn btn-light btn-lg">
+                    <a href="{% url 'student-login' %}"> STUDENT </a>
+                </button>
+        </div>
+        <div class="col-6">
+            <button type="button" class="btn btn-light btn-lg">
+                <a href="{% url 'teacher-login' %}"> TEACHER </a>
+            </button>
+        </div>
+    </div>
+</div>
 
 {% endblock content %}
 
