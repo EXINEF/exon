@@ -38,7 +38,23 @@ def addSession(request, pk):
     context = {'subject':subject, 'form':form, 'students':students}
     return render(request,'teacher/session/add-session.html', context)
 
+@teacher_only
+def editSession(request, pk):   
+    teacher = get_object_or_404(Teacher, user=request.user)  
+    session = get_object_or_404(Session, id=pk, teacher=teacher)
 
+    form = SessionForm(instance = session)
+    
+    if request.method == 'POST':
+        form = SessionForm(request.POST, instance = session)
+        
+        if form.is_valid():
+            form.save()
+            messages.success(request, 'Session saved successfuly')
+            return redirect('teacher-subject', session.subject.pk)
+
+    context = {'form':form,}
+    return render(request, 'teacher/session/edit-session.html', context)
 
 @teacher_only
 def deleteSession(request, pk):

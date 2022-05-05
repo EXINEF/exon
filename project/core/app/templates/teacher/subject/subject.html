@@ -25,7 +25,7 @@
             <h5>{{session.getName}}</h5>
         </a>
     
-        <a href="#">EDIT(TODO)</a>
+        <a href="{% url 'teacher-edit-session' session.id %}">Edit</a>
         <a href="{% url 'teacher-delete-session' session.id %}">Delete</a>
     {% endif %}
 {% endfor %}
@@ -37,7 +37,7 @@
             <h5>{{session.getName}}</h5>
         </a>
     
-        <a href="#">EDIT(TODO)</a>
+        <a href="{% url 'teacher-edit-session' session.id %}">Edit</a>
         <a href="{% url 'teacher-delete-session' session.id %}">Delete</a>
     {% endif %}
 {% endfor %}
@@ -50,7 +50,7 @@
             <h5>{{session.getName}}</h5>
         </a>
     
-        <a href="#">EDIT(TODO)</a>
+        <a href="{% url 'teacher-edit-session' session.id %}">Edit</a>
         <a href="{% url 'teacher-delete-session' session.id %}">Delete</a>
     {% endif %}
 {% endfor %}

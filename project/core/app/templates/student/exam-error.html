@@ -1,0 +1,20 @@
+{% extends 'core/base.html' %}
+
+{% block content %}
+
+
+{% if not exam.session.is_open %}
+    <h1>SESSION NOT OPEN</h1>
+    <p>Your Exam's Session is not open, wait for the teacher to start it or if you think this is an error, ask the teacher.</p>
+{% else %}
+    <h1>No EXAM AVAILABLE</h1>
+    <p>Your exam was finished, or you don't have any exams available, if you think this is an error, ask the teacher.</p>
+{% endif %}
+
+<a href="{% url 'student-exam-error' %}">REFRESH</a>
+<br>
+
+{% endblock content %}
+
+
+

@@ -3,14 +3,15 @@ from .models import *
 from .forms import *
 from django.contrib import messages
 from .decorators import *
-from django.contrib.auth.decorators import login_required
-from django.contrib.auth import authenticate, login, logout
 from django.db.models.functions import Now
 
 
 @student_only
 def studentStartExam(request):
     exam = Exam.objects.get(student=request.user)
+    if not exam.session.is_open():
+        return redirect('student-exam-error')
+
     if exam.is_started():
         return redirect('student-exam')
 
@@ -88,10 +89,12 @@ def studentConfirmationFinishExam(request):
     return render(request,'student/confirmation-finish-exam.html', context)
 
 @student_only
-def studentNoExamAvailable(request):
-    return render(request,'student/no-exam-available.html')
-
-
+def studentExamError(request):
+    exam = Exam.objects.get(student=request.user)
+    if exam.session.is_open() and not exam.is_started():
+        return redirect('student-start-exam')
+    context = {'exam':exam, }
+    return render(request,'student/exam-error.html',context)
 
 @student_only
 def studentResult(request):

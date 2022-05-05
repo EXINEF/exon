@@ -4,7 +4,7 @@ from .views import *
 from .views_student import *
 from .views_teacher import dashboard
 from .views_teacher_question import addQuestion, editQuestion, deleteQuestion
-from .views_teacher_session import addSession, deleteSession, sessionPage, exam, sessionAllCredentials
+from .views_teacher_session import addSession, editSession, deleteSession, sessionPage, exam, sessionAllCredentials
 from .views_teacher_student import addStudent, allStudents, deleteStudent, editStudent
 from .views_teacher_subject import addSubject, deleteSubject, editQuestions, editSubject, loadQuestionsFile, subjectPage
 
@@ -24,8 +24,7 @@ urlpatterns = [
     path('student/exam/<str:pk>', studentExamQuestion, name='student-exam-question'),
     path('student/exam-result', studentResult, name='student-exam-result'),
     path('student/confirmation-finish-exam', studentConfirmationFinishExam, name='student-confiramtion-finish-exam'),
-    path('student/no-exam-available', studentNoExamAvailable, name='student-no-exam-available'),
-
+    path('student/exam-error', studentExamError, name='student-exam-error'),
 
     ### TEACHER
     
@@ -37,6 +36,7 @@ urlpatterns = [
     # SESSION
     path('teacher/session/<str:pk>', sessionPage, name='teacher-session'), 
     path('teacher/add-session/<str:pk>', addSession, name='teacher-add-session'), 
+    path('teacher/edit-session/<str:pk>', editSession, name='teacher-edit-session'),
     path('teacher/delete-session/<str:pk>', deleteSession, name='teacher-delete-session'), 
     path('teacher/exam/<str:session_pk>/<str:exam_pk>', exam, name='teacher-exam'), 
     path('teacher/all-credentials/<str:pk>', sessionAllCredentials, name='teacher-all-credentials'), 
