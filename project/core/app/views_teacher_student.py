@@ -1,8 +1,8 @@
-from django.shortcuts import get_object_or_404, render, redirect
-from .models import *
-from .forms import *
 from django.contrib import messages
+from django.shortcuts import get_object_or_404, render
+
 from .decorators import *
+from .forms import *
 
 
 @teacher_only

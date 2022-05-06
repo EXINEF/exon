@@ -1,36 +1,45 @@
 from django.contrib import admin
 from .models import *
 
+
 # Register your models here.
 class TeacherAdmin(admin.ModelAdmin):
-    model = Teacher
+	model = Teacher
+	
+	list_display = ('__str__', 'user', 'full_name')
+	search_fields = ['full_name']
 
-    list_display = ('__str__','user','full_name')
-    search_fields = ['full_name']
 
 class SubjectAdmin(admin.ModelAdmin):
-    model = Subject
+	model = Subject
+	
+	list_display = ('__str__', 'name', 'teacher')
+	search_fields = ['name']
 
-    list_display = ('__str__','name','teacher')
-    search_fields = ['name']
 
 class AnswerAdmin(admin.ModelAdmin):
-    model = Answer
+	model = Answer
+
 
 class QuestionAdmin(admin.ModelAdmin):
-    model = Question
+	model = Question
+
 
 class SessionAdmin(admin.ModelAdmin):
-    model = Session
+	model = Session
+
 
 class ExamAdmin(admin.ModelAdmin):
-    model = Exam 
+	model = Exam
+
 
 class ExamQuestionAdmin(admin.ModelAdmin):
-    model = ExamQuestion
+	model = ExamQuestion
+
 
 class StudentAdmin(admin.ModelAdmin):
-    model = Student
+	model = Student
+
 
 admin.site.register(Teacher, TeacherAdmin)
 admin.site.register(Subject, SubjectAdmin)

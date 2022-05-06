@@ -1,11 +1,10 @@
-from django.shortcuts import get_object_or_404, render, redirect
-from .models import *
-from .forms import *
 from django.contrib import messages
-from .decorators import *
-from django.contrib.auth.decorators import login_required
-from .utils import generateUserExamQuestionsForStudent
+from django.shortcuts import get_object_or_404, render
 
+from .decorators import *
+from .forms import *
+from .models import *
+from .utils import generateUserExamQuestionsForStudent
 
 
 @teacher_only

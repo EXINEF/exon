@@ -1,10 +1,8 @@
-from django.shortcuts import get_list_or_404, get_object_or_404, render, redirect
-from .models import *
-from .forms import *
-from django.contrib import messages
-from .decorators import *
 from django.contrib.auth.decorators import login_required
-from .utils import getAnswerValue
+from django.shortcuts import get_object_or_404, render
+
+from .decorators import *
+from .forms import *
 
 
 @login_required(login_url='index')
