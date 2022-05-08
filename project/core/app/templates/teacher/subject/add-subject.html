@@ -9,7 +9,9 @@
             <form action="" method="POST" class="text-white">
                 {% csrf_token %}
                 {{form | crispy}}
-                <input type="submit" value="Add Vehicle" class="btn btn-success">
+                <div class="d-grid gap-2 mt-2">
+                    <input type="submit" value="Add-Vehicle" class="btn-block btn-success"/> 
+                </div>  
             </form> 
         
     </div>
