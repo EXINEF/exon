@@ -17,12 +17,13 @@
     <div class = "row g-3 mt-3">
       {% for subject in subjects %}
       <div class="col-6 col-md-4 col-lg-3">
+        <a href="{% url 'teacher-subject' subject.id %}">
         <div class="card">
           <div class="card-body">
             <h5 class="card-title">{{subject.name}}</h5>
             <p class="card-text">a description of this subject</p>
             <button type="button" class="btn btn-dark">
-              <a href="#" >Edit</a>
+              <a href="{% url 'teacher-edit-subject' subject.id %}" >Edit</a>
             </button>
             <button type="button" class="btn btn-dark">
               <a href="{% url 'teacher-delete-subject' subject.id %}" > DELETE</a>
@@ -32,7 +33,7 @@
             
           </div>
         </div>
-          
+      </a>
             
          
               
