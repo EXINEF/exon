@@ -3,7 +3,7 @@ from django.shortcuts import get_object_or_404, render
 
 from .decorators import *
 from .forms import *
-
+from .filters import QuestionFilter
 
 @teacher_only
 def subjectPage(request, pk):
@@ -79,5 +79,10 @@ def editQuestions(request, pk):
 	teacher = get_object_or_404(Teacher, user=request.user)
 	subject = get_object_or_404(Subject, id=pk, teacher=teacher)
 	questions = Question.objects.filter(subject=subject)
-	context = {'subject': subject, 'questions': questions}
+
+	myFilter = QuestionFilter(request.GET, queryset=questions)
+	questions = myFilter.qs
+
+	
+	context = {'subject': subject, 'questions': questions, 'myFilter':myFilter}
 	return render(request, 'teacher/subject/edit-questions.html', context)
