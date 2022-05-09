@@ -29,7 +29,7 @@
                 {% for answer in answers_main_question %}
                     <label for="answer{{answer.id}}">{{answer.text}}</label>
                     
-                    <input class="form-check-input mt-0" type="radio" id="answer{{answer.id}}" name="answer" value="{{answer.id}}" {% if main_question.answer.id == answer.id %}checked{% endif %}>
+                    <input class="form-check-input mt-0" type="radio" id="answer{{answer.id}}" name="answer" value="{{answer.id}}" {% if main_question.answer.id == answer.id %}checked{% endif %} required>
                     <br>
                 {% endfor %}
 
