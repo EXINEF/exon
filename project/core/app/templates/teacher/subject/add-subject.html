@@ -3,19 +3,19 @@
 
 {% block content %}
 
-<body class="bg-dark">
+
     <div class="container col-lg-4 mt-5">
                 <h1 class="text-white">Add a new Subject</h1>
             <form action="" method="POST" class="text-white">
                 {% csrf_token %}
                 {{form | crispy}}
                 <div class="d-grid gap-2 mt-2">
-                    <input type="submit" value="Add-Vehicle" class="btn-block btn-success"/> 
+                    <input type="submit" value="Add-Vehicle" class="btn-block btn-success mt-2"/> 
                 </div>  
             </form> 
         
     </div>
-</body>
+
     
 
 {% endblock content %}
