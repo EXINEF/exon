@@ -1,29 +1,23 @@
-{% extends 'core/base.html' %}
-
-{% block content %}
-
-<h1>INDEX PAGE</h1>
+{% extends 'core/base.html' %} {% block content %} <h1>INDEX PAGE</h1>
 <h3>Are you a teacher or a student?</h3>
-
-<div class= "container d-flex align-items-center justify-content-center mt-5">
-    <h3 class ="text-white">Are you a Teacher or a Student?</h3>
-</div>
-<div class="container d-flex align-items-center justify-content-center ">
-    <div class="row">
-        <div class="col-6">
-                <button type="button" class="btn btn-light btn-lg">
-                    <a href="{% url 'student-login' %}"> STUDENT </a>
-                </button>
-        </div>
-        <div class="col-6">
-            <button type="button" class="btn btn-light btn-lg">
-                <a href="{% url 'teacher-login' %}"> TEACHER </a>
-            </button>
-        </div>
+<div class="container d-flex align-items-center justify-content-center mt-5">
+  <div class="card shadow-lg bg-dark text-white rounded-lg mt-5 " style="text-align:center;">
+    <div class="card-header">
+    <h3 class="text-white mt-5 mb-3">Are you a Teacher or a Student?</h3>
     </div>
-</div>
-
-{% endblock content %}
-
-
-
+    <div class="container d-flex align-items-center justify-content-center ">
+      <div class="row">
+        <div class="col-6">
+          <button type="button" class="btn btn-light btn-lg mb-5 mt-5">
+            <a href="{% url 'student-login' %}" class="text-decoration-none text-dark" > STUDENT </a>
+          </button>
+        </div>
+        <div class="col-6">
+          <button type="button" class="btn btn-light btn-lg mb-5 mt-5">
+            <a href="{% url 'teacher-login' %}" class="text-decoration-none text-dark"> TEACHER </a>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div> {% endblock content %}
