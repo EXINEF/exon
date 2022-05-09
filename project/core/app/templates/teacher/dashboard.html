@@ -13,7 +13,8 @@
     <a href="{% url 'teacher-edit-subject' subject.id %}">Edit</a>
     <a href="{% url 'teacher-delete-subject' subject.id %}">Delete</a>
 {% endfor %}
-
+<br>
+<br>
 <a href="{% url 'teacher-all-students' %}">See all students</a>
 
 {% endblock content %}

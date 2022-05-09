@@ -44,3 +44,7 @@ def getAnswerValue(value):
 	if value is None:
 		return 0
 	return 1
+
+def getMatricolaFromCompositeUsername(username):
+	s = username.split('_')
+	return s[1]

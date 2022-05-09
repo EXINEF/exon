@@ -27,6 +27,19 @@ from django.db import models
 
 		EXAM
 			established a TOKEN length, so that is not to complicate to write 
+
+		DOMANDE
+			Nome del sito?
+			Quante tipologie di domande?
+			Che tipologia di file, e formato per caricare le domande
+			Che controlli sulla sessione le servono
+			Logout studente o no?
+			Meccanismo per vedere accessi (Se uno studente vuole fare piu esami contemportaneamnete)
+			Come funziona per fare la tesi dopo il progetto, in cosa consiste
+			Cosa fare per 1,5 cfu, possiamo avvantarcelo quel lavoro
+			Per laurearsi dobbiamo fare lo stesso giorno oppure no?
+
+			altre funzionalita' ???
 """
 
 # Create your models here.
