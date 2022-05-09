@@ -4,6 +4,30 @@ from datetime import timedelta
 from django.contrib.auth.models import User
 from django.db import models
 
+"""
+	TODO ON MODELS (ask to Loreti)
+		SESSION
+			add a field is_locked on Session, to close all the access to the session after the teacher wants
+			add a field is_available to make available the access, instaed of using a start_datetime and a finish_datetime
+	
+		STUDENT
+			add a field email, to send mail with the result in the future
+		
+		SUBJECT
+			remove field description maybe is not needed
+		
+		STUDENT
+			associate to a Suject instaed of a Teacher
+
+		QUESTION
+			think how to do different typologies of question
+
+		EXAM QUESTION
+			resolve the repetition problem, cause by an inner method
+
+		EXAM
+			established a TOKEN length, so that is not to complicate to write 
+"""
 
 # Create your models here.
 class Teacher(models.Model):
@@ -182,8 +206,7 @@ class Exam(models.Model):
 			else:
 				self.wrong_num += 1
 		
-		self.votation = (
-					                self.correct_num * self.session.weight_correct_answer + self.blank_num * self.session.weight_blank_answer + self.wrong_num * self.session.weight_wrong_answer) / questions.count() * self.session.weight_correct_answer
+		self.votation = (self.correct_num * self.session.weight_correct_answer + self.blank_num * self.session.weight_blank_answer + self.wrong_num * self.session.weight_wrong_answer) / questions.count() * self.session.weight_correct_answer
 
 
 class ExamQuestion(models.Model):
