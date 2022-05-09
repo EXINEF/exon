@@ -1,22 +1,35 @@
-{% extends 'core/base.html' %}
-
-{% block content %}
-
-<h3>Edit Questions of: {{subject.name}}</h3>
-<h5>Number of Questions: {{questions.count}}</h5>
-<h5>Questions:</h5>
-{% for question in questions %}
-    <a href="{% url 'teacher-edit-question' subject.id question.id %}">
-        <h5>{{question.text}}</h5>
-    </a>
-    <a href="{% url 'teacher-delete-question' subject.id question.id %}">Delete</a>
-    <br><br>
-{% endfor %}
+{% extends 'core/base.html' %} {% block content %} <h3 class="text-white">Edit Questions of: {{subject.name}}</h3>
+<h5 class="text-white">Number of Questions : {{questions.count}}</h5>
+<h5 class="text-white">Questions:</h5>
+<table id="example" class="table table-striped" style="width:100%">
+    <thead>
+        <tr>
+            <th class="text-white">Question</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr class=>
+            <td>Tiger Nixon</td>
+            <td>System Architect</td>
+            <td>Edinburgh</td>
+            <td>61</td>
+            <td>2011/04/25</td>
+            <td>$320,800</td>
+        </tr>
+        
+    </tfoot>
+</table>
+ {% for question in questions %} <ol class="list-group list-group-numbered">
+  <li class="list-group-item d-flex justify-content-between align-items-start gp-2">
+    <div class="ms-2 me-auto">
+      <div class="fw-bold">
+        <a href="{% url 'teacher-edit-question' subject.id question.id %}">
+          <h5>{{question.text}}</h5>
+        </a>
+      </div>
+    </div>
+    <a class="btn btn-primary" href="{% url 'teacher-delete-question' subject.id question.id %}" role="button">Delete</a>
+  </li>
+</ol> {% endfor %} <br>
 <br>
-<br>
-<a href="{% url 'teacher-add-question' subject.id %}">Add question</a>
-
-{% endblock content %}
-
-
-
+<a href="{% url 'teacher-add-question' subject.id %}">Add question</a> {% endblock content %}
