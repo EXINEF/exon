@@ -114,7 +114,6 @@ Accept the Login of a student when the session is closed, so that he can join ag
     <a href="{% url 'teacher-exam' session.id exam.id %}">
         <h5>EXAM</h5>
         <h6>Student: {{exam.student.last_name}} {{exam.student.first_name}}</h6>
-        <h6>Matricola: {{exam.getStudentMatricola}}</h6>
         <h6>Started ? : {{exam.is_started}}</h6>
         <h6>Finished ? : {{exam.is_finished}}</h6>
         <br>
