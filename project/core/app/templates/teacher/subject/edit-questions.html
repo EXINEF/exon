@@ -11,28 +11,31 @@
 </div>
 
 <!--Table-->   
-<div class="card mb-4 mt-3">
-  <div class="card-header">
-      <h2 class="table">My Questions</h2>
+<div class="container-fluid">
+  <div class="card mb-4 mt-3">
+    <div class="card-header">
+        <h2 class="table">My Questions</h2>
+    </div>
+    <table class="table table table" id="sortTable">
+        <thread>
+            <tr>
+                <th scope="col">Vehicle (ID)</th>
+                <th scope="col"><i class="fas fa-trash-alt"></i> Delete</th>
+            </tr>
+        </thread>
+        <tbody>
+            <tr>
+              {% for question in questions %}
+                <tr>
+                <th scope="row"><a class="table"href="" >{{question.text}}</a></th>
+                </tr>
+                {% endfor %}
+            </tr>
+        </tbody>
+    </table>
   </div>
-  <table class="table table table" id="sortTable">
-      <thread>
-          <tr>
-              <th scope="col">Vehicle (ID)</th>
-              <th scope="col"><i class="fas fa-trash-alt"></i> Delete</th>
-          </tr>
-      </thread>
-      <tbody>
-          <tr>
-            {% for question in questions %}
-              <tr>
-              <th scope="row"><a class="table"href="" >{{question.text}}</a></th>
-              </tr>
-              {% endfor %}
-          </tr>
-      </tbody>
-  </table>
 </div>
+
 <!--Table Ends-->
 
 
