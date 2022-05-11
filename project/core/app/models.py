@@ -3,6 +3,7 @@ from datetime import timedelta
 
 from django.contrib.auth.models import User
 from django.db import models
+from requests import session
 
 """
 	TODO ON MODELS (ask to Loreti)
@@ -79,8 +80,16 @@ class Question(models.Model):
         ('MULTIPLE_CHOICE', 'MULTIPLE_CHOICE'),
     )
 
+	DIFFICULTY = (
+        ('VERY EASY', 'VERY EASY'),
+		('EASY', 'EASY'),
+		('NORMAL', 'NORMAL'),
+		('DIFFICULT', 'DIFFICULT'),
+		('VERY DIFFICULT', 'VERY DIFFICULT'),
+    )
+
 	text = models.TextField(null=True)
-	difficulty = models.IntegerField(null=True)
+	difficulty = models.CharField(max_length=100, default='NORMAL', blank=True, null=True, choices=DIFFICULTY)
 	type = models.CharField(max_length=30, default='SINGLE_CHOICE', blank=True, null=True, choices=TYPE)
 	
 	subject = models.ForeignKey(Subject, on_delete=models.CASCADE, null=True)
@@ -110,7 +119,9 @@ class Answer(models.Model):
 class Session(models.Model):
 	name = models.CharField(max_length=50, null=True)
 	description = models.TextField(blank=True, null=True)
-	is_correct = models.BooleanField(default=True, null=True)
+	is_locked = models.BooleanField(default=True, null=True)
+	is_started = models.BooleanField(default=False, null=True)
+	is_finished = models.BooleanField(default=False, null=True)
 
 	number_of_questions = models.IntegerField(blank=True, null=True)
 	duration = models.IntegerField(blank=True, null=True)
@@ -139,17 +150,22 @@ class Session(models.Model):
 	def is_not_started(self):
 		return not self.is_open() and self.start_datetime > datetime.datetime.now(datetime.timezone.utc)
 	
-	def is_finished(self):
-		return not self.is_open() and self.expiration_datetime < datetime.datetime.now(datetime.timezone.utc)
-	
+	def is_configurated(self):
+		return self.number_of_questions and self.duration is not None
+
 	def get_status(self):
-		if self.is_open():
-			return 'OPEN'
-		if self.is_not_started():
-			return 'NOT STARTED'
-		if self.is_finished():
+		if not self.is_configurated():
+			return 'MISSING CONFIGURATION'
+		if not self.is_started:
+			return 'READY'
+		if not self.is_finished:
+			return 'STARTED'
+		else:
 			return 'FINISHED'
 	
+	def get_students_registered(self):
+		return Student.objects.filter(session=self).count()
+		
 	def getExamsNumber(self):
 		return Exam.objects.filter(session=self).count()
 	
@@ -250,6 +266,7 @@ class ExamQuestion(models.Model):
 class Student(models.Model):
 	first_name = models.CharField(max_length=255, null=True)
 	last_name = models.CharField(max_length=255, null=True)
+	email = models.CharField(max_length=50, null=True)
 	matricola = models.CharField(max_length=50, null=True)
 	session = models.ForeignKey(Session, on_delete=models.CASCADE, null=True)
 	

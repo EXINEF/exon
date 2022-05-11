@@ -6,40 +6,43 @@ from .forms import *
 
 
 @teacher_only
-def allStudents(request):   
+def allStudents(request, pk):   
     teacher = get_object_or_404(Teacher, user=request.user)
-    students = Student.objects.filter(teacher=teacher)
+    session = get_object_or_404(Session, id=pk, teacher=teacher)
+    students = Student.objects.filter(session=session)
 
-    context = {'students':students}
+    context = {'students':students, 'session':session}
     return render(request, 'teacher/student/all-students.html', context)
 
 
 @teacher_only
-def addStudent(request):   
+def addStudent(request, pk):
+    teacher = get_object_or_404(Teacher, user=request.user)
+    session = get_object_or_404(Session, id=pk, teacher=teacher)
+
     form = StudentForm()
     if request.method == 'POST':
         form = StudentForm(request.POST)
-        if form.is_valid():
-            t = Teacher.objects.get(user=request.user)     
+        if form.is_valid():   
             new_student = form.save(commit=False)
-            if Student.objects.filter(teacher=t, matricola=new_student.matricola).exists(): 
-                messages.error(request, 'STUDENT WITH THIS MATRICOLA CODE ALREADY EXISTS')
-                return redirect('teacher-dashboard')
-            new_student.teacher = t
+            if Student.objects.filter(session=session, matricola=new_student.matricola).exists(): 
+                messages.error(request, 'ERROR: a student with this matricola( %s ) already exist in this session.' % (new_student.matricola))
+                return redirect('teacher-all-students', session.id)
+            new_student.session = session
             new_student.save()
             form.save_m2m()
 
-            messages.success(request, 'New Student %s added successful' % (new_student.__str__()))
-            return redirect('teacher-dashboard')
+            messages.success(request, '%s added successful to the Session: %s' % (new_student.__str__(), session.name))
+            return redirect('teacher-all-students', session.id)
 
     context = {'form':form}
     return render(request, 'teacher/student/add-student.html', context)
 
 
 @teacher_only
-def editStudent(request, pk):   
-    teacher = get_object_or_404(Teacher, user=request.user)  
-    student = get_object_or_404(Student, id=pk, teacher=teacher)
+def editStudent(request, session_pk, student_pk):   
+    teacher = get_object_or_404(Teacher, user=request.user)
+    student = get_object_or_404(Student, id=student_pk)
 
     form = StudentForm(instance = student)
     
@@ -49,21 +52,21 @@ def editStudent(request, pk):
         if form.is_valid():
             form.save()
             messages.success(request, 'Student saved successfuly')
-            return redirect('teacher-all-students')
+            return redirect('teacher-all-students', session_pk)
 
     context = {'form':form,}
     return render(request, 'teacher/student/edit-student.html', context)
 
 
 @teacher_only
-def deleteStudent(request, pk):
+def deleteStudent(request, session_pk, student_pk):
     teacher = get_object_or_404(Teacher, user=request.user)
-    student = get_object_or_404(Student, id=pk, teacher=teacher)
+    student = get_object_or_404(Student, id=student_pk)
     
     if request.method == 'POST':
         messages.success(request,'The Student %s was deleted successfuly' % student)
         Student.delete(student)
-        return redirect('teacher-all-students')
+        return redirect('teacher-all-students', session_pk)
 
     context = {'student':student}
     return render(request, 'teacher/student/delete-student.html', context)

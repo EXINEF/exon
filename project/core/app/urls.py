@@ -4,7 +4,7 @@ from .views import *
 from .views_student import *
 from .views_teacher import dashboard
 from .views_teacher_question import addQuestion, editQuestion, deleteQuestion
-from .views_teacher_session import addSession, editSession, deleteSession, sessionPage, exam, sessionAllCredentials
+from .views_teacher_session import generateExamsConfirmation, addSession, editSession, editSettingsSession, deleteSession, sessionPage, exam, sessionAllCredentials
 from .views_teacher_student import addStudent, allStudents, deleteStudent, editStudent
 from .views_teacher_subject import addSubject, deleteSubject, editQuestions, editSubject, loadQuestionsFile, subjectPage
 
@@ -37,15 +37,17 @@ urlpatterns = [
 	path('teacher/session/<str:pk>', sessionPage, name='teacher-session'),
 	path('teacher/add-session/<str:pk>', addSession, name='teacher-add-session'),
 	path('teacher/edit-session/<str:pk>', editSession, name='teacher-edit-session'),
+	path('teacher/edit-settings-session/<str:pk>', editSettingsSession, name='teacher-edit-settings-session'),
 	path('teacher/delete-session/<str:pk>', deleteSession, name='teacher-delete-session'),
 	path('teacher/exam/<str:session_pk>/<str:exam_pk>', exam, name='teacher-exam'),
 	path('teacher/all-credentials/<str:pk>', sessionAllCredentials, name='teacher-all-credentials'),
-	
+	path('teacher/generate-exams-confirmation/<str:pk>', generateExamsConfirmation, name='teacher-generate-exams-confirmation'),
+
 	# STUDENT
-	path('teacher/add-student', addStudent, name='teacher-add-student'),
-	path('teacher/all-students', allStudents, name='teacher-all-students'),
-	path('teacher/delete-student/<str:pk>', deleteStudent, name='teacher-delete-student'),
-	path('teacher/edit-student/<str:pk>', editStudent, name='teacher-edit-student'),
+	path('teacher/add-student/<str:pk>', addStudent, name='teacher-add-student'),
+	path('teacher/all-students/<str:pk>', allStudents, name='teacher-all-students'),
+	path('teacher/delete-student/<str:session_pk>/<str:student_pk>', deleteStudent, name='teacher-delete-student'),
+	path('teacher/edit-student/<str:session_pk>/<str:student_pk>', editStudent, name='teacher-edit-student'),
 	
 	# SUBJECT
 	path('teacher/subject/<str:pk>', subjectPage, name='teacher-subject'),

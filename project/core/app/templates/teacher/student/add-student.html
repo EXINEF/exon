@@ -2,12 +2,12 @@
 
 {% block content %}
 
-<h2>Add Student</h2>
+<h2>Add Student to Session: {{session.name}}</h2>
     <form method="POST" action="">
         {% csrf_token %}
             {{form.as_p}}
             
-        <input type="submit" value="Add New Student">
+        <input type="submit" value="Add New Student to Session">
     </form>
 
 {% endblock content %}

@@ -10,10 +10,10 @@
             {% for i in range %}
             <div class="card">
             <label for="answer{{i}}">Answer {{i}}:</label>
-            <input type="text" id="answer{{i}}" name="answer{{i}}">
+            <input type="text" id="answer{{i}}" name="answer{{i}}" required>
 
             <label for="answer{{i}}">Is Correct ?:</label>
-            <input class="form-check-input mt-0" type="radio" id="is_correct{{i}}" name="answer" value="{{i}}">
+            <input class="form-check-input mt-0" type="radio" id="is_correct{{i}}" name="answer" value="{{i}}" required>
             </div>
             {% endfor %}
 

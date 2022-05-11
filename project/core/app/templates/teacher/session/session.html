@@ -2,18 +2,70 @@
 
 {% block content %}
 
-<h3>SESSION: {{session.getName}}</h3>
+<h3>Exam Session: {{session.name}}</h3>
+<p>{{session.description}}</p>
 <h4>STATUS: {{session.get_status}}</h4>
 <h5>Subject: {{session.subject}}</h5>
-<h5>Questions: {{session.number_of_questions}}</h5>
-<h5>Students: {{session.getExamsNumber}}</h5>
 
-<h5>Started Exams: {{num_started_exams}}/{{session.getExamsNumber}}</h5>
-<h5>Finished Exams: {{num_finished_exams}}/{{session.getExamsNumber}}</h5>
-<br>
-<a href="{% url 'teacher-all-credentials' session.id %}">Show credentials for joining exam(TODO in pdf)</a>
-<br>
-<h4>EXAMS: </h4>
+{% if session.get_status == 'MISSING CONFIGURATION' %}
+<div class="card">
+    <div class="card-header">SESSION IS MISSING CONFIGURATION SETTINGS</div>
+      <div class="card-body">
+    <h6>Your exam session is not fully configurated, proceed to finish with the configuration:</h6>
+    <a class="btn btn-success" href="{% url 'teacher-edit-settings-session' session.id %}">Configure settings for this session</a>
+    </div>
+</div>
+
+{% elif session.get_status == 'READY' %}
+
+<div class="card">
+    <div class="card-header">STUDENTS REGISTERED TO THIS SESSION: {{session.get_students_registered}}</div>
+      <div class="card-body">
+    <h6>You can add a student to the Exam Session manually or loading a .csv file:</h6>
+    <a class="btn btn-success" href="{% url 'teacher-all-students' session.id %}">Show all registered Students</a>
+    </div>
+</div>
+
+<div class="card">
+    <div class="card-header">EDIT SESSION SETTINGS</div>
+      <div class="card-body">
+    <h6>You can edit the settings of a Session:</h6>
+    <a class="btn btn-warning" href="{% url 'teacher-edit-settings-session' session.id %}">Edit General Settings</a>
+    <a class="btn btn-warning" href="{% url 'teacher-edit-session' session.id %}">Edit All Settings</a>
+    <a class="btn btn-danger" href="{% url 'teacher-delete-session' session.id %}">DELETE THIS SESSION</a>
+    </div>
+</div>
+
+<div class="card">
+  <div class="card-header">GENERATE EXAMS (cannot go back later)</div>
+    <div class="card-body">
+  <h6>Here you can generate the exams, before doing this check if all the settings are good before proceding.</h6>
+  <h6>Number of Questions: {{session.number_of_questions}}</h6>
+  <h6>Overall Difficulty: TODO</h6>
+  <h6>Start Datetime: {{session.start_datetime}}</h6>
+  <h6>Expiration Datetime: {{session.expiration_datetime}}</h6>
+  <h6>Weight For Correct Answer: {{session.weight_correct_answer}}</h6>
+  <h6>Weight For Blank Answer: {{session.weight_blank_answer}}</h6>
+  <h6>Weight For Wrong Answer: {{session.weight_wrong_answer}}</h6>
+  <h6>Students registered: {{session.get_students_registered}}</h6>
+  <a class="btn btn-danger" href="{% url 'teacher-generate-exams-confirmation' session.id %}">GENERATE EXAMS</a>
+  </div>
+</div>
+
+
+
+{% elif session.get_status == 'STARTED' %}
+Lock Session
+Unlock Session to make it possible to login
+Terminate the Session
+See for each Token/Exam/Student how many access did, (each access has a date and ip)
+Accept the Login of a student when the session is closed, so that he can join again
+
+
+{% elif session.get_status == 'FINISHED' %}
+
+{% endif %}
+
 
 {% for exam in exams %}
     <a href="{% url 'teacher-exam' session.id exam.id %}">

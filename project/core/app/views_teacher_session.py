@@ -4,39 +4,27 @@ from django.shortcuts import get_object_or_404, render
 from .decorators import *
 from .forms import *
 from .models import *
-from .utils import generateUserExamQuestionsForStudent
 
 
 @teacher_only
 def addSession(request, pk):
     teacher = get_object_or_404(Teacher, user=request.user)
     subject = get_object_or_404(Subject, id=pk, teacher=teacher)
-    students = Student.objects.filter(teacher=teacher)
-
     form = GeneralSessionForm
+
     if request.method == 'POST':
         form = GeneralSessionForm(request.POST)
         if form.is_valid():   
             new_session = form.save(commit=False)
-            """
-            if new_session.number_of_questions>subject.getNumOfQuestion():
-                messages.error(request, 'ERROR: there are not enough questions, asked:%s, available:%s' % (new_session.number_of_questions, subject.getNumOfQuestion()))
-                return redirect('teacher-subject', subject.id)
-            """
             new_session.subject = subject
             new_session.teacher = teacher
             new_session.save()
             form.save_m2m()
 
-            for student in students:
-                
-                if request.POST.get(student.matricola) == '1':
-                    generateUserExamQuestionsForStudent(new_session,student)
-
             messages.success(request, 'New Exam Session added successful')
-            return redirect('teacher-subject', subject.id)
+            return redirect('teacher-session', new_session.pk)
 
-    context = {'subject':subject, 'form':form, 'students':students}
+    context = {'subject':subject, 'form':form, }
     return render(request,'teacher/session/add-session.html', context)
 
 @teacher_only
@@ -54,8 +42,33 @@ def editSession(request, pk):
             messages.success(request, 'Session saved successfuly')
             return redirect('teacher-subject', session.subject.pk)
 
-    context = {'form':form,}
+    context = {'form':form, 'session':session, }
     return render(request, 'teacher/session/edit-session.html', context)
+
+
+@teacher_only
+def editSettingsSession(request, pk):   
+    teacher = get_object_or_404(Teacher, user=request.user)  
+    session = get_object_or_404(Session, id=pk, teacher=teacher)
+
+    form = SettingsSessionForm(instance = session)
+    
+    if request.method == 'POST':
+        form = SettingsSessionForm(request.POST, instance = session)
+        
+        if form.is_valid():
+            
+            if int(request.POST.get('number_of_questions'))>session.subject.getNumOfQuestion():
+                messages.error(request, 'ERROR: there are not enough questions, asked:%s, available:%s . Load more question to the subject or decrese the number of questions for the session.' % (int(request.POST.get('number_of_questions')), session.subject.getNumOfQuestion()))
+                return redirect('teacher-session', session.pk)
+
+            form.save()
+            messages.success(request, 'Session saved successfuly')
+            return redirect('teacher-session', session.pk)
+
+    context = {'form':form, 'session':session, }
+    return render(request, 'teacher/session/edit-settings-session.html', context)
+
 
 @teacher_only
 def deleteSession(request, pk):
@@ -108,3 +121,22 @@ def sessionAllCredentials(request, pk):
 
     context = {'session':session, 'exams':exams }
     return render(request,'teacher/session/all-credentials.html', context)
+
+
+@teacher_only
+def generateExamsConfirmation(request, pk):
+    teacher = get_object_or_404(Teacher, user=request.user)
+    session = get_object_or_404(Session, id=pk, teacher=teacher)
+    students = Student.objects.filter(session=session)
+    
+    if request.method == 'POST':
+        messages.success(request,'The Session Exam %s was deleted successfuly' % session.getName())
+        exams = Exam.objects.filter(session=session)
+        for exam in exams:
+            User.delete(exam.student)
+        Session.delete(session)
+
+        return redirect('teacher-subject', session.subject.id)
+
+    context = {'session':session, 'students':students, } 
+    return render(request, 'teacher/session/generate-exams-confirmation.html', context)

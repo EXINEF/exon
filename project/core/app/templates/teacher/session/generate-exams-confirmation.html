@@ -1,0 +1,47 @@
+{% extends 'core/base.html' %}
+
+{% block content %}
+
+<h1>Generate Exams for {{session.start_datetime}}</h1>
+<h5>ATTENTION: Once you have generated the exams you will not be able to go back.</h5>
+<ul>
+    <li>You will not be able to edit session settings</li>
+    <li>You will not be able to add/edit/delete students</li>
+    <li>You will not be able to to add/edit/delete questions</li>
+</ul>
+
+<h5>Here you have a summary of all the settings of the session, check if all the settings are good before proceding.</h5>
+  <p>Number of Questions: {{session.number_of_questions}}</p>
+  <p>Overall Difficulty: TODO</p>
+  <p>Start Datetime: {{session.start_datetime}}</p>
+  <p>Expiration Datetime: {{session.expiration_datetime}}</p>
+  <p>Weight For Correct Answer: {{session.weight_correct_answer}}</p>
+  <p>Weight For Blank Answer: {{session.weight_blank_answer}}</p>
+  <p>Weight For Wrong Answer: {{session.weight_wrong_answer}}</p>
+  <p>Students registered: {{session.get_students_registered}}</p>
+
+<p>
+    <a href="#" data-bs-toggle="collapse" data-bs-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
+      Click here for see a list of all the registered students
+    </a>
+  </p>
+<div class="collapse" id="collapseExample">
+    <div class="card card-body">
+        {% for student in students %}
+        <p>{{student}}</p>
+        {% endfor %}
+    </div>
+</div>
+
+
+<h4>Do you want to generate the exams?</h4>
+<form action="" method="POST">
+    {% csrf_token %}
+    <button type="submit" class="btn btn-danger">Yes, I want to generate the exams</button>
+</form>
+
+<a class="btn btn-success" href="{% url 'teacher-session' session.id %}">No, I want to modify something</a>
+{% endblock content %}
+
+
+

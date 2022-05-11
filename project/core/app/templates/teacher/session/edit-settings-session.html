@@ -2,7 +2,7 @@
 
 {% block content %}
 
-<h1>Edit General Session</h1>
+<h1>Edit Settings of Session: {{session.name}}</h1>
     <form method="POST" action="">
         {% csrf_token %}
             {{form.as_p}}

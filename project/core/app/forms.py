@@ -22,20 +22,25 @@ class AnswerForm(ModelForm):
 		fields = '__all__'
 		exclude = []
 
+
+class SessionForm(ModelForm):
+	class Meta:
+		model = Session
+		fields = ['name', 'description','start_datetime','expiration_datetime','number_of_questions', 'duration','weight_correct_answer','weight_blank_answer','weight_wrong_answer']
+
+
 class GeneralSessionForm(ModelForm):
 	class Meta:
 		model = Session
 		fields = ['name', 'description','start_datetime','expiration_datetime']
 
-class SessionForm(ModelForm):
+class SettingsSessionForm(ModelForm):
 	class Meta:
 		model = Session
-		fields = '__all__'
-		exclude = ['teacher', 'subject']
-
+		fields = ['number_of_questions', 'duration','weight_correct_answer','weight_blank_answer','weight_wrong_answer']
 
 class StudentForm(ModelForm):
 	class Meta:
 		model = Student
 		fields = '__all__'
-		exclude = ['teacher', ]
+		exclude = ['session', ]

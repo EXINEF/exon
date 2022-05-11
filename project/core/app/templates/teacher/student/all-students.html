@@ -3,14 +3,37 @@
 {% block content %}
 
 <h2>All Students:</h2>
+<a class="btn btn-success" href="{% url 'teacher-add-student' session.id %}">Add Student Manually</a>
+<a class="btn btn-success" href="{% url 'teacher-add-student' session.id %}">Load Students by a .csv FILE</a>
 
-{% for student in students %}
-    <h5>{{student}}</h5>
-    <a href="{% url 'teacher-edit-student' student.id %}">Edit</a>
-    <a href="{% url 'teacher-delete-student' student.id %}">Delete</a>
-    <br>
-    <br>
-{% endfor %}
+<table class="table table-light table-striped">
+    <thead>
+      <tr>
+        <th scope="col">MATRICOLA</th>
+        <th scope="col">First Name</th>
+        <th scope="col">Last Name</th>
+        <th scope="col">Email</th>
+        <th scope="col">Edit</th>
+        <th scope="col">Delete</th>
+      </tr>
+    </thead>
+    <tbody>
+    
+        {% for student in students %}
+        <tr>
+        <th scope="row">{{student.matricola}}</a></th>
+        <td>{{student.first_name}}</td>
+        <td>{{student.last_name}}</td>
+        <td>{{student.email}}</td>
+        <td><a class="table"href="{% url 'teacher-edit-student' session.pk student.pk %}"><i class="fas fa-wrench"></i></a></td>
+        <td><a class="table"href="{% url 'teacher-delete-student' session.pk student.pk %}"><i class="fas fa-trash-alt"></i></a></td>
+      </tr>
+        {% endfor %}
+     
+        
+    </tbody>
+</table>
+
 {% endblock content %}
 
 
