@@ -3,24 +3,27 @@
 
 
 {% block content %}
-
-<div class="container">
-    <h1>Add Question</h1>
+<div class="container-fluid text-light py-3">
+    <header class="text-center">
+        <h1 class="">Add Question</h1>
+    </header>    
+</div>
+<div class="container my-2 w-50 text-light p-2">
         <form method="POST" action="">
         {% csrf_token %}
             {{form | crispy}}
 
             {% for i in range %}
-            <div class="card">
-            <label for="answer{{i}}">Answer {{i}}:</label>
-            <input type="text" id="answer{{i}}" name="answer{{i}}">
+            <div class="input-group">
+                <div class="input-group-text">
+                    <label for="answer{{i}}">Is Correct ?:</label>
+                    <input class="form-check-input mt-0" type="radio" id="is_correct{{i}}" name="answer" value="{{i}}">
+                </div>
+                <label for="answer{{i}}">Answer {{i}}:</label>
+                <input class="form-control" type="text" id="answer{{i}}" name="answer{{i}}">
+            </div>
 
-            <label for="answer{{i}}">Is Correct ?:</label>
-            <div class="d-grid gap-3">
-                <input class="form-check-input " type="radio" id="is_correct{{i}}" name="answer" value="{{i}}">
-            </div>
-            </div>
-                
+       
             
             
             {% endfor %}
