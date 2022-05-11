@@ -27,7 +27,7 @@
             <tr>
               {% for question in questions %}
                 <tr>
-                <th scope="row"><a class="table"href="{% url 'teacher-edit-question' question.id subject.id %}" >{{question.text}}</a></th>
+                <th scope="row"><a class="table"href="{% url 'teacher-edit-question' subject.id question.id  %}" >{{question.text}}</a></th>
                 </tr>
                 {% endfor %}
             </tr>

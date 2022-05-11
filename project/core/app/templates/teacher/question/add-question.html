@@ -1,19 +1,22 @@
-{% extends 'core/base.html' %} {% load crispy_forms_tags %} {% block content %} <div class="container-fluid text-light py-3">
-    <header class="text-center">
-      <h1 class="">Add Question</h1>
-    </header>
-    <div class="container-fluid my-2 w-50 text-light p-2">
-      <form method="POST" action=""> {% csrf_token %} {{form | crispy}} {% for i in range %}
-        
-          <div class="input-group my-2 mt-2">
-            <div class="input-group-text">
-              <input class="form-check-input" type="radio" id="is_correct{{i}}" name="answer" value="{{i}}">
-            </div>
-            <input class="form-control" type="text" id="answer{{i}}" name="answer{{i}}">
-         
-        </div> {% endfor %} <div class="d-grid gap-3">
-          <input type="submit" class="btn btn-success mt-2" value="Add Question">
-        </div>
-      </form>
-    </div> 
-    {% endblock content %}
+{% extends 'core/base.html' %} {% load crispy_forms_tags %} {% block content %} 
+<div class="container-fluid text-light py-3">
+<header class="text-center">
+   <h1 class="">Add Question</h1>
+</header>
+<div class="container-fluid my-2 w-50 text-light p-2">
+   <form method="POST" action="">
+      {% csrf_token %} {{form | crispy}} {% for i in range %}
+      <div class="input-group my-2 mt-2">
+         <div class="input-group-text">
+            <input class="form-check-input" type="radio" id="is_correct{{i}}" name="answer" value="{{i}}">
+         </div>
+         <input class="form-control" type="text" id="answer{{i}}" name="answer{{i}}">
+      </div>
+      {% endfor %} 
+      <div class="d-grid gap-3">
+         <input type="submit" class="btn btn-success mt-2" value="Add Question">
+      </div>
+   </form>
+</div>
+{% endblock content %}
+

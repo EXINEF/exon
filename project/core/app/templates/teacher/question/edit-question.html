@@ -1,26 +1,24 @@
-{% extends 'core/base.html' %}
-
-{% block content %}
-
-<h1>Edit Question</h1>
+{% extends 'core/base.html' %} {% load crispy_forms_tags %} {% block content %}
+<div class="container-fluid text-light py-3">
+    <header class="text-center">
+        <h1 class="">Edit Question</h1>
+    </header>
+</div>
+<div class="container-fluid my-2 w-50 text-light p-2">
     <form method="POST" action="">
-        {% csrf_token %}
-            {{form.as_p}}
+        {% csrf_token %} {{form | crispy}} {% for answer in answers %}
+        <div class="input-group my-2 mt-2">
+            <div class="input-group-text">
+                <input class="form-check-input mt-0" type="radio" id="is_correct{{forloop.counter}}" name="answer" {% if answer.is_correct %} checked {% endif %} value="{{forloop.counter}}" />
+            </div>
+            <input class="form-control" id="answer{{i}}" name="answer{{forloop.counter}}" value="{{answer.text}}" />
+        </div>
 
-            {% for answer in answers %}
-                <div class="card">
-                <label for="answer{{forloop.counter}}">Answer {{forloop.counter}}:</label>
-                <input type="text" id="answer{{i}}" name="answer{{forloop.counter}}" value="{{answer.text}}">
-
-                <label for="answer{{forloop.counter}}">Is Correct ?:</label>
-                <input class="form-check-input mt-0" type="radio" id="is_correct{{forloop.counter}}" name="answer" {% if answer.is_correct %} checked {% endif %} value="{{forloop.counter}}">
-                </div>
-            {% endfor %}
-
-            <input type="submit" value="Save">
+        {% endfor %}
+        <div class="d-grid gap-3">
+            <input type="submit" class="btn btn-success mt-2" value="Save" />
+        </div>
     </form>
+</div>
 
 {% endblock content %}
-
-
-
