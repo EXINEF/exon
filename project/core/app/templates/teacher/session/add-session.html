@@ -1,17 +1,26 @@
 {% extends 'core/base.html' %}
+{% load crispy_forms_tags %}
 
 {% block content %}
 
-<h2>Add Exam Session for {{subject.name}}</h2>
-    <form method="POST" action="">
-        {% csrf_token %}
-        {{form.as_p}}
-
-        <input type="submit" value="Add New Session">
-    </form>
+<div class="container-fluid text-light py-3">
+    <header class="text-center">
+        <h2>Add Exam Session for {{subject.name}}</h2>
+    </header>    
+</div>
+    <div class="container col-lg-4 mt-5">
+            <form action="" method="POST" class="text-white">
+                {% csrf_token %}
+                {{form | crispy}}
+                <div class="d-grid gap-2 mt-2">
+                    <input type="submit" value="Add Subject" class="btn-block btn-success mt-2"/> 
+                </div>  
+            </form> 
+        
+    </div>
 
     <p>TODO for adding a date use this format. EX: 2022-04-27 10:00</p>
-{% endblock content %}
 
+{% endblock content %}
 
 

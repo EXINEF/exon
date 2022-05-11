@@ -9,12 +9,9 @@
       </div>
       </div>
       <div class = "col-md-12">
-        <button type="button" class="btn btn-light mt-3">
-          <a href="" class="text-decoration-none text-dark">Load From File</a>
-        </button>
-        <button type="button" class="btn btn-light mt-3">
-          <a href="{% url 'teacher-edit-questions' subject.id %}" class="text-decoration-none text-dark">Edit Questions</a>
-        </button>
+          <a class="btn btn-light mt-3" href="" class="text-decoration-none text-dark">Load From File</a>
+          <a class="btn btn-light mt-3" href="{% url 'teacher-edit-questions' subject.id %}" class="text-decoration-none text-dark">Edit Questions</a>
+          <a class="btn btn-light mt-3" href="{% url 'teacher-add-session' subject.id %}" class="text-decoration-none text-dark">Create Exam Session</a>
        <div>
           
   </div>
@@ -28,25 +25,40 @@
   
   <br>
   <br>
-  <h4 class = "text-white">Future sessions:</h4>
-  <div class="row">
-      <div class="col-2">
-          <div class="card">
-            <div class="card-body">
-              <a href="">
-              <h5 class="card-title">{{subject.name}}</h5>
-              </a>
-              <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>         
-            </div>
-            
-        
-        </div>  
-        </div
   
-      </div>
-  </div>
-      
-  
+  <h4 class = "text-white">Started sessions:</h4>
+  {% for session in sessions %}
+  {% if not session.is_started %}  
+    <a href="{% url 'teacher-session' session.id %}">
+        <h5>{{session.getName}}</h5>
+    </a>
+    <a href="{% url 'teacher-edit-session' session.id %}">Edit</a>
+    <a href="{% url 'teacher-delete-session' session.id %}">Delete</a>
+  {% endif %}
+  {% endfor %}
+    
+<h4 class = "text-white">Not Started sessions:</h4>
+{% for session in sessions %}
+{% if session.is_started and not session.is_finished %}  
+  <a href="{% url 'teacher-session' session.id %}">
+      <h5>{{session.getName}}</h5>
+  </a>
+  <a href="{% url 'teacher-edit-session' session.id %}">Edit</a>
+  <a href="{% url 'teacher-delete-session' session.id %}">Delete</a>
+{% endif %}
+{% endfor %}
+
+<h4 class = "text-white">Finished sessions:</h4>
+{% for session in sessions %}
+{% if session.is_finished %}  
+  <a href="{% url 'teacher-session' session.id %}">
+      <h5>{{session.getName}}</h5>
+  </a>
+  <a href="{% url 'teacher-edit-session' session.id %}">Edit</a>
+  <a href="{% url 'teacher-delete-session' session.id %}">Delete</a>
+{% endif %}
+{% endfor %}
+
   <h4 class = "text-white">Future sessions:</h4>
   <div class="row">
       <div class="col-2">
@@ -59,16 +71,16 @@
             </div>
           </div>
             
-        
         </div>  
-  
   </div>
-    
-  </div>
+
+</div>
   
   
            
 {% endblock content %}
+
+
 
 
 
