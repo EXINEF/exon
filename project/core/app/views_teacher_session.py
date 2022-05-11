@@ -13,14 +13,16 @@ def addSession(request, pk):
     subject = get_object_or_404(Subject, id=pk, teacher=teacher)
     students = Student.objects.filter(teacher=teacher)
 
-    form = SessionForm()
+    form = GeneralSessionForm
     if request.method == 'POST':
-        form = SessionForm(request.POST)
+        form = GeneralSessionForm(request.POST)
         if form.is_valid():   
             new_session = form.save(commit=False)
+            """
             if new_session.number_of_questions>subject.getNumOfQuestion():
                 messages.error(request, 'ERROR: there are not enough questions, asked:%s, available:%s' % (new_session.number_of_questions, subject.getNumOfQuestion()))
                 return redirect('teacher-subject', subject.id)
+            """
             new_session.subject = subject
             new_session.teacher = teacher
             new_session.save()

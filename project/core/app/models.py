@@ -74,8 +74,14 @@ class Subject(models.Model):
 
 
 class Question(models.Model):
+	TYPE = (
+        ('SINGLE_CHOICE', 'SINGLE_CHOICE'),
+        ('MULTIPLE_CHOICE', 'MULTIPLE_CHOICE'),
+    )
+
 	text = models.TextField(null=True)
 	difficulty = models.IntegerField(null=True)
+	type = models.CharField(max_length=30, default='SINGLE_CHOICE', blank=True, null=True, choices=TYPE)
 	
 	subject = models.ForeignKey(Subject, on_delete=models.CASCADE, null=True)
 	teacher = models.ForeignKey(Teacher, on_delete=models.CASCADE, null=True)
@@ -102,16 +108,21 @@ class Answer(models.Model):
 
 
 class Session(models.Model):
-	number_of_questions = models.IntegerField(null=True)
-	duration = models.IntegerField(null=True)
-	weight_correct_answer = models.FloatField(null=True, default=3)
-	weight_blank_answer = models.FloatField(null=True, default=0)
-	weight_wrong_answer = models.FloatField(null=True, default=-1)
+	name = models.CharField(max_length=50, null=True)
+	description = models.TextField(blank=True, null=True)
+	is_correct = models.BooleanField(default=True, null=True)
+
+	number_of_questions = models.IntegerField(blank=True, null=True)
+	duration = models.IntegerField(blank=True, null=True)
+	weight_correct_answer = models.FloatField(blank=True, null=True, default=3)
+	weight_blank_answer = models.FloatField(blank=True, null=True, default=0)
+	weight_wrong_answer = models.FloatField(blank=True, null=True, default=-1)
 	
 	subject = models.ForeignKey(Subject, on_delete=models.CASCADE, null=True)
 	teacher = models.ForeignKey(Teacher, on_delete=models.CASCADE, null=True)
 	
 	creation_datetime = models.DateTimeField(auto_now_add=True, null=True)
+
 	start_datetime = models.DateTimeField(null=True)
 	expiration_datetime = models.DateTimeField(null=True)
 	
@@ -240,7 +251,7 @@ class Student(models.Model):
 	first_name = models.CharField(max_length=255, null=True)
 	last_name = models.CharField(max_length=255, null=True)
 	matricola = models.CharField(max_length=50, null=True)
-	teacher = models.ForeignKey(Teacher, on_delete=models.CASCADE, null=True)
+	session = models.ForeignKey(Session, on_delete=models.CASCADE, null=True)
 	
 	def __str__(self):
 		return '%s - %s' % (self.matricola, self.full_name())

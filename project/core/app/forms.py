@@ -22,6 +22,10 @@ class AnswerForm(ModelForm):
 		fields = '__all__'
 		exclude = []
 
+class GeneralSessionForm(ModelForm):
+	class Meta:
+		model = Session
+		fields = ['name', 'description','start_datetime','expiration_datetime']
 
 class SessionForm(ModelForm):
 	class Meta:
