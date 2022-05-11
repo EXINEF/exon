@@ -1,8 +1,10 @@
+from os import access
 from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
 from django.shortcuts import render
-
+from .models import Exam, Access
 from .decorators import *
+from .utils import get_client_ip
 
 
 # Create your views here.
@@ -28,6 +30,10 @@ def studentLogin(request):
 			else:
 				login(request, user)
 				messages.success(request, 'Authentication as a student successful')
+				exam = Exam.objects.get(student=user)
+				if exam is not None:
+					access = Access(session=exam.session, exam=exam, ip = get_client_ip(request))
+					access.save()
 				return redirect('student-start-exam')
 		else:
 			messages.error(request, 'Username OR password is incorrect')

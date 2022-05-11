@@ -29,8 +29,7 @@ def generateUserExamQuestionsForStudent(session, student):
 	TOKEN_SIZE = 10
 	token = random_token_generator(TOKEN_SIZE)
 	new_username = 'E' + str(session.id) + '_' + student.matricola
-	new_student_user = User.objects.create_user(username=new_username, password=token, first_name=student.first_name,
-	                                            last_name=student.last_name)
+	new_student_user = User.objects.create_user(username=new_username, password=token, email=student.email, first_name=student.first_name, last_name=student.last_name)
 	
 	teacher_group = Group.objects.get(name='student')
 	teacher_group.user_set.add(new_student_user)
@@ -48,3 +47,11 @@ def getAnswerValue(value):
 def getMatricolaFromCompositeUsername(username):
 	s = username.split('_')
 	return s[1]
+
+def get_client_ip(request):
+    x_forwarded_for = request.META.get('HTTP_X_FORWARDED_FOR')
+    if x_forwarded_for:
+        ip = x_forwarded_for.split(',')[0]
+    else:
+        ip = request.META.get('REMOTE_ADDR')
+    return ip

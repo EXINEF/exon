@@ -4,7 +4,7 @@ from django.shortcuts import get_object_or_404, render
 from .decorators import *
 from .forms import *
 from .models import *
-
+from . utils import generateUserExamQuestionsForStudent
 
 @teacher_only
 def addSession(request, pk):
@@ -96,8 +96,9 @@ def sessionPage(request, pk):
     exams = session.getExams()
     num_started_exams = session.getStartedExams(exams)
     num_finished_exams = session.getFinishedExams(exams)
+    accesses = Access.objects.filter()
 
-    context = {'session':session, 'exams':exams, 'num_started_exams':num_started_exams, 'num_finished_exams':num_finished_exams}
+    context = {'session':session, 'exams':exams, 'num_started_exams':num_started_exams, 'num_finished_exams':num_finished_exams, 'accesses':accesses}
     return render(request,'teacher/session/session.html', context)
 
 
@@ -130,13 +131,32 @@ def generateExamsConfirmation(request, pk):
     students = Student.objects.filter(session=session)
     
     if request.method == 'POST':
-        messages.success(request,'The Session Exam %s was deleted successfuly' % session.getName())
-        exams = Exam.objects.filter(session=session)
-        for exam in exams:
-            User.delete(exam.student)
-        Session.delete(session)
+        messages.success(request,'The Exams for the Session: %s were created successfuly' % session.name)
+        for student in students:
+            generateUserExamQuestionsForStudent(session, student)
 
-        return redirect('teacher-subject', session.subject.id)
+        session.is_started = True
+        session.save()
+        return redirect('teacher-session', session.pk)
 
     context = {'session':session, 'students':students, } 
     return render(request, 'teacher/session/generate-exams-confirmation.html', context)
+
+@teacher_only
+def lockSession(request, pk):
+    teacher = get_object_or_404(Teacher, user=request.user)
+    session = get_object_or_404(Session, id=pk, teacher=teacher)
+    session.is_locked = True
+    session.save()
+    messages.warning(request,'The Session: %s is now LOCKED' % session.name)
+    return redirect('teacher-session', session.pk)
+
+
+@teacher_only
+def unlockSession(request, pk):
+    teacher = get_object_or_404(Teacher, user=request.user)
+    session = get_object_or_404(Session, id=pk, teacher=teacher)
+    session.is_locked = False
+    session.save()
+    messages.warning(request,'The Session: %s is now UNLOCK' % session.name)
+    return redirect('teacher-session', session.pk)

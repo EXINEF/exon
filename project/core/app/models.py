@@ -275,3 +275,13 @@ class Student(models.Model):
 	
 	def full_name(self):
 		return '%s %s' % (self.last_name, self.first_name)
+
+class Access(models.Model):
+	session = models.ForeignKey(Session, on_delete=models.CASCADE, null=True)
+	exam = models.ForeignKey(Exam, on_delete=models.CASCADE, null=True)
+	ip = models.CharField(max_length=255, null=True)
+	creation_datetime = models.DateTimeField(auto_now_add=True, null=True) 
+
+	def get_num_of_access_token(self):
+		return Access.objects.filter(exam=self.exam).count()
+
