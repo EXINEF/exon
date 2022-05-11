@@ -1,15 +1,25 @@
 {% extends 'core/base.html' %}
+{% load crispy_forms_tags %}
 
 {% block content %}
 
-<div class="container">
-    <h1>Add Subject</h1>
-    <form method="POST" action="">
-        {% csrf_token %}
-            {{form.as_p}}
-            <input type="submit" value="Add Subject">
-    </form>
+<div class="container-fluid text-light py-3">
+    <header class="text-center">
+        <h1 class="">Add Subject</h1>
+    </header>    
 </div>
+    <div class="container col-lg-4 mt-5">
+            <form action="" method="POST" class="text-white">
+                {% csrf_token %}
+                {{form | crispy}}
+                <div class="d-grid gap-2 mt-2">
+                    <input type="submit" value="Add Subject" class="btn-block btn-success mt-2"/> 
+                </div>  
+            </form> 
+        
+    </div>
+
+    
 
 {% endblock content %}
 

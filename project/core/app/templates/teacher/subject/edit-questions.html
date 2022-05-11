@@ -1,33 +1,43 @@
-{% extends 'core/base.html' %}
+{% extends 'core/base.html' %} 
+{% load static %} 
+{% block content %} 
+<h3 class="text-white">Edit Questions of: {{subject.name}}</h3>
+<div class="row">
+  <div class="col-sm-10 col-12 mt-2">
+    <h5 class="text-white">Number of Questions : {{questions.count}}</h5>
+  </div>
+  <div class="col-md-2  mx-auto">
+    <a href="{% url 'teacher-add-question' subject.id %}" class="btn btn-light float-end">Add Question</a>
+</div>
 
-{% block content %}
+<!--Table-->   
+<div class="container-fluid">
+  <div class="card mb-4 mt-3">
+    <div class="card-header">
+        <h2 class="table">My Questions</h2>
+    </div>
+    <table class="table table table" id="sortTable">
+        <thread>
+            <tr>
+                <th scope="col">Question</th>
+                <th scope="col"><i class="fas fa-trash-alt"></i> Delete</th>
+            </tr>
+        </thread>
+        <tbody>
+            <tr>
+              {% for question in questions %}
+                <tr>
+                <th scope="row"><a class="table"href="{% url 'teacher-edit-question' subject.id question.id  %}" >{{question.text}}</a></th>
+                </tr>
+                {% endfor %}
+            </tr>
+        </tbody>
+    </table>
+  </div>
+</div>
 
-<h3>Edit Questions of: {{subject.name}}</h3>
-<h5>Number of Questions: {{questions.count}}</h5>
-
-<h5>Questions with filter:</h5>
-<form method="GET">
-    {{myFilter.form}}
-<button class="btn btn-primary" type="submit">Search</button>
-</form>
-
-<a href="{% url 'teacher-edit-questions' subject.id %}" class="btn btn-danger" type="submit">Reset Search</a>
-
-<h5>Questions:</h5>
-{% for question in questions %}
-    <a href="{% url 'teacher-edit-question' subject.id question.id %}">
-        <h5>{{question.text}}</h5>
-    </a>
-    <a href="{% url 'teacher-delete-question' subject.id question.id %}">Delete</a>
-    <br><br>
-{% endfor %}
+<!--Table Ends-->
 
 
-<br>
-<br>
-<a href="{% url 'teacher-add-question' subject.id %}">Add question</a>
 
 {% endblock content %}
-
-
-

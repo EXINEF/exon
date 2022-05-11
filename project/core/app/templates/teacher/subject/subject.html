@@ -2,60 +2,72 @@
 
 {% block content %}
 
-<h1>{{subject.name}}</h1>
-<p>{{subject.description}}</p>
-
-<a href="{% url 'teacher-load-questions-file' subject.id %}">Load From File</a>
-<br>
-<a href="{% url 'teacher-edit-questions' subject.id %}">Edit Questions</a>
-
-<h4>Number of questions: {{num_questions}}</h4>
-<h4>Success Rate: TODO</h4>
-
-<br>
-<br>
-<br>
-<a href="{% url 'teacher-add-session' subject.id %}">Add New Exam Session</a>
-<h3>SESSIONS: {{sessions.count}}</h3>
-
-<h4>Open sessions:</h4>
-{% for session in sessions %}
-    {% if session.is_open %}
-        <a href="{% url 'teacher-session' session.id %}">
-            <h5>{{session.getName}}</h5>
-        </a>
-    
-        <a href="{% url 'teacher-edit-session' session.id %}">Edit</a>
-        <a href="{% url 'teacher-delete-session' session.id %}">Delete</a>
-    {% endif %}
-{% endfor %}
-
-<h4>Future sessions:</h4>
-{% for session in sessions %}
-    {% if session.is_not_started %}  
-        <a href="{% url 'teacher-session' session.id %}">
-            <h5>{{session.getName}}</h5>
-        </a>
-    
-        <a href="{% url 'teacher-edit-session' session.id %}">Edit</a>
-        <a href="{% url 'teacher-delete-session' session.id %}">Delete</a>
-    {% endif %}
-{% endfor %}
-
-<h4>Finished sessions:</h4>
-{% for session in sessions %}
-    {% if session.is_finished %}
+<div class="container-fluid">
+    <div class = "row">
+      <div class = "col-md-12">
+          <h1 class= "text-white">{{subject.name}}</h1>
+      </div>
+      </div>
+      <div class = "col-md-12">
+        <button type="button" class="btn btn-light mt-3">
+          <a href="" class="text-decoration-none text-dark">Load From File</a>
+        </button>
+        <button type="button" class="btn btn-light mt-3">
+          <a href="{% url 'teacher-edit-questions' subject.id %}" class="text-decoration-none text-dark">Edit Questions</a>
+        </button>
+       <div>
+          
+  </div>
+  
+  <p>{{subject.description}}</p>
+  
+  
+  
+  <h4 class = "text-white">Number of questions: {{num_questions}}</h4>
+  <h4 class = "text-white">Success Rate: TODO</h4>
+  
+  <br>
+  <br>
+  <h4 class = "text-white">Future sessions:</h4>
+  <div class="row">
+      <div class="col-2">
+          <div class="card">
+            <div class="card-body">
+              <a href="">
+              <h5 class="card-title">{{subject.name}}</h5>
+              </a>
+              <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>         
+            </div>
+            
         
-        <a href="{% url 'teacher-session' session.id %}">
-            <h5>{{session.getName}}</h5>
-        </a>
+        </div>  
+        </div
+  
+      </div>
+  </div>
+      
+  
+  <h4 class = "text-white">Future sessions:</h4>
+  <div class="row">
+      <div class="col-2">
+          <div class="card">
+            <div class="card-body">
+              <a href="">
+              <h5 class="card-title">{{subject.name}}</h5>
+              </a>
+              <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>         
+            </div>
+          </div>
+            
+        
+        </div>  
+  
+  </div>
     
-        <a href="{% url 'teacher-edit-session' session.id %}">Edit</a>
-        <a href="{% url 'teacher-delete-session' session.id %}">Delete</a>
-    {% endif %}
-{% endfor %}
-
-
+  </div>
+  
+  
+           
 {% endblock content %}
 
 
