@@ -8,8 +8,8 @@
         <h1 class="">Add Subject</h1>
     </header>    
 </div>
-<div class="container col-lg-4 mt-5">
-    
+
+<div class="container-fluid col-lg-4 mt-5">
     <form method="POST" action="">
         {% csrf_token %}
             {{form | crispy}}
