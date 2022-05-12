@@ -1,46 +1,11 @@
-import datetime
-from datetime import timedelta
-
+from datetime import timedelta, datetime, timezone
 from django.contrib.auth.models import User
 from django.db import models
-from requests import session
-
+from django.db.models.functions import Now
 """
-	TODO ON MODELS (ask to Loreti)
-		SESSION
-			add a field is_locked on Session, to close all the access to the session after the teacher wants
-			add a field is_available to make available the access, instaed of using a start_datetime and a finish_datetime
-	
-		STUDENT
-			add a field email, to send mail with the result in the future
-		
-		SUBJECT
-			remove field description maybe is not needed
-		
-		STUDENT
-			associate to a Suject instaed of a Teacher
-
-		QUESTION
-			think how to do different typologies of question
-
+	TODO ON MODELS
 		EXAM QUESTION
 			resolve the repetition problem, cause by an inner method
-
-		EXAM
-			established a TOKEN length, so that is not to complicate to write 
-
-		DOMANDE
-			Nome del sito?
-			Quante tipologie di domande?
-			Che tipologia di file, e formato per caricare le domande
-			Che controlli sulla sessione le servono
-			Logout studente o no?
-			Meccanismo per vedere accessi (Se uno studente vuole fare piu esami contemportaneamnete)
-			Come funziona per fare la tesi dopo il progetto, in cosa consiste
-			Cosa fare per 1,5 cfu, possiamo avvantarcelo quel lavoro
-			Per laurearsi dobbiamo fare lo stesso giorno oppure no?
-
-			altre funzionalita' ???
 """
 
 # Create your models here.
@@ -144,11 +109,11 @@ class Session(models.Model):
 		return '%s - %s' % (self.start_datetime, self.expiration_datetime)
 	
 	def is_open(self):
-		return self.start_datetime < datetime.datetime.now(
-			datetime.timezone.utc) and self.expiration_datetime > datetime.datetime.now(datetime.timezone.utc)
+		return self.start_datetime < datetime.now(
+			timezone.utc) and self.expiration_datetime > datetime.now(timezone.utc)
 	
 	def is_not_started(self):
-		return not self.is_open() and self.start_datetime > datetime.datetime.now(datetime.timezone.utc)
+		return not self.is_open() and self.start_datetime > datetime.now(timezone.utc)
 	
 	def is_configurated(self):
 		return self.number_of_questions and self.duration is not None
@@ -189,6 +154,15 @@ class Session(models.Model):
 	def getMaximumScore(self):
 		return self.weight_correct_answer * self.number_of_questions
 
+	def set_finished(self):
+		self.is_locked = True
+		self.is_finished = True
+		exams = self.getExams()
+		for exam in exams:
+			if not exam.is_finished():
+				exam.set_finished()
+				exam.save()
+
 
 class ExamQuestion(models.Model):
 	pass
@@ -209,7 +183,7 @@ class Exam(models.Model):
 	votation = models.FloatField(null=True, default=0)
 	
 	def __str__(self):
-		return '%s - %s - %s' % (self.token, self.student.username, self.session.subject.name)
+		return '%s - %s' % (self.token, self.session.subject.name)
 	
 	def get_student_account(self):
 		return Student.objects.filter(email=self.student.email)[0]
@@ -219,16 +193,18 @@ class Exam(models.Model):
 	
 	def is_finished(self):
 		return self.finish_datetime is not None
+
+	def set_started(self):
+		self.start_datetime = datetime.now()
+
+	def set_finished(self):
+		self.finish_datetime = datetime.now()
 	
 	def getExpirationTime(self):
 		return self.start_datetime + timedelta(minutes=self.session.duration)
 	
 	def isExpired(self):
-		return self.getExpirationTime() < datetime.datetime.now(datetime.timezone.utc)
-	
-	def getStudentMatricola(self):
-		s = self.student.username.split('_')
-		return s[1]
+		return self.getExpirationTime() < datetime.now(timezone.utc)
 	
 	def analyzeExam(self):
 		if not self.is_finished:

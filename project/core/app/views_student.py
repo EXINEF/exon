@@ -17,7 +17,7 @@ def studentStartExam(request):
 		return redirect('student-exam')
 	
 	if request.method == 'POST':
-		exam.start_datetime = Now()
+		exam.set_started()
 		exam.save()
 		return redirect('student-exam')
 	
@@ -89,8 +89,7 @@ def studentConfirmationFinishExam(request):
 	
 	if request.method == 'POST':
 		messages.success(request, 'Your exam was sent successfuly')
-		exam.finish_datetime = Now()
-		exam.analyzeExam()
+		exam.set_finished()
 		exam.save()
 		return redirect('student-exam-result')
 	

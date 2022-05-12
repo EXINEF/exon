@@ -1,4 +1,3 @@
-from os import access
 from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
 from django.shortcuts import render
@@ -62,7 +61,6 @@ def teacherLogin(request):
 		if user is not None:
 			if Teacher.objects.filter(user=user).exists():
 				login(request, user)
-				# redirect to index, that will redirect in home or admin
 				messages.success(request, 'Authentication as a teacher successful')
 				return redirect('teacher-dashboard')
 			else:

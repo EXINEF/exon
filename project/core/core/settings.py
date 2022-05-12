@@ -147,3 +147,5 @@ MESSAGE_TAGS = {
         messages.WARNING: 'alert-warning',  #yellow
         messages.ERROR: 'alert-danger',     #red
 }
+
+CRISPY_TEMPLATE_PACK = 'bootstrap4'

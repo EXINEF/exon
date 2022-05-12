@@ -40,7 +40,7 @@ def editSession(request, pk):
         if form.is_valid():
             form.save()
             messages.success(request, 'Session saved successfuly')
-            return redirect('teacher-subject', session.subject.pk)
+            return redirect('teacher-session', session.pk)
 
     context = {'form':form, 'session':session, }
     return render(request, 'teacher/session/edit-session.html', context)
@@ -151,8 +151,7 @@ def terminateSessionConfirmation(request, pk):
     session = get_object_or_404(Session, id=pk, teacher=teacher)
 
     if request.method == 'POST':
-        session.is_locked = True
-        session.is_finished = True
+        session.set_finished()
         session.save()
 
         messages.success(request,'The Exam\'s Session: %s was terminated successfuly' % session.name)
@@ -179,4 +178,19 @@ def unlockSession(request, pk):
     session.is_locked = False
     session.save()
     messages.warning(request,'The Session: %s is now UNLOCK' % session.name)
+    return redirect('teacher-session', session.pk)
+
+
+@teacher_only
+def teacher_correct_exams(request, pk):
+    teacher = get_object_or_404(Teacher, user=request.user)
+    session = get_object_or_404(Session, id=pk, teacher=teacher)
+
+    exams = Exam.objects.filter(session=session)
+    
+    for exam in exams:
+        exam.analyzeExam()
+        exam.save()
+
+    messages.success(request,'All the Exams of the Session: %s were corrected.' % session.name)
     return redirect('teacher-session', session.pk)

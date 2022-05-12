@@ -59,12 +59,11 @@
 
 {% elif session.get_status == 'STARTED' %}
 
-
   {% if session.is_locked %}
-    <h5>The Session is locked, so students cannot login it, to unlock it click here</h5>
+    <h5>The Session is locked, so students cannot login, to unlock it click here</h5>
     <a class="btn btn-danger" href="{% url 'teacher-unlock-session' session.id %}">Unlock the Session</a>
   {% else %}
-  <h5>The Session is NOT locked, so students can login it, if you want to lock it click here</h5>
+  <h5>The Session is NOT locked, so students can login, if you want to lock it click here</h5>
     <a class="btn btn-warning" href="{% url 'teacher-lock-session' session.id %}">Lock the Session</a>
   {% endif %}
 
@@ -73,56 +72,116 @@
   <a class="btn btn-success" href="{% url 'teacher-all-credentials' session.id %}">Show All Credentials</a>
   <a class="btn btn-danger" href="{% url 'teacher-terminate-session-confirmation' session.id %}">Terminate the Session</a>
 
+<br>
+<a href="#" class="btn btn-success" data-bs-toggle="collapse" data-bs-target="#collapse_exams" aria-expanded="false" aria-controls="collapse_exams">
+Show Exams: {{exams.count}}</a>
 
-<h5>Accesses List:</h5>
+<div class="collapse" id="collapse_exams">
 
-<table class="table table-light table-striped">
-  <thead>
-    <tr>
-      <th scope="col">TOKEN</th>
-      <th scope="col">Num Of Accesses</th>
-      <th scope="col">Student</th>
-      <th scope="col">IP</th>
-      <th scope="col">Date</th>
-    </tr>
-  </thead>
-  <tbody>
+<div class="card bg-white text-dark">
+    <div class="card-header">Exams of the Session: {{students.count}}</div>
+      <div class="card-body">
+        <table class="table table-light table-striped">
+          <thead>
+            <tr>
+              <th scope="col">TOKEN</th>
+              <th scope="col">Student</th>
+              <th scope="col">Started</th>
+              <th scope="col">Finished</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for exam in exams %}
+              <tr>
+              <th scope="row">{{exam.token}}</a></th>
+              <td>{{exam.student.last_name}} {{exam.student.first_name}}</td>
+              <td>{{exam.is_started}} - {{exam.start_datetime}}</td>
+              <td>{{exam.is_finished}} - {{exam.finish_datetime}}</td>
+              </tr>
+              {% endfor %}
+          </tbody>
+        </table>
+      </div>
+  </div>
+</div>
+
+<br>
+<a href="#" class="btn btn-success" data-bs-toggle="collapse" data-bs-target="#collapse_accesses" aria-expanded="false" aria-controls="collapse_accesses">
+Show Accesses: {{accesses.count}}</a>
+  <div class="collapse" id="collapse_accesses">
   
-      {% for access in accesses %}
-      <tr>
-      <th scope="row">{{access.exam.token}}</a></th>
-
-      <td>{{access.get_num_of_access_token}}</td>
-      <td>{{access.exam.student.last_name}} {{access.exam.student.first_name}}</td>
-      <td>{{access.ip}}</td>
-      <td>{{access.creation_datetime}}</td>
-      </tr>
-      {% endfor %}
-   
+    <table class="table table-light table-striped">
+      <thead>
+        <tr>
+          <th scope="col">TOKEN</th>
+          <th scope="col">Num Of Accesses</th>
+          <th scope="col">Student</th>
+          <th scope="col">IP</th>
+          <th scope="col">Date</th>
+        </tr>
+      </thead>
+      <tbody>
       
-  </tbody>
-</table>
-
-See for each Token/Exam/Student how many access did, (each access has a date and ip)
-Accept the Login of a student when the session is closed, so that he can join again
+          {% for access in accesses %}
+          <tr>
+          <th scope="row">{{access.exam.token}}</a></th>
+    
+          <td>{{access.get_num_of_access_token}}</td>
+          <td>{{access.exam.student.last_name}} {{access.exam.student.first_name}}</td>
+          <td>{{access.ip}}</td>
+          <td>{{access.creation_datetime}}</td>
+          </tr>
+          {% endfor %}
+       
+          
+      </tbody>
+    </table>
 
 {% elif session.get_status == 'FINISHED' %}
 
-
-
+<br>
+<a class="btn btn-danger" href="{% url 'teacher-correct-exams' session.id %}">Correct Exams Again</a>
+    
+<br>
+<a href="#" class="btn btn-success" data-bs-toggle="collapse" data-bs-target="#collapse_exams" aria-expanded="false" aria-controls="collapse_exams">
+  Show Exams's Result: {{exams.count}}</a>
+  
+  <div class="collapse" id="collapse_exams">
+  
+  <div class="card bg-white text-dark">
+      <div class="card-header">Exams'Result of the Session: {{students.count}}</div>
+        <div class="card-body">
+          <table class="table table-light table-striped">
+            <thead>
+              <tr>
+                <th scope="col">TOKEN</th>
+                <th scope="col">Student</th>
+                <th scope="col">Correct Answers</th>
+                <th scope="col">Blank Answers</th>
+                <th scope="col">Wrong Answers</th>
+                <th scope="col">Votation</th>
+                <th scope="col">Finish Time</th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for exam in exams %}
+                <tr>
+                <th scope="row">{{exam.token}}</a></th>
+                <td>{{exam.student.last_name}} {{exam.student.first_name}}</td>
+                <td>{{exam.correct_num}} / {{exam.session.number_of_questions}}</td>
+                <td>{{exam.blank_num}} / {{exam.session.number_of_questions}}</td>
+                <td>{{exam.wrong_num}} / {{exam.session.number_of_questions}}</td>
+                <td>{{exam.votation}} / {{exam.session.getMaximumScore}}</td>
+                <td>{{exam.finish_datetime}}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+          </table>
+        </div>
+    </div>
+  </div>
 
 {% endif %}
-
-{% for exam in exams %}
-    <a href="{% url 'teacher-exam' session.id exam.id %}">
-        <h5>EXAM</h5>
-        <h6>Student: {{exam.student.last_name}} {{exam.student.first_name}}</h6>
-        <h6>Started ? : {{exam.is_started}}</h6>
-        <h6>Finished ? : {{exam.is_finished}}</h6>
-        <br>
-    </a>
-{% endfor %}
-
 
 {% endblock content %}
 
