@@ -2,27 +2,78 @@
 
 {% block content %}
 
-<h3>Exam Session: {{session.name}}</h3>
-<p>{{session.description}}</p>
-<h4>STATUS: {{session.get_status}}</h4>
-<h5>Subject: {{session.subject}}</h5>
 
-<a class="btn btn-success" href="{% url 'teacher-subject' session.subject.pk %}">Go to the Subject</a>
+
+
+
   
 
 {% if session.get_status == 'MISSING CONFIGURATION' %}
-<div class="card bg-dark text-white">
-    <div class="card-header">SESSION IS MISSING CONFIGURATION SETTINGS</div>
-      <div class="card-body">
-    <h6>Your exam session is not fully configurated, proceed to finish with the configuration:</h6>
-    <a class="btn btn-success" href="{% url 'teacher-edit-settings-session' session.id %}">Configure settings for this session</a>
-    </div>
-</div>
 
+<div class="row">
+  <div class="col-sm-8 col-12 mt-2">
+    <h1 class="text-white display-3">Exam Session: {{ session.name }}</h1>
+    <h4 class="text-white">STATUS: {{session.get_status}}</h4>
+  </div>
+  <div class="col-md-4 mt-4 mx-auto">
+    <a class="btn btn-success float-end" href="{% url 'teacher-subject' session.subject.pk %}">Go to the Subject</a>
+    <a class="btn btn-success float-end" href="{% url 'teacher-edit-settings-session' session.id %}">Configure settings</a>
+  </div>
+</div>
+<h5>Subject: {{session.subject}}</h5>
+<h6 class="lead">SESSION IS MISSING CONFIGURATION SETTINGS, ADD THEM AND TRY AGAIN</div>
+
+    
+     
+    
+  
 {% elif session.get_status == 'READY' %}
+
+<div class="row">
+  <div class="col-sm-8 col-12 mt-2">
+    <h1 class="text-white display-3">Exam Session: {{ session.name }}</h1>
+    <h4 class="text-white">STATUS: {{session.get_status}}</h4>
+  </div>
+  <div class="col-md-4 mt-4 mx-auto">
+    <a class="btn btn-success float-end" href="{% url 'teacher-subject' session.subject.pk %}">Go to the Subject</a>
+    <a class="btn btn-danger float-end" href="{% url 'teacher-delete-session' session.id %}">DELETE THIS SESSION</a>
+  </div>
+</div>
 
 <div class="card bg-dark text-white">
     <div class="card-header">STUDENTS REGISTERED TO THIS SESSION: {{session.get_students_registered}}</div>
+
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-md">
+          <div class="card">
+            <div class="card-body">
+              <h5 class="card-title">Card title</h5>
+              <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+              <button type="button" class="btn btn-primary">Button</button>
+            </div>
+          </div>
+        </div>
+        <div class="col-md">
+          <div class="card">
+            <div class="card-body">
+              <h5 class="card-title">Card title</h5>
+              <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+              <button type="button" class="btn btn-primary">Button</button>
+            </div>
+          </div>
+        </div>
+        <div class="col-md">
+          <div class="card">
+            <div class="card-body">
+              <h5 class="card-title">Card title</h5>
+              <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+              <button type="button" class="btn btn-primary">Button</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
       <div class="card-body">
     <h6>You can add a student to the Exam Session manually or loading a .csv file:</h6>
     <a class="btn btn-success" href="{% url 'teacher-all-students' session.id %}">Show all registered Students</a>
@@ -35,7 +86,6 @@
     <h6>You can edit the settings of a Session:</h6>
     <a class="btn btn-warning" href="{% url 'teacher-edit-settings-session' session.id %}">Edit General Settings</a>
     <a class="btn btn-warning" href="{% url 'teacher-edit-session' session.id %}">Edit All Settings</a>
-    <a class="btn btn-danger" href="{% url 'teacher-delete-session' session.id %}">DELETE THIS SESSION</a>
     </div>
 </div>
 
