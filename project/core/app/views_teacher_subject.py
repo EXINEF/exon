@@ -6,7 +6,7 @@ from .forms import *
 from .filters import QuestionFilter
 
 @teacher_only
-def subjectPage(request, pk):
+def subject_page(request, pk):
 	teacher = get_object_or_404(Teacher, user=request.user)
 	subject = get_object_or_404(Subject, id=pk, teacher=teacher)
 	num_questions = Question.objects.filter(subject=subject).count()
@@ -17,13 +17,13 @@ def subjectPage(request, pk):
 
 
 @teacher_only
-def loadQuestionsFile(request, pk):
+def load_questions_file(request, pk):
 	context = {}
 	return render(request, 'teacher/subject/load-questions-file.html', context)
 
 
 @teacher_only
-def addSubject(request):
+def add_subject(request):
 	form = SubjectForm()
 	if request.method == 'POST':
 		form = SubjectForm(request.POST)
@@ -42,7 +42,7 @@ def addSubject(request):
 
 
 @teacher_only
-def deleteSubject(request, pk):
+def delete_subject(request, pk):
 	teacher = get_object_or_404(Teacher, user=request.user)
 	subject = get_object_or_404(Subject, id=pk, teacher=teacher)
 	
@@ -56,7 +56,7 @@ def deleteSubject(request, pk):
 
 
 @teacher_only
-def editSubject(request, pk):
+def edit_subject(request, pk):
 	teacher = get_object_or_404(Teacher, user=request.user)
 	subject = get_object_or_404(Subject, id=pk, teacher=teacher)
 	
@@ -75,7 +75,7 @@ def editSubject(request, pk):
 
 
 @teacher_only
-def editQuestions(request, pk):
+def edit_questions(request, pk):
 	teacher = get_object_or_404(Teacher, user=request.user)
 	subject = get_object_or_404(Subject, id=pk, teacher=teacher)
 	questions = Question.objects.filter(subject=subject)

@@ -7,7 +7,7 @@ from .models import *
 from . utils import select_random_question_poll_from_subject, generate_user_and_exam_for_student
 
 @teacher_only
-def addSession(request, pk):
+def add_session(request, pk):
     teacher = get_object_or_404(Teacher, user=request.user)
     subject = get_object_or_404(Subject, id=pk, teacher=teacher)
     form = GeneralSessionForm
@@ -28,7 +28,7 @@ def addSession(request, pk):
     return render(request,'teacher/session/add-session.html', context)
 
 @teacher_only
-def editSession(request, pk):   
+def edit_session(request, pk):
     teacher = get_object_or_404(Teacher, user=request.user)  
     session = get_object_or_404(Session, id=pk, teacher=teacher)
 
@@ -47,7 +47,7 @@ def editSession(request, pk):
 
 
 @teacher_only
-def editSettingsSession(request, pk):   
+def edit_settings_session(request, pk):
     teacher = get_object_or_404(Teacher, user=request.user)  
     session = get_object_or_404(Session, id=pk, teacher=teacher)
 
@@ -71,7 +71,7 @@ def editSettingsSession(request, pk):
 
 
 @teacher_only
-def deleteSession(request, pk):
+def delete_session(request, pk):
     teacher = get_object_or_404(Teacher, user=request.user)
     session = get_object_or_404(Session, id=pk, teacher=teacher)
     
@@ -90,7 +90,7 @@ def deleteSession(request, pk):
 
 
 @teacher_only
-def sessionPage(request, pk):
+def session_page(request, pk):
     teacher = get_object_or_404(Teacher, user=request.user)
     session = get_object_or_404(Session, id=pk, teacher=teacher)
     exams = session.getExams()
@@ -114,7 +114,7 @@ def exam(request, session_pk, exam_pk):
 
 
 @teacher_only
-def sessionAllCredentials(request, pk):
+def session_all_credentials(request, pk):
     teacher = get_object_or_404(Teacher, user=request.user)
     session = get_object_or_404(Session, id=pk, teacher=teacher)
     exams = session.getExams()
@@ -124,7 +124,7 @@ def sessionAllCredentials(request, pk):
 
 
 @teacher_only
-def generateExamsConfirmation(request, pk):
+def generate_exams_confirmation(request, pk):
     teacher = get_object_or_404(Teacher, user=request.user)
     session = get_object_or_404(Session, id=pk, teacher=teacher)
     students = Student.objects.filter(session=session)
@@ -146,7 +146,7 @@ def generateExamsConfirmation(request, pk):
 
 
 @teacher_only
-def terminateSessionConfirmation(request, pk):
+def terminate_session_confirmation(request, pk):
     teacher = get_object_or_404(Teacher, user=request.user)
     session = get_object_or_404(Session, id=pk, teacher=teacher)
 
@@ -162,7 +162,7 @@ def terminateSessionConfirmation(request, pk):
 
 
 @teacher_only
-def lockSession(request, pk):
+def lock_session(request, pk):
     teacher = get_object_or_404(Teacher, user=request.user)
     session = get_object_or_404(Session, id=pk, teacher=teacher)
     session.is_locked = True
@@ -172,7 +172,7 @@ def lockSession(request, pk):
 
 
 @teacher_only
-def unlockSession(request, pk):
+def unlock_session(request, pk):
     teacher = get_object_or_404(Teacher, user=request.user)
     session = get_object_or_404(Session, id=pk, teacher=teacher)
     session.is_locked = False

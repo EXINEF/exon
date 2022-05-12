@@ -8,7 +8,7 @@ from .models import *
 
 
 @student_only
-def studentStartExam(request):
+def student_start_exam(request):
 	exam = Exam.objects.get(student=request.user)
 	if not exam.session.is_open():
 		return redirect('student-exam-error')
@@ -26,7 +26,7 @@ def studentStartExam(request):
 
 
 @student_only
-def studentExam(request, ):
+def student_exam(request, ):
 	exam = Exam.objects.get(student=request.user)
 	if not exam.is_started():
 		return redirect('student-start-exam')
@@ -41,12 +41,12 @@ def studentExam(request, ):
 	return redirect('student-exam-question', questions[0].pk)
 
 
-def studentExamTimeExpired(request):
+def student_exam_time_expired(request):
 	return render(request, 'student/exam-time-expired.html')
 
 
 @student_only
-def studentExamQuestion(request, pk):
+def student_exam_question(request, pk):
 	exam = Exam.objects.get(student=request.user)
 	if not exam.is_started():
 		return redirect('student-start-exam')
@@ -79,7 +79,7 @@ def studentExamQuestion(request, pk):
 
 
 @student_only
-def studentConfirmationFinishExam(request):
+def student_confirmation_finish_exam(request):
 	exam = Exam.objects.get(student=request.user)
 	
 	if not exam.is_started():
@@ -103,7 +103,7 @@ def studentConfirmationFinishExam(request):
 
 
 @student_only
-def studentExamError(request):
+def student_exam_error(request):
 	exam = Exam.objects.get(student=request.user)
 	if exam.session.is_open() and not exam.is_started():
 		return redirect('student-start-exam')
@@ -112,7 +112,7 @@ def studentExamError(request):
 
 
 @student_only
-def studentResult(request):
+def student_result(request):
 	exam = Exam.objects.get(student=request.user)
 	questions = ExamQuestion.objects.filter(exam=exam)
 	answersList = []

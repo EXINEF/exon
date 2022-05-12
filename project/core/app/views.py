@@ -14,7 +14,7 @@ def indexPage(request):
 
 
 @unauthenticated_user
-def studentLogin(request):
+def student_login(request):
 	if request.method == 'POST':
 		token = request.POST.get('token')
 		
@@ -45,13 +45,13 @@ def studentLogin(request):
 	return render(request, 'auth/student-login.html', context)
 
 
-def logoutPage(request):
+def logout_page(request):
 	logout(request)
 	return redirect('index')
 
 
 @unauthenticated_user
-def teacherLogin(request):
+def teacher_login(request):
 	if request.method == 'POST':
 		username = request.POST.get('username')
 		password = request.POST.get('password')

@@ -6,7 +6,7 @@ from .forms import *
 
 
 @teacher_only
-def allStudents(request, pk):   
+def all_students(request, pk):
     teacher = get_object_or_404(Teacher, user=request.user)
     session = get_object_or_404(Session, id=pk, teacher=teacher)
     students = Student.objects.filter(session=session)
@@ -16,7 +16,7 @@ def allStudents(request, pk):
 
 
 @teacher_only
-def addStudent(request, pk):
+def add_student(request, pk):
     teacher = get_object_or_404(Teacher, user=request.user)
     session = get_object_or_404(Session, id=pk, teacher=teacher)
 
@@ -40,7 +40,7 @@ def addStudent(request, pk):
 
 
 @teacher_only
-def editStudent(request, session_pk, student_pk):   
+def edit_student(request, session_pk, student_pk):
     teacher = get_object_or_404(Teacher, user=request.user)
     student = get_object_or_404(Student, id=student_pk)
 
@@ -59,7 +59,7 @@ def editStudent(request, session_pk, student_pk):
 
 
 @teacher_only
-def deleteStudent(request, session_pk, student_pk):
+def delete_student(request, session_pk, student_pk):
     teacher = get_object_or_404(Teacher, user=request.user)
     student = get_object_or_404(Student, id=student_pk)
     

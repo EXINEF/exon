@@ -6,7 +6,7 @@ from .forms import *
 
 
 @teacher_only
-def addQuestion(request, pk):
+def add_question(request, pk):
 	form = QuestionForm()
 	
 	if request.method == 'POST':
@@ -37,7 +37,7 @@ def addQuestion(request, pk):
 
 
 @teacher_only
-def editQuestion(request, subjectpk, pk):
+def edit_question(request, subjectpk, pk):
 	teacher = get_object_or_404(Teacher, user=request.user)
 	question = get_object_or_404(Question, id=pk, teacher=teacher)
 	answers = get_list_or_404(Answer, question=question)
@@ -64,7 +64,7 @@ def editQuestion(request, subjectpk, pk):
 
 
 @teacher_only
-def deleteQuestion(request, subjectpk, pk):
+def delete_question(request, subjectpk, pk):
 	teacher = get_object_or_404(Teacher, user=request.user)
 	question = get_object_or_404(Question, id=pk, teacher=teacher)
 	
