@@ -27,12 +27,17 @@ def studentLogin(request):
 				messages.error(request, 'You are a teacher, you have to log in as a teacher')
 				return redirect('index')
 			else:
-				login(request, user)
-				messages.success(request, 'Authentication as a student successful')
 				exam = Exam.objects.get(student=user)
+				if exam.session.is_locked:
+					messages.error(request, 'ERROR: The session you are trying to Login is LOCKED, ask to the teacher to unlock it.')
+					return redirect('student-login')
+				
+				login(request, user)
+				
 				if exam is not None:
 					access = Access(session=exam.session, exam=exam, ip = get_client_ip(request))
 					access.save()
+				messages.success(request, 'Authentication as a student successful')
 				return redirect('student-start-exam')
 		else:
 			messages.error(request, 'Username OR password is incorrect')

@@ -26,10 +26,14 @@
     </a>
   </p>
 <div class="collapse" id="collapseExample">
-    <div class="card card-body">
-        {% for student in students %}
-        <p>{{student}}</p>
-        {% endfor %}
+
+  <div class="card bg-white text-dark">
+      <div class="card-header">Registeres Students {{students.count}}</div>
+        <div class="card-body">
+          {% for student in students %}
+          <p>{{student}}</p>
+          {% endfor %}
+        </div>
     </div>
 </div>
 

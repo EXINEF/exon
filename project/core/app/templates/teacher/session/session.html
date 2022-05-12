@@ -7,8 +7,11 @@
 <h4>STATUS: {{session.get_status}}</h4>
 <h5>Subject: {{session.subject}}</h5>
 
+<a class="btn btn-success" href="{% url 'teacher-subject' session.subject.pk %}">Go to the Subject</a>
+  
+
 {% if session.get_status == 'MISSING CONFIGURATION' %}
-<div class="card">
+<div class="card bg-dark text-white">
     <div class="card-header">SESSION IS MISSING CONFIGURATION SETTINGS</div>
       <div class="card-body">
     <h6>Your exam session is not fully configurated, proceed to finish with the configuration:</h6>
@@ -18,7 +21,7 @@
 
 {% elif session.get_status == 'READY' %}
 
-<div class="card">
+<div class="card bg-dark text-white">
     <div class="card-header">STUDENTS REGISTERED TO THIS SESSION: {{session.get_students_registered}}</div>
       <div class="card-body">
     <h6>You can add a student to the Exam Session manually or loading a .csv file:</h6>
@@ -26,7 +29,7 @@
     </div>
 </div>
 
-<div class="card">
+<div class="card bg-dark text-white">
     <div class="card-header">EDIT SESSION SETTINGS</div>
       <div class="card-body">
     <h6>You can edit the settings of a Session:</h6>
@@ -36,7 +39,7 @@
     </div>
 </div>
 
-<div class="card">
+<div class="card bg-dark text-white">
   <div class="card-header">GENERATE EXAMS (cannot go back later)</div>
     <div class="card-body">
   <h6>Here you can generate the exams, before doing this check if all the settings are good before proceding.</h6>
@@ -68,7 +71,7 @@
   <h5>Started Exams: {{num_started_exams}}/{{exams.count}}</h5>
   <h5>Finished Exams: {{num_finished_exams}}/{{exams.count}}</h5>
   <a class="btn btn-success" href="{% url 'teacher-all-credentials' session.id %}">Show All Credentials</a>
-  <a class="btn btn-danger" href="{% url 'teacher-all-credentials' session.id %}">Terminate the Session</a>
+  <a class="btn btn-danger" href="{% url 'teacher-terminate-session-confirmation' session.id %}">Terminate the Session</a>
 
 
 <h5>Accesses List:</h5>

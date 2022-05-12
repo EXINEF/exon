@@ -4,7 +4,7 @@ from django.shortcuts import get_object_or_404, render
 from .decorators import *
 from .forms import *
 from .models import *
-from . utils import generateUserExamQuestionsForStudent
+from . utils import select_random_question_poll_from_subject, generate_user_and_exam_for_student
 
 @teacher_only
 def addSession(request, pk):
@@ -96,7 +96,7 @@ def sessionPage(request, pk):
     exams = session.getExams()
     num_started_exams = session.getStartedExams(exams)
     num_finished_exams = session.getFinishedExams(exams)
-    accesses = Access.objects.filter()
+    accesses = Access.objects.filter(session=session)
 
     context = {'session':session, 'exams':exams, 'num_started_exams':num_started_exams, 'num_finished_exams':num_finished_exams, 'accesses':accesses}
     return render(request,'teacher/session/session.html', context)
@@ -111,7 +111,6 @@ def exam(request, session_pk, exam_pk):
 
     context = {'session':session, 'exam':exam, 'exam_questions':exam_questions}
     return render(request,'teacher/exam/exam.html', context)
-
 
 
 @teacher_only
@@ -131,16 +130,37 @@ def generateExamsConfirmation(request, pk):
     students = Student.objects.filter(session=session)
     
     if request.method == 'POST':
-        messages.success(request,'The Exams for the Session: %s were created successfuly' % session.name)
+        questions_poll = select_random_question_poll_from_subject(session.subject,session.number_of_questions)
+
         for student in students:
-            generateUserExamQuestionsForStudent(session, student)
+            generate_user_and_exam_for_student(session, student, questions_poll)
 
         session.is_started = True
         session.save()
+
+        messages.success(request,'The Exams for the Session: %s were created successfuly' % session.name)
         return redirect('teacher-session', session.pk)
 
     context = {'session':session, 'students':students, } 
     return render(request, 'teacher/session/generate-exams-confirmation.html', context)
+
+
+@teacher_only
+def terminateSessionConfirmation(request, pk):
+    teacher = get_object_or_404(Teacher, user=request.user)
+    session = get_object_or_404(Session, id=pk, teacher=teacher)
+
+    if request.method == 'POST':
+        session.is_locked = True
+        session.is_finished = True
+        session.save()
+
+        messages.success(request,'The Exam\'s Session: %s was terminated successfuly' % session.name)
+        return redirect('teacher-session', session.pk)
+
+    context = {'session':session, } 
+    return render(request, 'teacher/session/terminate-session-confirmation.html', context)
+
 
 @teacher_only
 def lockSession(request, pk):

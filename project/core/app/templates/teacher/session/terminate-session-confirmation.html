@@ -1,0 +1,22 @@
+{% extends 'core/base.html' %}
+
+{% block content %}
+
+<h3>Do you want to terminate the Exam Session {{session.name}}</h3>
+
+<h5>ATTENTION: Once you terminate the Exam Session, you will not be able to go back.</h5>
+<ul>
+    <li>All exams will be terminated, so students that are doing the exams will be kicked out from the exam</li>
+    <li>The session will be locked, and no student will be able to do an exam</li>
+</ul>
+
+<form action="" method="POST">
+    {% csrf_token %}
+    <button type="submit" class="btn btn-danger">Yes, I want to terminate the Exam Session</button>
+</form>
+
+<a class="btn btn-success" href="{% url 'teacher-session' session.id %}">No, I want to go back</a>
+{% endblock content %}
+
+
+
