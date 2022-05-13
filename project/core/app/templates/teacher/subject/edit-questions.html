@@ -20,7 +20,11 @@
         <thread>
             <tr>
                 <th scope="col">Question</th>
-                <th scope="col"><i class="fas fa-trash-alt"></i> Delete</th>
+                <th scope="col">Answered</th>
+                <th scope="col">Correct</th>
+                <th scope="col">Blank</th>
+                <th scope="col">Wrong</th>
+                <th scope="col">Delete</th>
             </tr>
         </thread>
         <tbody>
@@ -28,7 +32,15 @@
               {% for question in questions %}
                 <tr>
                 <th scope="row"><a class="table"href="{% url 'teacher-edit-question' subject.id question.id  %}" >{{question.text}}</a></th>
-                </tr>
+                {% with question.get_statistics as statistics %}
+                <th scope="col">{{statistics.0}}</th>
+                <th scope="col">{{statistics.1}}</th>
+                <th scope="col">{{statistics.2}}</th>
+                <th scope="col">{{statistics.3}}</th>
+                {% endwith %}
+                
+                <th scope="col"><a class="table"href="{% url 'teacher-delete-question' subject.id question.id  %}" ><i class="fas fa-trash-alt"></i></a></th>
+              </tr>
                 {% endfor %}
             </tr>
         </tbody>

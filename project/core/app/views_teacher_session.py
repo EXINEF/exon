@@ -71,6 +71,24 @@ def edit_settings_session(request, pk):
 
 
 @teacher_only
+def edit_weights_session(request, pk):
+    teacher = get_object_or_404(Teacher, user=request.user)  
+    session = get_object_or_404(Session, id=pk, teacher=teacher)
+
+    form = WeightsSessionForm(instance = session)
+    
+    if request.method == 'POST':
+        form = WeightsSessionForm(request.POST, instance = session)
+        
+        if form.is_valid():
+            form.save()
+            messages.success(request, 'Session saved successfuly')
+            return redirect('teacher-session', session.pk)
+
+    context = {'form':form, 'session':session, }
+    return render(request, 'teacher/session/edit-weights-session.html', context)
+
+@teacher_only
 def delete_session(request, pk):
     teacher = get_object_or_404(Teacher, user=request.user)
     session = get_object_or_404(Session, id=pk, teacher=teacher)

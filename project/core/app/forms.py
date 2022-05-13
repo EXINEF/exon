@@ -39,6 +39,13 @@ class SettingsSessionForm(ModelForm):
 		model = Session
 		fields = ['number_of_questions', 'duration','weight_correct_answer','weight_blank_answer','weight_wrong_answer']
 
+
+class WeightsSessionForm(ModelForm):
+	class Meta:
+		model = Session
+		fields = ['weight_correct_answer','weight_blank_answer','weight_wrong_answer']
+
+
 class StudentForm(ModelForm):
 	class Meta:
 		model = Student

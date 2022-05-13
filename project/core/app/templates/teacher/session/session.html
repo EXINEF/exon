@@ -143,6 +143,9 @@ Show Accesses: {{accesses.count}}</a>
 <a class="btn btn-danger" href="{% url 'teacher-correct-exams' session.id %}">Correct Exams Again</a>
     
 <br>
+<a class="btn btn-warning" href="{% url 'teacher-edit-weights-session' session.id %}">Edit Session's Weights</a>
+<br>
+
 <a href="#" class="btn btn-success" data-bs-toggle="collapse" data-bs-target="#collapse_exams" aria-expanded="false" aria-controls="collapse_exams">
   Show Exams's Result: {{exams.count}}</a>
   
@@ -159,7 +162,9 @@ Show Accesses: {{accesses.count}}</a>
                 <th scope="col">Correct Answers</th>
                 <th scope="col">Blank Answers</th>
                 <th scope="col">Wrong Answers</th>
-                <th scope="col">Votation</th>
+                <th scope="col">Result</th>
+                <th scope="col">Votation out of 10</th>
+                <th scope="col">Votation out of 30</th>
                 <th scope="col">Finish Time</th>
               </tr>
             </thead>
@@ -172,6 +177,8 @@ Show Accesses: {{accesses.count}}</a>
                 <td>{{exam.blank_num}} / {{exam.session.number_of_questions}}</td>
                 <td>{{exam.wrong_num}} / {{exam.session.number_of_questions}}</td>
                 <td>{{exam.votation}} / {{exam.session.getMaximumScore}}</td>
+                <td>{{exam.get_votation_out_of_10}}/10</td>
+                <td>{{exam.get_votation_out_of_30}}/30</td>
                 <td>{{exam.finish_datetime}}</td>
                 </tr>
                 {% endfor %}

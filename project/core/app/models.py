@@ -65,6 +65,17 @@ class Question(models.Model):
 	def __str__(self):
 		return '%s - %s' % (self.teacher.full_name(), self.text)
 
+	def get_statistics(self):
+		questions = ExamQuestion.objects.filter(question=self)
+		correct = 0
+		blank = 0
+		for question in questions:
+			if question.answer is None:
+				blank += 1
+			elif question.answer.is_correct:
+				correct += 1
+		return questions.count(),correct, blank, (questions.count()-correct-blank) 
+
 
 class Answer(models.Model):
 	text = models.TextField(null=True)
@@ -206,6 +217,12 @@ class Exam(models.Model):
 	def isExpired(self):
 		return self.getExpirationTime() < datetime.now(timezone.utc)
 	
+	def get_votation_out_of_10(self):
+		return int(self.votation / self.session.getMaximumScore() * 10)
+
+	def get_votation_out_of_30(self):
+		return int(self.votation / self.session.getMaximumScore() * 30)
+
 	def analyzeExam(self):
 		if not self.is_finished:
 			raise Exception('Exam must be finish to be analyzed')

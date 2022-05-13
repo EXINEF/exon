@@ -38,6 +38,7 @@ urlpatterns = [
 	path('teacher/add-session/<str:pk>', add_session, name='teacher-add-session'),
 	path('teacher/edit-session/<str:pk>', edit_session, name='teacher-edit-session'),
 	path('teacher/edit-settings-session/<str:pk>', edit_settings_session, name='teacher-edit-settings-session'),
+	path('teacher/edit-weights-session/<str:pk>', edit_weights_session, name='teacher-edit-weights-session'),
 	path('teacher/delete-session/<str:pk>', delete_session, name='teacher-delete-session'),
 	path('teacher/exam/<str:session_pk>/<str:exam_pk>', exam, name='teacher-exam'),
 	path('teacher/all-credentials/<str:pk>', session_all_credentials, name='teacher-all-credentials'),
