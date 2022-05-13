@@ -1,14 +1,26 @@
 {% extends 'core/base.html' %}
-
+{% load crispy_forms_tags %}
 {% block content %}
 
-<h2>Add Student to Session: {{session.name}}</h2>
+
+<div class="container-fluid text-light py-3">
+    <header class="text-center">
+        <h1 class = ""> Add Student</h1>
+    </header>                    
+</div>
+<div class="container col-lg-4 mt-5">
     <form method="POST" action="">
         {% csrf_token %}
-            {{form.as_p}}
+            {{form | crispy}}
             
-        <input type="submit" value="Add New Student to Session">
+            <div class="d-grid gap-2 mt-2">
+                <input type="submit" value="Add Student" class="btn-block btn-success mt-2 rounded"/> 
+            </div>  
     </form>
+
+
+</div>
+    
 
 {% endblock content %}
 
