@@ -1,10 +1,12 @@
 from django.contrib import messages
 from django.shortcuts import get_object_or_404, render
-
+from django.http import HttpResponse
+from django.template.loader import get_template
+from xhtml2pdf import pisa
 from .decorators import *
 from .forms import *
 from .models import *
-from . utils import select_random_question_poll_from_subject, generate_user_and_exam_for_student
+from .utils import select_random_question_poll_from_subject, generate_user_and_exam_for_student
 
 @teacher_only
 def add_session(request, pk):
@@ -200,7 +202,7 @@ def unlock_session(request, pk):
 
 
 @teacher_only
-def teacher_correct_exams(request, pk):
+def correct_exams(request, pk):
     teacher = get_object_or_404(Teacher, user=request.user)
     session = get_object_or_404(Session, id=pk, teacher=teacher)
 
@@ -212,3 +214,30 @@ def teacher_correct_exams(request, pk):
 
     messages.success(request,'All the Exams of the Session: %s were corrected.' % session.name)
     return redirect('teacher-session', session.pk)
+
+@teacher_only
+def export_exam_pdf(request, session_pk, exam_pk):
+    teacher = get_object_or_404(Teacher, user=request.user)
+    session = get_object_or_404(Session, pk=session_pk, teacher=teacher)
+
+    exam = Exam.objects.get(pk=exam_pk)
+    questions = ExamQuestion.objects.filter(exam=exam)
+    answersList = []
+    for q in questions:
+        answers = Answer.objects.filter(question=q.question)
+        answersList.append(answers)
+
+    path = 'teacher/session/export-exams-pdf.html'
+    context = {'session':session, 'exam': exam, 'questions': questions, 'answersList': answersList, }
+    
+    response = HttpResponse(content_type='application/pdf')
+    file_name = '\'filename=EXAM_' + str(session.pk) + '_' + exam.token + '\''
+    response['Content-Disposition'] = file_name
+    template = get_template(path)
+    html = template.render(context)
+
+    pisa_status = pisa.CreatePDF(html, dest=response)
+
+    if pisa_status.err:
+        return HttpResponse('ERROR: writing the pdf')
+    return response

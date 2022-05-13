@@ -46,7 +46,8 @@ urlpatterns = [
 	path('teacher/terminate-session-confirmation/<str:pk>', terminate_session_confirmation, name='teacher-terminate-session-confirmation'),
 	path('teacher/lock-session/<str:pk>', lock_session, name='teacher-lock-session'),
 	path('teacher/unlock-session/<str:pk>', unlock_session, name='teacher-unlock-session'),
-	path('teacher/teacher-correct-exams/<str:pk>', teacher_correct_exams, name='teacher-correct-exams'),
+	path('teacher/correct-exams/<str:pk>', correct_exams, name='teacher-correct-exams'),
+	path('teacher/export-exam-pdf/<str:session_pk>/<str:exam_pk>', export_exam_pdf, name='teacher-export-exam-pdf'),
 
 	# STUDENT
 	path('teacher/add-student/<str:pk>', add_student, name='teacher-add-student'),

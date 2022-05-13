@@ -71,8 +71,6 @@
   <h5>Finished Exams: {{num_finished_exams}}/{{exams.count}}</h5>
   <a class="btn btn-success" href="{% url 'teacher-all-credentials' session.id %}">Show All Credentials</a>
   <a class="btn btn-danger" href="{% url 'teacher-terminate-session-confirmation' session.id %}">Terminate the Session</a>
-
-<br>
 <a href="#" class="btn btn-success" data-bs-toggle="collapse" data-bs-target="#collapse_exams" aria-expanded="false" aria-controls="collapse_exams">
 Show Exams: {{exams.count}}</a>
 

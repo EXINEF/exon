@@ -175,10 +175,6 @@ class Session(models.Model):
 				exam.save()
 
 
-class ExamQuestion(models.Model):
-	pass
-
-
 class Exam(models.Model):
 	token = models.CharField(max_length=16, null=True, unique=True)
 	
