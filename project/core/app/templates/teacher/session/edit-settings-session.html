@@ -1,12 +1,18 @@
 {% extends 'core/base.html' %}
-
+{% load crispy_forms_tags %}
 {% block content %}
 
-<h1>Edit Settings of Session: {{session.name}}</h1>
+<div class="container-fluid my-2 w-50 text-light p-2">
+    <h1>Edit Settings of Session: {{session.name}}</h1>
     <form method="POST" action="">
         {% csrf_token %}
-            {{form.as_p}}
-            <input type="submit" value="Save">
+            {{form | crispy }}
+            <div class="d-grid gap-3">
+                <input type="submit" class="btn btn-success mt-2" value="Add Question">
+             </div>
     </form>
+
+</div>
+
 
 {% endblock content %}

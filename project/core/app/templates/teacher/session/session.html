@@ -7,7 +7,7 @@
 
 
   
-
+<!--Missing Config Page-->
 {% if session.get_status == 'MISSING CONFIGURATION' %}
 
 <div class="row">
@@ -26,7 +26,7 @@
     
      
     
-  
+<!--Ready Page--> 
 {% elif session.get_status == 'READY' %}
 
 <div class="row">
@@ -48,110 +48,116 @@
         <div class="col-md">
           <div class="card">
             <div class="card-body">
-              <h5 class="card-title">Card title</h5>
-              <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-              <button type="button" class="btn btn-primary">Button</button>
+              <h4 class=" text-black">EDIT SESSION SETTINGS</h4>
+              <h6 class="text-black">Number of Questions: {{session.number_of_questions}}</h6>
+              <h6 class="text-black">Overall Difficulty: TODO</h6>
+              <h6 class="text-black">Start Datetime: {{session.start_datetime}}</h6>
+              <h6 class="text-black">Expiration Datetime: {{session.expiration_datetime}}</h6>
+              <h6 class="text-black">Weight For Correct Answer: {{session.weight_correct_answer}}</h6>
+              <h6 class="text-black">Weight For Blank Answer: {{session.weight_blank_answer}}</h6>
+              <h6 class="text-black">Weight For Wrong Answer: {{session.weight_wrong_answer}}</h6>
+              <a class="btn btn-warning" href="{% url 'teacher-edit-settings-session' session.id %}">Edit General Settings</a>
+              <a class="btn btn-warning" href="{% url 'teacher-edit-session' session.id %}">Edit All Settings</a>
             </div>
           </div>
         </div>
         <div class="col-md">
           <div class="card">
             <div class="card-body">
-              <h5 class="card-title">Card title</h5>
-              <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-              <button type="button" class="btn btn-primary">Button</button>
+              <h4 class="card-title text-black">Student Information</h4>
+              <h6 class="text-black">Students registered: {{session.get_students_registered}}</h6>
+              <a class="btn btn-success" href="{% url 'teacher-all-students' session.id %}">Show all registered Students</a>
+              </div>
             </div>
-          </div>
         </div>
         <div class="col-md">
           <div class="card">
             <div class="card-body">
-              <h5 class="card-title">Card title</h5>
-              <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-              <button type="button" class="btn btn-primary">Button</button>
+              <h4 class="text-black">Generate Exam</h5>
+                <h6 class="text-black">Here you can generate the exams, before doing this check if all the settings are good before proceding.</h6>
+              <a class="btn btn-danger" href="{% url 'teacher-generate-exams-confirmation' session.id %}">GENERATE EXAMS</a>
             </div>
           </div>
         </div>
       </div>
     </div>
       <div class="card-body">
-    <h6>You can add a student to the Exam Session manually or loading a .csv file:</h6>
-    <a class="btn btn-success" href="{% url 'teacher-all-students' session.id %}">Show all registered Students</a>
     </div>
-</div>
 
-<div class="card bg-dark text-white">
-    <div class="card-header">EDIT SESSION SETTINGS</div>
-      <div class="card-body">
-    <h6>You can edit the settings of a Session:</h6>
-    <a class="btn btn-warning" href="{% url 'teacher-edit-settings-session' session.id %}">Edit General Settings</a>
-    <a class="btn btn-warning" href="{% url 'teacher-edit-session' session.id %}">Edit All Settings</a>
-    </div>
-</div>
 
-<div class="card bg-dark text-white">
-  <div class="card-header">GENERATE EXAMS (cannot go back later)</div>
-    <div class="card-body">
-  <h6>Here you can generate the exams, before doing this check if all the settings are good before proceding.</h6>
-  <h6>Number of Questions: {{session.number_of_questions}}</h6>
-  <h6>Overall Difficulty: TODO</h6>
-  <h6>Start Datetime: {{session.start_datetime}}</h6>
-  <h6>Expiration Datetime: {{session.expiration_datetime}}</h6>
-  <h6>Weight For Correct Answer: {{session.weight_correct_answer}}</h6>
-  <h6>Weight For Blank Answer: {{session.weight_blank_answer}}</h6>
-  <h6>Weight For Wrong Answer: {{session.weight_wrong_answer}}</h6>
-  <h6>Students registered: {{session.get_students_registered}}</h6>
-  <a class="btn btn-danger" href="{% url 'teacher-generate-exams-confirmation' session.id %}">GENERATE EXAMS</a>
+
+
+
+<!--Started Page-->    
+{% elif session.get_status == 'STARTED' %}
+
+<div class="row">
+  <div class="col-sm-8 col-12 mt-2">
+    {% if session.is_locked%}
+    <h1 class="text-white display-6">STATUS: LOCKED</h1>
+  </div>
+  <div class="col-md-4 mt-4 mx-auto">
+    <a class="btn btn-danger float-end" href="{% url 'teacher-unlock-session' session.id %}">Unlock the Session</a>
+    <a class="btn btn-danger float-end" href="{% url 'teacher-terminate-session-confirmation' session.id %}">Terminate the Session</a>
   </div>
 </div>
 
-
-
-{% elif session.get_status == 'STARTED' %}
-
-
-  {% if session.is_locked %}
-    <h5>The Session is locked, so students cannot login it, to unlock it click here</h5>
-    <a class="btn btn-danger" href="{% url 'teacher-unlock-session' session.id %}">Unlock the Session</a>
+    <h5>The Session is locked, so students cannot login</h5>
+    
   {% else %}
-  <h5>The Session is NOT locked, so students can login it, if you want to lock it click here</h5>
-    <a class="btn btn-warning" href="{% url 'teacher-lock-session' session.id %}">Lock the Session</a>
+    <h1 class="text-white display-6">STATUS: UNLOCKED</h1>
+    </div>
+    <div class="col-md-4 mt-4 mx-auto">
+       <a class="btn btn-warning float-end" href="{% url 'teacher-lock-session' session.id %}">Lock the Session</a>
+       <a class="btn btn-danger float-end" href="{% url 'teacher-terminate-session-confirmation' session.id %}">Terminate the Session</a>
+    </div>
+  </div>
+  <h5>The Session is NOT locked, so students can login</h5>
   {% endif %}
-
+    
   <h5>Started Exams: {{num_started_exams}}/{{exams.count}}</h5>
   <h5>Finished Exams: {{num_finished_exams}}/{{exams.count}}</h5>
-  <a class="btn btn-success" href="{% url 'teacher-all-credentials' session.id %}">Show All Credentials</a>
-  <a class="btn btn-danger" href="{% url 'teacher-terminate-session-confirmation' session.id %}">Terminate the Session</a>
-
-
-<h5>Accesses List:</h5>
-
-<table class="table table-light table-striped">
-  <thead>
-    <tr>
-      <th scope="col">TOKEN</th>
-      <th scope="col">Num Of Accesses</th>
-      <th scope="col">Student</th>
-      <th scope="col">IP</th>
-      <th scope="col">Date</th>
-    </tr>
-  </thead>
-  <tbody>
+  <a class="btn btn-success " href="{% url 'teacher-all-credentials' session.id %}">Show All Credentials</a>
   
-      {% for access in accesses %}
-      <tr>
-      <th scope="row">{{access.exam.token}}</a></th>
 
-      <td>{{access.get_num_of_access_token}}</td>
-      <td>{{access.exam.student.last_name}} {{access.exam.student.first_name}}</td>
-      <td>{{access.ip}}</td>
-      <td>{{access.creation_datetime}}</td>
-      </tr>
-      {% endfor %}
-   
+
+
+
+
+<div class="card mb-4 mt-3">
+  <div class="card mb-4 mt-3">
+    <div class="card-header">
+      <h2 class="table">Accesses List</h2>
+    </div>
+    <table class="table table-light table-striped">
+      <thead>
+        <tr>
+          <th scope="col">TOKEN</th>
+          <th scope="col">Num Of Accesses</th>
+          <th scope="col">Student</th>
+          <th scope="col">IP</th>
+          <th scope="col">Date</th>
+        </tr>
+      </thead>
+      <tbody>
       
-  </tbody>
-</table>
+          {% for access in accesses %}
+          <tr>
+          <th scope="row">{{access.exam.token}}</a></th>
+    
+          <td>{{access.get_num_of_access_token}}</td>
+          <td>{{access.exam.student.last_name}} {{access.exam.student.first_name}}</td>
+          <td>{{access.ip}}</td>
+          <td>{{access.creation_datetime}}</td>
+          </tr>
+          {% endfor %}
+       
+          
+      </tbody>
+    </table>
+  </div>
+</div>
+
 
 See for each Token/Exam/Student how many access did, (each access has a date and ip)
 Accept the Login of a student when the session is closed, so that he can join again
