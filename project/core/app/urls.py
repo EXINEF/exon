@@ -5,7 +5,7 @@ from .views_student import *
 from .views_teacher import dashboard
 from .views_teacher_question import add_question, edit_question, delete_question
 from .views_teacher_session import *
-from .views_teacher_student import add_student, all_students, delete_student, edit_student
+from .views_teacher_student import add_student, load_file_students, all_students, delete_student, edit_student
 from .views_teacher_subject import add_subject, delete_subject, edit_questions, edit_subject, load_questions_file, subject_page
 
 urlpatterns = [
@@ -51,6 +51,7 @@ urlpatterns = [
 
 	# STUDENT
 	path('teacher/add-student/<str:pk>', add_student, name='teacher-add-student'),
+	path('teacher/load-file-students/<str:pk>', load_file_students, name='teacher-load-file-students'),
 	path('teacher/all-students/<str:pk>', all_students, name='teacher-all-students'),
 	path('teacher/delete-student/<str:session_pk>/<str:student_pk>', delete_student, name='teacher-delete-student'),
 	path('teacher/edit-student/<str:session_pk>/<str:student_pk>', edit_student, name='teacher-edit-student'),

@@ -1,6 +1,8 @@
 from django.contrib import messages
 from django.shortcuts import get_object_or_404, render
+from io import StringIO
 
+import csv
 from .decorators import *
 from .forms import *
 
@@ -13,6 +15,37 @@ def all_students(request, pk):
 
     context = {'students':students, 'session':session}
     return render(request, 'teacher/student/all-students.html', context)
+
+
+@teacher_only
+def load_file_students(request, pk):
+    teacher = get_object_or_404(Teacher, user=request.user)
+    session = get_object_or_404(Session, id=pk, teacher=teacher)
+
+    if request.method == 'POST':
+        
+        upload_file = request.FILES['file']
+        file = upload_file.read().decode('utf-8')
+        csv_data = csv.reader(StringIO(file), delimiter=',')
+
+        for row in csv_data:
+            if Student.objects.filter(session=session, matricola=row[0]).exists(): 
+                messages.error(request, 'ERROR: a student with this matricola( %s ) already exist in this session.' % (row[0]))
+                return redirect('teacher-all-students', session.id)
+
+        for row in csv_data:
+            Student.objects.create(
+                first_name=row[2],
+                last_name=row[1],
+                email = row[3],
+                matricola = row[0],
+                session=session
+            )        
+        messages.success(request, 'Your students were loaded successfuly for session: %s' % (session.name))
+        return redirect('teacher-all-students', session.pk)
+        
+    context = {'session':session}
+    return render(request, 'teacher/student/load-file-students.html', context)
 
 
 @teacher_only

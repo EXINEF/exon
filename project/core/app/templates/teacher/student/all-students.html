@@ -4,7 +4,7 @@
 
 <h2>All Students:</h2>
 <a class="btn btn-success" href="{% url 'teacher-add-student' session.id %}">Add Student Manually</a>
-<a class="btn btn-success" href="{% url 'teacher-add-student' session.id %}">Load Students by a .csv FILE</a>
+<a class="btn btn-success" href="{% url 'teacher-load-file-students' session.id %}">Load Students by a .csv FILE</a>
 <a class="btn btn-warning" href="{% url 'teacher-session' session.id %}">Go back to Session Page</a>
 
 <table class="table table-light table-striped">
