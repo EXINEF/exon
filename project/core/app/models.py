@@ -35,6 +35,11 @@ class Subject(models.Model):
 	def __str__(self):
 		return '%s - %s' % (self.name, self.teacher.full_name())
 	
+	def get_display_description(self):
+		if self.description is None or self.description == '':
+			return 'No description available.'
+		return self.description[:30] + '...'
+
 	def getNumOfQuestion(self):
 		return Question.objects.filter(subject=self).count()
 

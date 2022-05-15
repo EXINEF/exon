@@ -21,7 +21,7 @@
                 <div class="card">
                     <div class="card-body">
                         <h5 class="card-title">{{subject.name}}</h5>
-                        <p class="card-text text-dark">{{subject.description}}</p>
+                        <p class="card-text text-dark">{{subject.get_display_description}}</p>
                         <a class="btn btn-dark mt-3" href="{% url 'teacher-edit-subject' subject.id %}"
                             class="text-decoration-none text-white">Edit</a>
                         <a class="btn btn-dark mt-3" href="{% url 'teacher-delete-subject' subject.id %}"
