@@ -108,8 +108,8 @@
     <h1 class="text-white display-6">STATUS: UNLOCKED</h1>
     </div>
     <div class="col-md-4 mt-4 mx-auto">
-       <a class="btn btn-yellow float-end" style="border-radius:1em" href="{% url 'teacher-lock-session' session.id %}">Lock the Session</a>
-       <a class="btn btn-red float-end" style="border-radius:1em" href="{% url 'teacher-terminate-session-confirmation' session.id %}">Terminate the Session</a>
+       <a class="btn float-end" style="border-radius:1em; background-color:#ebcb8b" href="{% url 'teacher-lock-session' session.id %}">Lock the Session</a>
+       <a class="btn float-end" style="border-radius:1em; background-color:#bf616a" href="{% url 'teacher-terminate-session-confirmation' session.id %}">Terminate the Session</a>
     </div>
   </div>
   <h5>The Session is NOT locked, so students can login</h5>
@@ -117,14 +117,14 @@
     
   <h5>Started Exams: {{num_started_exams}}/{{exams.count}}</h5>
   <h5>Finished Exams: {{num_finished_exams}}/{{exams.count}}</h5>
-  <a class="btn btn-green " style="border-radius:1em" href="{% url 'teacher-all-credentials' session.id %}">Show All Credentials</a>
+  <a class="btn" style="border-radius:1em; background-color:#a3be8c" href="{% url 'teacher-all-credentials' session.id %}">Show All Credentials</a>
   
 
 
 
 
 
-<div class="card mb-4 mt-3" style="border-radius:1em;">
+
   <div class="card mb-4 mt-3" style="border-radius:1em;">
     <div class="card-header">
       <h2 class="table">Accesses List</h2>
