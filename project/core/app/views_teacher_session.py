@@ -6,7 +6,7 @@ from xhtml2pdf import pisa
 from .decorators import *
 from .forms import *
 from .models import *
-from .utils import select_random_question_poll_from_subject, generate_user_and_exam_for_student
+from .utils import select_random_question_poll_from_subject, generate_user_and_exam_for_student, send_token_by_email_for_exam
 
 @teacher_only
 def add_session(request, pk):
@@ -241,3 +241,18 @@ def export_exam_pdf(request, session_pk, exam_pk):
     if pisa_status.err:
         return HttpResponse('ERROR: writing the pdf')
     return response
+
+
+
+@teacher_only
+def send_tokens_by_email(request, session_pk):
+    teacher = get_object_or_404(Teacher, user=request.user)
+    session = get_object_or_404(Session, pk=session_pk, teacher=teacher)
+
+    exams = Exam.objects.filter(session=session)
+
+    for exam in exams:
+        send_token_by_email_for_exam(session, exam)
+
+    messages.success(request,'All the Tokens of the Session: %s were sent by email to the students.' % session.name)
+    return redirect('teacher-session', session.pk)

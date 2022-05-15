@@ -48,6 +48,7 @@ urlpatterns = [
 	path('teacher/unlock-session/<str:pk>', unlock_session, name='teacher-unlock-session'),
 	path('teacher/correct-exams/<str:pk>', correct_exams, name='teacher-correct-exams'),
 	path('teacher/export-exam-pdf/<str:session_pk>/<str:exam_pk>', export_exam_pdf, name='teacher-export-exam-pdf'),
+	path('teacher/send-tokens-by-email/<str:session_pk>', send_tokens_by_email, name='teacher-send-tokens-by-email'),
 
 	# STUDENT
 	path('teacher/add-student/<str:pk>', add_student, name='teacher-add-student'),
