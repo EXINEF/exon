@@ -35,8 +35,8 @@
     <h4 class="text-white">STATUS: {{session.get_status}}</h4>
   </div>
   <div class="col-md-4 mt-4 mx-auto">
-    <a class="btn btn-success float-end" href="{% url 'teacher-subject' session.subject.pk %}">Go to the Subject</a>
-    <a class="btn btn-danger float-end" href="{% url 'teacher-delete-session' session.id %}">DELETE THIS SESSION</a>
+    <a class="btn btn-success float-end" style="border-radius:1em;" href="{% url 'teacher-subject' session.subject.pk %}">Go to the Subject</a>
+    <a class="btn btn-danger float-end" style="border-radius:1em;" href="{% url 'teacher-delete-session' session.id %}">DELETE THIS SESSION</a>
   </div>
 </div>
 
@@ -46,7 +46,7 @@
     <div class="container-fluid">
       <div class="row">
         <div class="col-md">
-          <div class="card">
+          <div class="card " style="border-radius:1em;">
             <div class="card-body">
               <h4 class=" text-black">EDIT SESSION SETTINGS</h4>
               <h6 class="text-black">Number of Questions: {{session.number_of_questions}}</h6>
@@ -56,26 +56,26 @@
               <h6 class="text-black">Weight For Correct Answer: {{session.weight_correct_answer}}</h6>
               <h6 class="text-black">Weight For Blank Answer: {{session.weight_blank_answer}}</h6>
               <h6 class="text-black">Weight For Wrong Answer: {{session.weight_wrong_answer}}</h6>
-              <a class="btn btn-warning" href="{% url 'teacher-edit-settings-session' session.id %}">Edit General Settings</a>
-              <a class="btn btn-warning" href="{% url 'teacher-edit-session' session.id %}">Edit All Settings</a>
+              <a class="btn btn-warning" style="border-radius:1em;" href="{% url 'teacher-edit-settings-session' session.id %}">Edit General Settings</a>
+              <a class="btn btn-warning" style="border-radius:1em;" href="{% url 'teacher-edit-session' session.id %}">Edit All Settings</a>
             </div>
           </div>
         </div>
         <div class="col-md">
-          <div class="card">
+          <div class="card" style="border-radius:1em;">
             <div class="card-body">
               <h4 class="card-title text-black">Student Information</h4>
               <h6 class="text-black">Students registered: {{session.get_students_registered}}</h6>
-              <a class="btn btn-success" href="{% url 'teacher-all-students' session.id %}">Show all registered Students</a>
+              <a class="btn btn-success" style="border-radius:1em;" href="{% url 'teacher-all-students' session.id %}">Show all registered Students</a>
               </div>
             </div>
         </div>
         <div class="col-md">
-          <div class="card">
+          <div class="card" style="border-radius:1em;">
             <div class="card-body">
               <h4 class="text-black">Generate Exam</h5>
                 <h6 class="text-black">Here you can generate the exams, before doing this check if all the settings are good before proceding.</h6>
-              <a class="btn btn-danger" href="{% url 'teacher-generate-exams-confirmation' session.id %}">GENERATE EXAMS</a>
+              <a class="btn btn-danger" style="border-radius:1em;" href="{% url 'teacher-generate-exams-confirmation' session.id %}">GENERATE EXAMS</a>
             </div>
           </div>
         </div>
@@ -124,8 +124,8 @@
 
 
 
-<div class="card mb-4 mt-3">
-  <div class="card mb-4 mt-3">
+<div class="card mb-4 mt-3" style="border-radius:1em;">
+  <div class="card mb-4 mt-3" style="border-radius:1em;">
     <div class="card-header">
       <h2 class="table">Accesses List</h2>
     </div>
