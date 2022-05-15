@@ -35,8 +35,8 @@
     <h4 class="text-white">STATUS: {{session.get_status}}</h4>
   </div>
   <div class="col-md-4 mt-4 mx-auto">
-    <a class="btn btn-teal float-end" style=" border-radius:1em" href="{% url 'teacher-subject' session.subject.pk %}">Go to the Subject</a>
-    <a class="btn btn-red float-end" style="border-radius:1em;" href="{% url 'teacher-delete-session' session.id %}">DELETE THIS SESSION</a>
+    <a class="btn float-end" style=" border-radius:1em; background-color:#2E3440;" href="{% url 'teacher-subject' session.subject.pk %}">Go to the Subject</a>
+    <a class="btn float-end" style="border-radius:1em; background-color:#BF616A;" href="{% url 'teacher-delete-session' session.id %}">DELETE THIS SESSION</a>
   </div>
 </div>
 
@@ -46,36 +46,36 @@
     <div class="container-fluid">
       <div class="row">
         <div class="col-md">
-          <div class="card " style="border-radius:1em;">
+          <div class="card " style="border-radius:1em; background-color:#2E3440;">
             <div class="card-body">
-              <h4 class=" text-black">EDIT SESSION SETTINGS</h4>
-              <h6 class="text-black">Number of Questions: {{session.number_of_questions}}</h6>
-              <h6 class="text-black">Overall Difficulty: TODO</h6>
-              <h6 class="text-black">Start Datetime: {{session.start_datetime}}</h6>
-              <h6 class="text-black">Expiration Datetime: {{session.expiration_datetime}}</h6>
-              <h6 class="text-black">Weight For Correct Answer: {{session.weight_correct_answer}}</h6>
-              <h6 class="text-black">Weight For Blank Answer: {{session.weight_blank_answer}}</h6>
-              <h6 class="text-black">Weight For Wrong Answer: {{session.weight_wrong_answer}}</h6>
-              <a class="btn btn-yellow" style="border-radius:1em;" href="{% url 'teacher-edit-settings-session' session.id %}">Edit General Settings</a>
-              <a class="btn btn-yellow" style="border-radius:1em;" href="{% url 'teacher-edit-session' session.id %}">Edit All Settings</a>
+              <h4 class="text-light">EDIT SESSION SETTINGS</h4>
+              <h6 class="text-light">Number of Questions: {{session.number_of_questions}}</h6>
+              <h6 class="text-light">Overall Difficulty: TODO</h6>
+              <h6 class="text-light">Start Datetime: {{session.start_datetime}}</h6>
+              <h6 class="text-light">Expiration Datetime: {{session.expiration_datetime}}</h6>
+              <h6 class="text-light">Weight For Correct Answer: {{session.weight_correct_answer}}</h6>
+              <h6 class="text-light">Weight For Blank Answer: {{session.weight_blank_answer}}</h6>
+              <h6 class="text-light">Weight For Wrong Answer: {{session.weight_wrong_answer}}</h6>
+              <a class="btn" style="border-radius:1em; background-color:#ebcb8b;" href="{% url 'teacher-edit-settings-session' session.id %}">Edit General Settings</a>
+              <a class="btn" style="border-radius:1em; background-color:#ebcb8b;" href="{% url 'teacher-edit-session' session.id %}">Edit All Settings</a>
             </div>
           </div>
         </div>
         <div class="col-md">
-          <div class="card" style="border-radius:1em;">
+          <div class="card" style="border-radius:1em; background-color:#2E3440;">
             <div class="card-body">
-              <h4 class="card-title text-black">Student Information</h4>
-              <h6 class="text-black">Students registered: {{session.get_students_registered}}</h6>
-              <a class="btn btn-green" style="border-radius:1em;" href="{% url 'teacher-all-students' session.id %}">Show all registered Students</a>
+              <h4 class="card-title text-light">Student Information</h4>
+              <h6 class="text-light">Students registered: {{session.get_students_registered}}</h6>
+              <a class="btn" style="border-radius:1em; background-color:#a3be8c" href="{% url 'teacher-all-students' session.id %}">Show all registered Students</a>
               </div>
             </div>
         </div>
         <div class="col-md">
-          <div class="card" style="border-radius:1em;">
+          <div class="card" style="border-radius:1em; background-color:#2E3440;">
             <div class="card-body">
-              <h4 class="text-black">Generate Exam</h5>
-                <h6 class="text-black">Here you can generate the exams, before doing this check if all the settings are good before proceding.</h6>
-              <a class="btn btn-red" style="border-radius:1em;" href="{% url 'teacher-generate-exams-confirmation' session.id %}">GENERATE EXAMS</a>
+              <h4 class="text-light">Generate Exam</h5>
+                <h6 class="text-light">Here you can generate the exams, before doing this check if all the settings are good before proceding.</h6>
+              <a class="btn " style="border-radius:1em; background-color:#BF616A" href="{% url 'teacher-generate-exams-confirmation' session.id %}">GENERATE EXAMS</a>
             </div>
           </div>
         </div>

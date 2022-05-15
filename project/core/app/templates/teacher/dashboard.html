@@ -9,7 +9,7 @@
             <h1 class="text-white display-3">Dashboard</h1>
         </div>
         <div class="col-md-2 mt-4 mx-auto ">
-            <a href="{% url 'teacher-add-subject' %}" class="btn  float-end" style="border-radius:1em; background-color:#81A1C1;">Add Subject</a>
+            <a href="{% url 'teacher-add-subject' %}" class="btn  float-end" style="border-radius:1em; background-color:#2E3440;">Add Subject</a>
         </div>
 
     </div>
@@ -22,7 +22,7 @@
                     <div class="card-body">
                         <h5 class="card-title">{{subject.name}}</h5>
                         <p class="card-text text-light">{{subject.description}} </p>
-                        <a class="btn mt-3" style="border-radius:1em; background-color:#8FBCBB" href="{% url 'teacher-edit-subject' subject.id %}"
+                        <a class="btn mt-3" style="border-radius:1em; background-color:#a3be8c" href="{% url 'teacher-edit-subject' subject.id %}"
                             class="text-decoration-none text-white">Edit</a>
                         <a class="btn  mt-3" style="border-radius:1em; background-color:#BF616A" href="{% url 'teacher-delete-subject' subject.id %}"
                             class="text-decoration-none text-white"> DELETE</a>
