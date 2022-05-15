@@ -36,7 +36,7 @@ def student_exam(request, ):
 	
 	questions = ExamQuestion.objects.filter(exam=exam).order_by('pk')
 	for q in questions:
-		if q.answer is None:
+		if not q.is_answered():
 			return redirect('student-exam-question', q.pk)
 	return redirect('student-exam-question', questions[0].pk)
 
@@ -54,27 +54,33 @@ def student_exam_question(request, pk):
 		return redirect('student-exam-result')
 	
 	if exam.isExpired():
-		exam.finish_datetime = Now()
-		exam.analyzeExam()
+		exam.set_finished()
 		exam.save()
 		return redirect('student-exam-time-expired')
 	
 	main_question = get_object_or_404(ExamQuestion, id=pk)
+	main_question_answers = ExamAnswer.objects.filter(exam_question=main_question)
 	answers_main_question = Answer.objects.filter(question=main_question.question)
 	questions = ExamQuestion.objects.filter(exam=exam).order_by('pk')
-	
+
 	if request.method == 'POST':
-		for answer in answers_main_question:
-			
-			if int(request.POST.get('answer')) == answer.id:
-				main_question.answer = answer
-				break
-		
-		main_question.save()
+		main_question.delete_all_answers()
+		if main_question.question.get_type() == 'SINGLE CHOICE':
+			for answer in answers_main_question:
+				if int(request.POST.get('answer')) == answer.id:
+					exam_answer = ExamAnswer(exam_question=main_question, answer=answer)
+					exam_answer.save()
+					break
+		else:
+			for answer in answers_main_question:
+				if request.POST.get(str(answer.pk)) == '1':
+					exam_answer = ExamAnswer(exam_question=main_question, answer=answer)
+					exam_answer.save()	
+
 		return redirect('student-exam')
 	
 	context = {'exam': exam, 'questions': questions, 'main_question': main_question,
-	           'answers_main_question': answers_main_question, }
+	           'answers_main_question': answers_main_question, 'main_question_answers':main_question_answers}
 	return render(request, 'student/exam.html', context)
 
 
@@ -96,7 +102,7 @@ def student_confirmation_finish_exam(request):
 	questions = ExamQuestion.objects.filter(exam=exam).order_by('pk')
 	num_questions_answer = 0
 	for q in questions:
-		if q.answer is not None:
+		if q.is_answered():
 			num_questions_answer += 1
 	context = {'exam': exam, 'questions': questions, 'num_questions_answer': num_questions_answer, }
 	return render(request, 'student/confirmation-finish-exam.html', context)

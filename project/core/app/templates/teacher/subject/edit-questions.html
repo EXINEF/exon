@@ -20,6 +20,7 @@
         <thread>
             <tr>
                 <th scope="col">Question</th>
+                <th scope="col">Type</th>
                 <th scope="col">Answered</th>
                 <th scope="col">Correct</th>
                 <th scope="col">Blank</th>
@@ -32,6 +33,7 @@
               {% for question in questions %}
                 <tr>
                 <th scope="row"><a class="table"href="{% url 'teacher-edit-question' subject.id question.id  %}" >{{question.text}}</a></th>
+                <th scope="col">{{question.get_type}}</th>
                 {% with question.get_statistics as statistics %}
                 <th scope="col">{{statistics.0}}</th>
                 <th scope="col">{{statistics.1}}</th>

@@ -13,7 +13,7 @@ class QuestionForm(ModelForm):
 	class Meta:
 		model = Question
 		fields = '__all__'
-		exclude = ['teacher', 'subject']
+		exclude = ['teacher', 'subject', 'type']
 
 
 class AnswerForm(ModelForm):

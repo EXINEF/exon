@@ -63,3 +63,8 @@ def send_token_by_email_for_exam(session, exam):
 
     email = EmailMessage(mail_object, mail_body, to=[exam.student.email])
     email.send()
+
+def get_answer_value(value):
+    if value is None:
+        return False
+    return True

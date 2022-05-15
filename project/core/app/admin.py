@@ -36,6 +36,8 @@ class ExamAdmin(admin.ModelAdmin):
 class ExamQuestionAdmin(admin.ModelAdmin):
 	model = ExamQuestion
 
+class ExamAnswerAdmin(admin.ModelAdmin):
+	model = ExamAnswer
 
 class StudentAdmin(admin.ModelAdmin):
 	model = Student
@@ -51,5 +53,6 @@ admin.site.register(Question, QuestionAdmin)
 admin.site.register(Session, SessionAdmin)
 admin.site.register(Exam, ExamAdmin)
 admin.site.register(ExamQuestion, ExamQuestionAdmin)
+admin.site.register(ExamAnswer, ExamAnswerAdmin)
 admin.site.register(Student, StudentAdmin)
 admin.site.register(Access, AccessAdmin)

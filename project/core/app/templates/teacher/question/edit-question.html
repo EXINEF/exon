@@ -6,15 +6,19 @@
 </div>
 <div class="container-fluid my-2 w-50 text-light p-2">
     <form method="POST" action="">
-        {% csrf_token %} {{form | crispy}} {% for answer in answers %}
+        {% csrf_token %} 
+        {{form | crispy}} 
+        
+        {% for answer in answers %}
         <div class="input-group my-2 mt-2">
             <div class="input-group-text">
-                <input class="form-check-input mt-0" type="radio" id="is_correct{{forloop.counter}}" name="answer" {% if answer.is_correct %} checked {% endif %} value="{{forloop.counter}}" />
+                <input class="form-check-input mt-0" type="checkbox" id="is_correct{{forloop.counter}}" name="is_correct{{forloop.counter}}" {% if answer.is_correct %}checked{% endif %} value="{{answer.is_correct}}">
             </div>
             <input class="form-control" id="answer{{i}}" name="answer{{forloop.counter}}" value="{{answer.text}}" />
         </div>
 
         {% endfor %}
+
         <div class="d-grid gap-3">
             <input type="submit" class="btn btn-success mt-2" value="Save" />
         </div>

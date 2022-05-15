@@ -40,10 +40,6 @@ class Subject(models.Model):
 
 
 class Question(models.Model):
-	TYPE = (
-        ('SINGLE_CHOICE', 'SINGLE_CHOICE'),
-        ('MULTIPLE_CHOICE', 'MULTIPLE_CHOICE'),
-    )
 
 	DIFFICULTY = (
         ('VERY EASY', 'VERY EASY'),
@@ -55,8 +51,7 @@ class Question(models.Model):
 
 	text = models.TextField(null=True)
 	difficulty = models.CharField(max_length=100, default='NORMAL', blank=True, null=True, choices=DIFFICULTY)
-	type = models.CharField(max_length=30, default='SINGLE_CHOICE', blank=True, null=True, choices=TYPE)
-	
+
 	subject = models.ForeignKey(Subject, on_delete=models.CASCADE, null=True)
 	teacher = models.ForeignKey(Teacher, on_delete=models.CASCADE, null=True)
 	
@@ -65,15 +60,21 @@ class Question(models.Model):
 	def __str__(self):
 		return '%s - %s' % (self.teacher.full_name(), self.text)
 
+	def get_type(self):
+		if Answer.objects.filter(question=self, is_correct=True).count()==1:
+			return 'SINGLE CHOICE'
+		return 'MULTIPLE CHOICE'
+		
 	def get_statistics(self):
 		questions = ExamQuestion.objects.filter(question=self)
 		correct = 0
 		blank = 0
 		for question in questions:
-			if question.answer is None:
-				blank += 1
-			elif question.answer.is_correct:
+			status = question.get_status()
+			if status=='CORRECT':
 				correct += 1
+			elif status=='BLANK':
+				blank +=1
 		return questions.count(),correct, blank, (questions.count()-correct-blank) 
 
 
@@ -231,29 +232,62 @@ class Exam(models.Model):
 		self.votation = 0
 		
 		for q in questions:
-			if q.answer is None:
-				self.blank_num += 1
-			elif q.answer.is_correct:
+			status = q.get_status()
+
+			if status == 'CORRECT':
 				self.correct_num += 1
+			elif status == 'BLANK':
+				self.blank_num += 1
 			else:
 				self.wrong_num += 1
-		
-		self.votation = (self.correct_num * self.session.weight_correct_answer + self.blank_num * self.session.weight_blank_answer + self.wrong_num * self.session.weight_wrong_answer) / questions.count() * self.session.weight_correct_answer
 
+		self.votation = self.correct_num * self.session.weight_correct_answer + self.blank_num * self.session.weight_blank_answer + self.wrong_num * self.session.weight_wrong_answer
+		self.save()
 
 class ExamQuestion(models.Model):
 	exam = models.ForeignKey(Exam, on_delete=models.CASCADE, null=True)
 	question = models.ForeignKey(Question, on_delete=models.CASCADE, null=True)
-	answer = models.ForeignKey(Answer, on_delete=models.CASCADE, null=True)
-	
+		
 	creation_datetime = models.DateTimeField(auto_now_add=True, null=True)
 	
 	def __str__(self):
-		return '%s - %s %s' % (self.exam, self.question, self.answer)
+		return '%s - %s' % (self.exam, self.question)
 	
 	def is_answered(self):
-		return self.answer is not None
+		return ExamAnswer.objects.filter(exam_question = self).count()!=0
 
+	def delete_all_answers(self):
+		ExamAnswer.objects.filter(exam_question=self).delete()
+
+	def get_status(self):
+		if not self.is_answered():
+			return 'BLANK'
+		if self.is_correct():
+			return 'CORRECT'
+		return 'WRONG'
+
+	def is_correct(self):
+		answers = ExamAnswer.objects.filter(exam_question=self)
+		for answer in answers:
+			if not answer.answer.is_correct:
+				return False
+		return True
+
+	def has_this_answer(self, pk):
+		exam_answers = ExamAnswer.objects.filter(exam_question=self)
+		for a in exam_answers:
+			if a.answer.pk == pk:
+				return True
+		return False
+
+class ExamAnswer(models.Model):
+	exam_question = models.ForeignKey(ExamQuestion, on_delete=models.CASCADE, null=True)
+	answer = models.ForeignKey(Answer, on_delete=models.CASCADE, null=True)\
+
+	creation_datetime = models.DateTimeField(auto_now_add=True, null=True)
+
+	def __str__(self):
+		return '%s - %s' % (self.exam_question, self.answer)
 
 class Student(models.Model):
 	first_name = models.CharField(max_length=255, null=True)

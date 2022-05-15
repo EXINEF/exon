@@ -1,6 +1,6 @@
 {% extends 'core/base.html' %} {% block content %}
 
-<h2>Exam result for: {{request.user.last_name}} {{request.user.first_name}} - MAT: {{request.user.username}}</h2>
+<h2>Exam result for: {{request.user.last_name}} {{request.user.first_name}} - Token: {{request.user.username}}</h2>
 <h3>In this page you will have the results of your exam</h3>
 <h6>Total questions: {{exam.session.num_of_questions}}<h6>
 <h6>Correct Answers: {{exam.correct_num}}<h6>
@@ -13,6 +13,7 @@
 {% for q in questions %}
 
     <h5>{{q.question.text}}</h5>
+    <h6>Status: {{q.get_status}}</h6>
 
     {% for answers in answersList %} 
         {% if answers.0.question.pk == q.question.pk %}
