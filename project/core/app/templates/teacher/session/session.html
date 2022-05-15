@@ -16,8 +16,8 @@
     <h4 class="text-white">STATUS: {{session.get_status}}</h4>
   </div>
   <div class="col-md-4 mt-4 mx-auto">
-    <a class="btn btn-success float-end" href="{% url 'teacher-subject' session.subject.pk %}">Go to the Subject</a>
-    <a class="btn btn-success float-end" href="{% url 'teacher-edit-settings-session' session.id %}">Configure settings</a>
+    <a class="btn btn-teal float-end"  href="{% url 'teacher-subject' session.subject.pk %}">Go to the Subject</a>
+    <a class="btn btn-teal float-end" href="{% url 'teacher-edit-settings-session' session.id %}">Configure settings</a>
   </div>
 </div>
 <h5>Subject: {{session.subject}}</h5>
@@ -35,8 +35,8 @@
     <h4 class="text-white">STATUS: {{session.get_status}}</h4>
   </div>
   <div class="col-md-4 mt-4 mx-auto">
-    <a class="btn btn-success float-end" style="border-radius:1em;" href="{% url 'teacher-subject' session.subject.pk %}">Go to the Subject</a>
-    <a class="btn btn-danger float-end" style="border-radius:1em;" href="{% url 'teacher-delete-session' session.id %}">DELETE THIS SESSION</a>
+    <a class="btn btn-teal float-end" style=" border-radius:1em" href="{% url 'teacher-subject' session.subject.pk %}">Go to the Subject</a>
+    <a class="btn btn-red float-end" style="border-radius:1em;" href="{% url 'teacher-delete-session' session.id %}">DELETE THIS SESSION</a>
   </div>
 </div>
 
@@ -56,8 +56,8 @@
               <h6 class="text-black">Weight For Correct Answer: {{session.weight_correct_answer}}</h6>
               <h6 class="text-black">Weight For Blank Answer: {{session.weight_blank_answer}}</h6>
               <h6 class="text-black">Weight For Wrong Answer: {{session.weight_wrong_answer}}</h6>
-              <a class="btn btn-warning" style="border-radius:1em;" href="{% url 'teacher-edit-settings-session' session.id %}">Edit General Settings</a>
-              <a class="btn btn-warning" style="border-radius:1em;" href="{% url 'teacher-edit-session' session.id %}">Edit All Settings</a>
+              <a class="btn btn-yellow" style="border-radius:1em;" href="{% url 'teacher-edit-settings-session' session.id %}">Edit General Settings</a>
+              <a class="btn btn-yellow" style="border-radius:1em;" href="{% url 'teacher-edit-session' session.id %}">Edit All Settings</a>
             </div>
           </div>
         </div>
@@ -66,7 +66,7 @@
             <div class="card-body">
               <h4 class="card-title text-black">Student Information</h4>
               <h6 class="text-black">Students registered: {{session.get_students_registered}}</h6>
-              <a class="btn btn-success" style="border-radius:1em;" href="{% url 'teacher-all-students' session.id %}">Show all registered Students</a>
+              <a class="btn btn-green" style="border-radius:1em;" href="{% url 'teacher-all-students' session.id %}">Show all registered Students</a>
               </div>
             </div>
         </div>
@@ -75,7 +75,7 @@
             <div class="card-body">
               <h4 class="text-black">Generate Exam</h5>
                 <h6 class="text-black">Here you can generate the exams, before doing this check if all the settings are good before proceding.</h6>
-              <a class="btn btn-danger" style="border-radius:1em;" href="{% url 'teacher-generate-exams-confirmation' session.id %}">GENERATE EXAMS</a>
+              <a class="btn btn-red" style="border-radius:1em;" href="{% url 'teacher-generate-exams-confirmation' session.id %}">GENERATE EXAMS</a>
             </div>
           </div>
         </div>
@@ -97,8 +97,8 @@
     <h1 class="text-white display-6">STATUS: LOCKED</h1>
   </div>
   <div class="col-md-4 mt-4 mx-auto">
-    <a class="btn btn-danger float-end" href="{% url 'teacher-unlock-session' session.id %}">Unlock the Session</a>
-    <a class="btn btn-danger float-end" href="{% url 'teacher-terminate-session-confirmation' session.id %}">Terminate the Session</a>
+    <a class="btn red float-end" style="border-radius:1em" href="{% url 'teacher-unlock-session' session.id %}">Unlock the Session</a>
+    <a class="btn red float-end" style="border-radius:1em" href="{% url 'teacher-terminate-session-confirmation' session.id %}">Terminate the Session</a>
   </div>
 </div>
 
@@ -117,7 +117,7 @@
     
   <h5>Started Exams: {{num_started_exams}}/{{exams.count}}</h5>
   <h5>Finished Exams: {{num_finished_exams}}/{{exams.count}}</h5>
-  <a class="btn btn-success " href="{% url 'teacher-all-credentials' session.id %}">Show All Credentials</a>
+  <a class="btn btn-teal " style="border-radius:1em" href="{% url 'teacher-all-credentials' session.id %}">Show All Credentials</a>
   
 
 
