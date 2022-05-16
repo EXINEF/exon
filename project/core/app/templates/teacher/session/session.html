@@ -82,6 +82,76 @@
 
 {% elif session.get_status == 'STARTED' %}
 
+
+
+<div class="row">
+  <div class="col-sm-8 col-12 mt-2">
+    {% if session.is_locked%}
+    <h1 class="text-white display-6">STATUS: LOCKED</h1>
+  </div>
+  <div class="col-md-4 mt-4 mx-auto">
+    <a class="btn float-end" style="border-radius:1em; background-color:#bf616a" href="{% url 'teacher-unlock-session' session.id %}">Unlock the Session</a>
+    <a class="btn float-end" style="border-radius:1em; background-color:#bf616a" href="{% url 'teacher-terminate-session-confirmation' session.id %}">Terminate the Session</a>
+  </div>
+</div>
+
+    <h5>The Session is locked, so students cannot login</h5>
+    
+  {% else %}
+    <h1 class="text-white display-6">STATUS: UNLOCKED</h1>
+    </div>
+    <div class="col-md-4 mt-4 mx-auto">
+       <a class="btn float-end" style="border-radius:1em; background-color:#ebcb8b" href="{% url 'teacher-lock-session' session.id %}">Lock the Session</a>
+       <a class="btn float-end" style="border-radius:1em; background-color:#bf616a" href="{% url 'teacher-terminate-session-confirmation' session.id %}">Terminate the Session</a>
+    </div>
+  </div>
+  <h5>The Session is NOT locked, so students can login</h5>
+  {% endif %}
+    
+  <h5>Started Exams: {{num_started_exams}}/{{exams.count}}</h5>
+  <h5>Finished Exams: {{num_finished_exams}}/{{exams.count}}</h5>
+  <a class="btn" style="border-radius:1em; background-color:#a3be8c" href="{% url 'teacher-all-credentials' session.id %}">Show All Credentials</a>
+  
+
+
+
+
+
+
+  <div class="card mb-4 mt-3" style="border-radius:1em;">
+    <div class="card-header">
+      <h2 class="table">Accesses List</h2>
+    </div>
+    <table class="table table-light table-striped">
+      <thead>
+        <tr>
+          <th scope="col">TOKEN</th>
+          <th scope="col">Num Of Accesses</th>
+          <th scope="col">Student</th>
+          <th scope="col">IP</th>
+          <th scope="col">Date</th>
+        </tr>
+      </thead>
+      <tbody>
+      
+          {% for access in accesses %}
+          <tr>
+          <th scope="row">{{access.exam.token}}</a></th>
+    
+          <td>{{access.get_num_of_access_token}}</td>
+          <td>{{access.exam.student.last_name}} {{access.exam.student.first_name}}</td>
+          <td>{{access.ip}}</td>
+          <td>{{access.creation_datetime}}</td>
+          </tr>
+          {% endfor %}
+       
+          
+      </tbody>
+    </table>
+  </div>
+</div>
+
+
   {% if session.is_locked %}
     <h5>The Session is locked, so students cannot login, to unlock it click here</h5>
     <a class="btn btn-danger" href="{% url 'teacher-unlock-session' session.id %}">Unlock the Session</a>
