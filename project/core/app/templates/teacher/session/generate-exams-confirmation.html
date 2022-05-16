@@ -37,29 +37,23 @@
             <li class="text-light mt-2">You will not be able to to add/edit/delete questions</li>
             <div class="row">
               <div class="col">
-                <button type="submit" class="btn mt-5" style="border-radius: 1em; background-color:#a3be8c; ">Yes, I want to generate the exams</button>
-              </div>
+                <form action="" method="POST">
+                  {% csrf_token %}
+                  <button type="submit" class="btn mt-5" style="border-radius: 1em; background-color:#a3be8c; ">Yes, I want to generate the exams</button>
+                </form>
+                </div>
             <div class="col">
               <a class="btn mt-5" href="{% url 'teacher-session' session.id %}" style="border-radius: 1em; background-color:#bf616a; ">No, I want to modify something</a>
             </div>  
             </div>
-            <form action="" method="POST">
-                {% csrf_token %}
-                
-            </form>
-            
-            
           </div>
-
         </div>
       </div>
-      
     </div>  
-
-
   </div>
-
 </div>
+
+    
 
 
 {% endblock content %}
