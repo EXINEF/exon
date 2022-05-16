@@ -7,12 +7,12 @@
     <h5 class="text-white">Number of Questions : {{questions.count}}</h5>
   </div>
   <div class="col-md-2  mx-auto">
-    <a href="{% url 'teacher-add-question' subject.id %}" class="btn btn-light float-end">Add Question</a>
+    <a href="{% url 'teacher-add-question' subject.id %}" class="btn float-end" style="border-radius:1em; background-color:#2E3440">Add Question</a>
 </div>
 
 <!--Table-->   
 <div class="container-fluid">
-  <div class="card mb-4 mt-3">
+  <div class="card mb-4 mt-3" style="border-radius:1em">
     <div class="card-header">
         <h2 class="table">My Questions</h2>
     </div>
