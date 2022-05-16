@@ -7,40 +7,40 @@
     <h1 class="text-white display-3">Generate Exams for {{session.start_datetime}}</h1>
   </div>
   <div class="col-md-4 mt-4 mx-auto">
-    <a class="btn btn-teal float-end" style="border-radius: 1em;" href="{% url 'teacher-all-students' session.id %}">Show All The Students</a>
+    <a class="btn float-end" style="border-radius: 1em; background-color:#2E3440; " href="{% url 'teacher-all-students' session.id %}">Show All The Students</a>
   </div>
 
 </div>
 
 
 <div class="container d-flex justify-content-center align-items-center">
-  <div class="card shadow-lg text-white rounded-lg mt-5" style="text-align: center; border-radius: 1em;">
+  <div class="card shadow-lg text-white rounded-lg mt-5" style="text-align: center; border-radius: 1em; background-color:#2E3440;">
     <div class="card-header">
-      <h1 class="text-dark ">This is a summary of the session, please check if everything is alright</h1>
+      <h1 class="text-white ">This is a summary of the session, please check if everything is alright</h1>
       
       <div class="container mt-5  ">
         <div class="row">
           <div class="col mb-5">
-            <p1 class="text-dark float-start mx-5">Number of Questions: {{session.number_of_questions}}</p>
-              <p1 class="text-dark lead">Overall Difficulty: TODO</p>
-              <p1 class="text-dark lead">Start Datetime: {{session.start_datetime}}</p>
-              <p1 class="text-dark lead">Expiration Datetime: {{session.expiration_datetime}}</p>
-              <p1 class="text-dark lead">Weight For Correct Answer: {{session.weight_correct_answer}}</p>
-              <p1 class="text-dark lead">Weight For Blank Answer: {{session.weight_blank_answer}}</p>
-              <p1 class="text-dark lead">Weight For Wrong Answer: {{session.weight_wrong_answer}}</p>
-              <p1 class="text-dark lead">Students registered: {{session.get_students_registered}}</p>
+            <p1 class="text-light float-start mx-5">Number of Questions: {{session.number_of_questions}}</p>
+              <p1 class="text-light lead">Overall Difficulty: TODO</p>
+              <p1 class="text-light lead">Start Datetime: {{session.start_datetime}}</p>
+              <p1 class="text-light lead">Expiration Datetime: {{session.expiration_datetime}}</p>
+              <p1 class="text-light lead">Weight For Correct Answer: {{session.weight_correct_answer}}</p>
+              <p1 class="text-light lead">Weight For Blank Answer: {{session.weight_blank_answer}}</p>
+              <p1 class="text-light lead">Weight For Wrong Answer: {{session.weight_wrong_answer}}</p>
+              <p1 class="text-light lead">Students registered: {{session.get_students_registered}}</p>
           </div>
           <div class="col">
-            <h4 class="text-dark">Do you want to generate the exams?</h4>
-            <li class="text-dark mt-4">You will not be able to edit session settings</li>
-            <li class="text-dark mt-2">You will not be able to add/edit/delete students</li>
-            <li class="text-dark mt-2">You will not be able to to add/edit/delete questions</li>
+            <h4 class="text-light">Do you want to generate the exams?</h4>
+            <li class="text-light mt-4">You will not be able to edit session settings</li>
+            <li class="text-light mt-2">You will not be able to add/edit/delete students</li>
+            <li class="text-light mt-2">You will not be able to to add/edit/delete questions</li>
             <div class="row">
               <div class="col">
-                <button type="submit" class="btn btn-red mt-5" style="border-radius: 1em;">Yes, I want to generate the exams</button>
+                <button type="submit" class="btn mt-5" style="border-radius: 1em; background-color:#a3be8c; ">Yes, I want to generate the exams</button>
               </div>
             <div class="col">
-              <a class="btn btn-green mt-5" href="{% url 'teacher-session' session.id %}" style="border-radius: 1em;">No, I want to modify something</a>
+              <a class="btn mt-5" href="{% url 'teacher-session' session.id %}" style="border-radius: 1em; background-color:#bf616a; ">No, I want to modify something</a>
             </div>  
             </div>
             <form action="" method="POST">

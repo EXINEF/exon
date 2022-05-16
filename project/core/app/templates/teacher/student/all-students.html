@@ -9,9 +9,9 @@
       <h1 class="text-white display-3">All Students</h1>
     </div>
     <div class="col-md-6 mx-auto mt-3">
-      <a class="btn btn-success float-end" href="{% url 'teacher-add-student' session.id %}">Add Student Manually</a>
-      <a class="btn btn-success float-end" href="{% url 'teacher-add-student' session.id %}">Load Students by a .csv FILE</a>
-      <a class="btn btn-warning float-end" href="{% url 'teacher-session' session.id %}">Go back to Session Page</a>
+      <a class="btn float-end" style="border-radius:1em; background-color:#2E3440" href="{% url 'teacher-add-student' session.id %}">Add Student Manually</a>
+      <a class="btn float-end" style="border-radius:1em; background-color:#2E3440" href="{% url 'teacher-add-student' session.id %}">Load Students by a .csv FILE</a>
+      <a class="btn float-end" style="border-radius:1em; background-color:#2E3440" href="{% url 'teacher-session' session.id %}">Go back to Session Page</a>
   
     </div>
   
@@ -19,7 +19,11 @@
   
   </div>
   
-  <table class="table table-light table-striped">
+  <div class="card mb-4 mt-3" style="border-radius:1em;">
+    <div class="card-header">
+      <h2 class="table">Student List</h2>
+    </div>
+    <table class="table table-light table-striped">
       <thead>
         <tr>
           <th scope="col">MATRICOLA</th>
@@ -46,6 +50,8 @@
           
       </tbody>
   </table>
+  </div>
+  
   
 </div>
 
