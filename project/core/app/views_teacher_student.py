@@ -31,16 +31,14 @@ def load_file_students(request, pk):
         for row in csv_data:
             if Student.objects.filter(session=session, matricola=row[0]).exists(): 
                 messages.error(request, 'ERROR: a student with this matricola( %s ) already exist in this session.' % (row[0]))
-                return redirect('teacher-all-students', session.id)
-
-        for row in csv_data:
-            Student.objects.create(
-                first_name=row[2],
-                last_name=row[1],
-                email = row[3],
-                matricola = row[0],
-                session=session
-            )        
+            else:    
+                Student.objects.create(
+                    first_name=row[2],
+                    last_name=row[1],
+                    email = row[3],
+                    matricola = row[0],
+                    session=session
+                )
         messages.success(request, 'Your students were loaded successfuly for session: %s' % (session.name))
         return redirect('teacher-all-students', session.pk)
         

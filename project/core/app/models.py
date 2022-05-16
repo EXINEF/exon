@@ -121,8 +121,10 @@ class Session(models.Model):
 	def __str__(self):
 		return '%s - %s - %s' % (self.teacher, self.subject.name, self.start_datetime)
 	
-	def getName(self):
-		return '%s - %s' % (self.start_datetime, self.expiration_datetime)
+	def get_display_description(self):
+		if self.description is None or self.description == '':
+			return 'No description available.'
+		return self.description[:30] + '...'
 	
 	def is_open(self):
 		return self.start_datetime < datetime.now(

@@ -2,49 +2,60 @@
 
 {% block content %}
 
-<h1>Generate Exams for {{session.start_datetime}}</h1>
-<h5>ATTENTION: Once you have generated the exams you will not be able to go back.</h5>
-<ul>
-    <li>You will not be able to edit session settings</li>
-    <li>You will not be able to add/edit/delete students</li>
-    <li>You will not be able to to add/edit/delete questions</li>
-</ul>
+<div class="row">
+  <div class="col-sm-8 col-12 mt-2">
+    <h1 class="text-white display-3">Generate Exams for {{session.start_datetime}}</h1>
+  </div>
+  <div class="col-md-4 mt-4 mx-auto">
+    <a class="btn float-end" style="border-radius: 1em; background-color:#2E3440; " href="{% url 'teacher-all-students' session.id %}">Show All The Students</a>
+  </div>
 
-<h5>Here you have a summary of all the settings of the session, check if all the settings are good before proceding.</h5>
-  <p>Number of Questions: {{session.number_of_questions}}</p>
-  <p>Overall Difficulty: TODO</p>
-  <p>Start Datetime: {{session.start_datetime}}</p>
-  <p>Expiration Datetime: {{session.expiration_datetime}}</p>
-  <p>Weight For Correct Answer: {{session.weight_correct_answer}}</p>
-  <p>Weight For Blank Answer: {{session.weight_blank_answer}}</p>
-  <p>Weight For Wrong Answer: {{session.weight_wrong_answer}}</p>
-  <p>Students registered: {{session.get_students_registered}}</p>
-
-<p>
-    <a href="#" data-bs-toggle="collapse" data-bs-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
-      Click here for see a list of all the registered students
-    </a>
-  </p>
-<div class="collapse" id="collapseExample">
-
-  <div class="card bg-white text-dark">
-      <div class="card-header">Registeres Students {{students.count}}</div>
-        <div class="card-body">
-          {% for student in students %}
-          <p>{{student}}</p>
-          {% endfor %}
-        </div>
-    </div>
 </div>
 
 
-<h4>Do you want to generate the exams?</h4>
-<form action="" method="POST">
-    {% csrf_token %}
-    <button type="submit" class="btn btn-danger">Yes, I want to generate the exams</button>
-</form>
+<div class="container d-flex justify-content-center align-items-center">
+  <div class="card shadow-lg text-white rounded-lg mt-5" style="text-align: center; border-radius: 1em; background-color:#2E3440;">
+    <div class="card-header">
+      <h1 class="text-white ">This is a summary of the session, please check if everything is alright</h1>
+      
+      <div class="container mt-5  ">
+        <div class="row">
+          <div class="col mb-5">
+            <p1 class="text-light float-start mx-5">Number of Questions: {{session.number_of_questions}}</p>
+              <p1 class="text-light lead">Overall Difficulty: TODO</p>
+              <p1 class="text-light lead">Start Datetime: {{session.start_datetime}}</p>
+              <p1 class="text-light lead">Expiration Datetime: {{session.expiration_datetime}}</p>
+              <p1 class="text-light lead">Weight For Correct Answer: {{session.weight_correct_answer}}</p>
+              <p1 class="text-light lead">Weight For Blank Answer: {{session.weight_blank_answer}}</p>
+              <p1 class="text-light lead">Weight For Wrong Answer: {{session.weight_wrong_answer}}</p>
+              <p1 class="text-light lead">Students registered: {{session.get_students_registered}}</p>
+          </div>
+          <div class="col">
+            <h4 class="text-light">Do you want to generate the exams?</h4>
+            <li class="text-light mt-4">You will not be able to edit session settings</li>
+            <li class="text-light mt-2">You will not be able to add/edit/delete students</li>
+            <li class="text-light mt-2">You will not be able to to add/edit/delete questions</li>
+            <div class="row">
+              <div class="col">
+                <form action="" method="POST">
+                  {% csrf_token %}
+                  <button type="submit" class="btn mt-5" style="border-radius: 1em; background-color:#a3be8c; ">Yes, I want to generate the exams</button>
+                </form>
+                </div>
+            <div class="col">
+              <a class="btn mt-5" href="{% url 'teacher-session' session.id %}" style="border-radius: 1em; background-color:#bf616a; ">No, I want to modify something</a>
+            </div>  
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>  
+  </div>
+</div>
 
-<a class="btn btn-success" href="{% url 'teacher-session' session.id %}">No, I want to modify something</a>
+    
+
+
 {% endblock content %}
 
 
