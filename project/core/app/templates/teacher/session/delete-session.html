@@ -6,7 +6,7 @@
    <!--Center the div-->
     
    <div class="container  d-flex justify-content-center align-items-center">
-    <div class= "card shadow-lg bg-dark text-white rounded-lg mt-5 " style="text-align:center;">
+    <div class= "card shadow-lg text-white rounded-lg mt-5 " style="text-align:center; border-radius:1em; background-color:#2E3440;">
         <div class="card-header">
              <h1 class="text-white mt-5">Delete SESSION {{session.name}}</h1>
         </div>
@@ -15,10 +15,10 @@
                     {% csrf_token %}
                     <div class="row">
                         <div class="col-6">
-                            <button type="submit" class="btn btn-danger mt-5 mb-5 ">Yes, delete it</button>
+                            <button type="submit" style="border-radius: 1em; background-color:#bf616a " class="btn mt-5 mb-5 " >Yes, delete it</button>
                         </div>
                         <div class="col-6">
-                            <a class="btn btn-success mt-5 mb-5"href="{% url 'teacher-session' session.id %}">No, keep it</a>
+                            <a class="btn mt-5 mb-5" style="border-radius=1em; background-color:#a3be8c;" href="{% url 'teacher-session' session.id %}">No, keep it</a>
                     </div>
                     
                    
