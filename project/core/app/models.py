@@ -212,6 +212,7 @@ class Exam(models.Model):
 
 	def set_finished(self):
 		self.finish_datetime = datetime.now()
+		self.analyzeExam()
 	
 	def getExpirationTime(self):
 		return self.start_datetime + timedelta(minutes=self.session.duration)

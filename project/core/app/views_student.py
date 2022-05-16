@@ -60,7 +60,7 @@ def student_exam_question(request, pk):
 	
 	main_question = get_object_or_404(ExamQuestion, id=pk)
 	main_question_answers = ExamAnswer.objects.filter(exam_question=main_question)
-	answers_main_question = Answer.objects.filter(question=main_question.question)
+	answers_main_question = Answer.objects.filter(question=main_question.question).order_by('?')
 	questions = ExamQuestion.objects.filter(exam=exam).order_by('pk')
 
 	if request.method == 'POST':
