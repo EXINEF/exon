@@ -97,7 +97,6 @@ class Answer(models.Model):
 			return 'NONE'
 		return self.question.__str__() + ' --- ' + self.text + ' --- ' + str(self.is_correct)
 
-
 class Session(models.Model):
 	name = models.CharField(max_length=50, null=True)
 	description = models.TextField(blank=True, null=True)
@@ -221,10 +220,10 @@ class Exam(models.Model):
 		return self.getExpirationTime() < datetime.now(timezone.utc)
 	
 	def get_votation_out_of_10(self):
-		return int(self.votation / self.session.getMaximumScore() * 10)
+		return self.votation / self.session.getMaximumScore() * 10
 
 	def get_votation_out_of_30(self):
-		return int(self.votation / self.session.getMaximumScore() * 30)
+		return self.votation / self.session.getMaximumScore() * 30
 
 	def analyzeExam(self):
 		if not self.is_finished:
@@ -285,6 +284,19 @@ class ExamQuestion(models.Model):
 			if a.answer.pk == pk:
 				return True
 		return False
+	
+	def get_status_of_answer(self, pk):
+		exam_answers = ExamAnswer.objects.filter(exam_question=self)
+		for a in exam_answers:
+			if a.answer.pk == pk:
+				if a.answer.is_correct:
+					return 'CORRECT'
+				else:
+					return 'WRONG'
+		return 'BLANK'
+
+	def get_all_possibles_answers(self):
+		return Answer.objects.filter(question=self.question)
 
 class ExamAnswer(models.Model):
 	exam_question = models.ForeignKey(ExamQuestion, on_delete=models.CASCADE, null=True)

@@ -121,15 +121,11 @@ def student_exam_error(request):
 def student_result(request):
 	exam = Exam.objects.get(student=request.user)
 	questions = ExamQuestion.objects.filter(exam=exam)
-	answersList = []
-	for q in questions:
-		answers = Answer.objects.filter(question=q.question)
-		answersList.append(answers)
 	
 	if not exam.is_started():
 		return redirect('student-start-exam')
 	if not exam.is_finished():
 		return redirect('student-exam')
 	
-	context = {'exam': exam, 'questions': questions, 'answersList': answersList, }
+	context = {'exam': exam, 'questions': questions, }
 	return render(request, 'student/result.html', context)

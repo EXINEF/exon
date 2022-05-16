@@ -1,12 +1,17 @@
-{% extends 'core/base.html' %} {% block content %}
+{% extends 'core/base.html' %}
+{% load auth_extras %} 
+{% block content %}
 
 <h2>Exam result for: {{request.user.last_name}} {{request.user.first_name}} - Token: {{request.user.username}}</h2>
 <h3>In this page you will have the results of your exam</h3>
-<h6>Total questions: {{exam.session.num_of_questions}}<h6>
+<h6>Total questions: {{exam.session.number_of_questions}}<h6>
 <h6>Correct Answers: {{exam.correct_num}}<h6>
 <h6>Blank Answers: {{exam.blank_num}}<h6>
 <h6>Wrong Answers: {{exam.wrong_num}}<h6>
-{{exam.votation}}/{{exam.session.getMaximumScore}}
+<h6>Votation: {{exam.votation}}/{{exam.session.getMaximumScore}}<h6>
+<h6>Votation out of 10: {{exam.get_votation_out_of_10}} / 10<h6>
+<h6>Votation out of 30: {{exam.get_votation_out_of_30}} / 30<h6>
+
 
 <h3>Your exam</h3>
 
@@ -14,26 +19,20 @@
 
     <h5>{{q.question.text}}</h5>
     <h6>Status: {{q.get_status}}</h6>
-
-    {% for answers in answersList %} 
-        {% if answers.0.question.pk == q.question.pk %}
-        <ul>
-            {% for answer in answers %}
-            <li>
-                {% if q.answer.pk == answer.pk %} 
-                    {% if answer.is_correct %}
-                        <p class="text-success bg-dark">{{answer.text}}</p>
-                    {% else %}
-                        <p class="text-danger bg-dark">{{answer.text}}</p>
-                    {% endif %} 
-                {% else %}
-                    <p>{{answer.text}}</p>
-                {% endif %}
-            </li>
-            {% endfor %}
-        </ul>
+    <ul>
+    {% for answer in q.get_all_possibles_answers %}
+        {% if q|has_this_answer:answer.id %}
+            {% if q|get_status_of_answer:answer.id == 'CORRECT' %}
+                <p class="text-success bg-dark">{{answer.text}}</p>
+            {% else %}
+                <p class="text-danger bg-dark">{{answer.text}}</p>
+            {% endif %}
+        {% else %}
+            <li><p>{{answer.text}}</p></li>
         {% endif %} 
-    {% endfor %} 
+    {% endfor %}
+    </ul>
+
 {% endfor %}
 
 <a href="{% url 'index' %}"> index</a>

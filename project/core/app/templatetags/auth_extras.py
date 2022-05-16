@@ -17,9 +17,17 @@ def has_group(user, group_name):
     return True if group in user.groups.all() else False
 
 @register.filter(name='has_this_answer')
-def has_this_answer(main_question, pk): 
+def has_this_answer(exam_question, pk): 
     """
-        Returns all groups the user belongs to,
-        if belongs to No Groups return FALSE
+        Checks if an exam_question contains an answer,
+        by searching it with its primary key, that's unique for definition.    
     """
-    return main_question.has_this_answer(pk)
+    return exam_question.has_this_answer(pk)
+
+@register.filter(name='get_status_of_answer')
+def get_status_of_answer(exam_question, pk): 
+    """
+        Checks if an exam_question contains an answer,
+        by searching it with its primary key, that's unique for definition.    
+    """
+    return exam_question.get_status_of_answer(pk)
