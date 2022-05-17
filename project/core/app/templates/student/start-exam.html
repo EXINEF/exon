@@ -2,18 +2,32 @@
 
 {% block content %}
 
-<h2>Welcome, {{request.user.last_name}} {{request.user.first_name}} - MAT: {{request.user.username}}</h2>
-<h3>Are you ready to start your Exam?</h3>
 
 
-<h5>Number of questions: {{exam.session.number_of_questions}}</h5>
-<h5>Duration in minutes: {{exam.session.duration}}</h5>
+<div class="container d-flex justify-content-center align-items-center">
+    <div class="card shadow-lg text-white rounded-lg mt-5" style="border-radius:1em; background-color:#2E3440; text-align:center;">
+        <div class="card-header">
+            <h1 class="text-white mt-5">Welcome, {{request.user.last_name}} {{request.user.first_name}} - MAT: {{request.user.username}}</h1>
+            <h3 class="text-white">Are You Ready To Start Your Exam?</h3>
+            <h5 class="text-white">Number of questions: {{exam.session.number_of_questions}}</h5>
+            <h5 class="text-white">Duration in minutes: {{exam.session.duration}}</h5>
+
+            
+        </div>
+        <form action="" method="POST">
+            {% csrf_token %}
+            <button type="submit" class="btn" style="border-radius:1em; background-color:#a3be8c">Start it</button>
+        </form>
+
+    </div>
+
+</div>
+    
 
 
-<form action="" method="POST">
-    {% csrf_token %}
-    <button type="submit" class="btn btn-primary">Start it</button>
-</form>
+
+
+
 
 {% endblock content %}
 
