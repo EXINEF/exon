@@ -2,21 +2,25 @@
 {% load auth_extras %}
 {% block content %}
 
-<br>
-<div class="container">
-    <h4 class="text-end">{{request.user.last_name}} {{request.user.first_name}} - MAT: {{request.user.username}}</h4>
-    <h6 class="text-end">Is Expired: {{exam.isExpired}}</h6>
-    <div class="col-md-6 col-sm-6 col-xs-12">
-        <div class="row">
-                 <h2>Remaining time: </h2>
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-sm-10 col-12 mt-2">
+            <h5 class="text-white display-5">{{request.user.last_name}} {{request.user.first_name}} - MAT: {{request.user.username}}</h1>
+        </div>
+        <div class="col-md-2 mt-2 mx-auto">
+            <h2>Remaining time: </h2>
                  <ul id="countdown-1" class="countdown">
                     <li><span id="hours"></span> Hours </li>
                     <li><span id="minutes"></span> Minutes </li>
                     <li><span id="seconds"></span> Seconds </li>
                  </ul>
         </div>
-     </div>
-  </div>
+
+
+
+    </div>
+    
 
     
     <div class="row">
@@ -65,6 +69,9 @@
     </div>
 </div>
 
+
+
+<!--JavaScript-->
 <script>
     function makeTimer() {
        var endTime=new Date({{ exam.getExpirationTime|date:"U" }} * 1000);
