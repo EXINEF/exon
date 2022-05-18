@@ -81,7 +81,7 @@ def edit_questions(request, pk, page, results):
 	total_questions = Question.objects.filter(subject=subject).count()
 	questions = Question.objects.filter(subject=subject)[page * results:(page +1)*results]
 
-	myFilter = QuestionFilter(request.GET, queryset=questions)
+	myFilter = QuestionFilter(request.GET, queryset=Question.objects.filter(subject=subject))
 	questions = myFilter.qs
 
 	if page <= 0:
