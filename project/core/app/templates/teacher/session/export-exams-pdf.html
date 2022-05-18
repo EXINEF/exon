@@ -35,22 +35,11 @@
 {% for q in questions %}
 
     <h6>{{q.question.text}}</h6>
-
     {% for answers in answersList %} 
         {% if answers.0.question.pk == q.question.pk %}
         <ul>
             {% for answer in answers %}
-            <li>
-                {% if q.answer.pk == answer.pk %} 
-                    {% if answer.is_correct %}
-                        <p class="text-success bg-dark">{{answer.text}}</p>
-                    {% else %}
-                        <p class="text-danger bg-dark">{{answer.text}}</p>
-                    {% endif %} 
-                {% else %}
-                    <p>{{answer.text}}</p>
-                {% endif %}
-            </li>
+                  <li>{{answer.text}}</li>
             {% endfor %}
         </ul>
         {% endif %} 

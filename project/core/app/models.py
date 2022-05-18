@@ -198,9 +198,6 @@ class Exam(models.Model):
 	
 	def __str__(self):
 		return '%s - %s' % (self.token, self.session.subject.name)
-	
-	def get_student_account(self):
-		return Student.objects.filter(email=self.student.email)[0]
 
 	def is_started(self):
 		return self.start_datetime is not None
