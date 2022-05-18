@@ -2,40 +2,57 @@
 
 {% block content %}
 
-<h2>All Students:</h2>
-<a class="btn btn-success" href="{% url 'teacher-add-student' session.id %}">Add Student Manually</a>
-<a class="btn btn-success" href="{% url 'teacher-load-file-students' session.id %}">Load Students by a .csv FILE</a>
-<a class="btn btn-warning" href="{% url 'teacher-session' session.id %}">Go back to Session Page</a>
 
-<table class="table table-light table-striped">
-    <thead>
-      <tr>
-        <th scope="col">MATRICOLA</th>
-        <th scope="col">First Name</th>
-        <th scope="col">Last Name</th>
-        <th scope="col">Email</th>
-        <th scope="col">Edit</th>
-        <th scope="col">Delete</th>
-      </tr>
-    </thead>
-    <tbody>
-    
-        {% for student in students %}
+<div class="container-fluid">
+  <div class="row mt-3">
+    <div class="col-md-6 col-12">
+      <h1 class="text-white display-3">All Students</h1>
+    </div>
+    <div class="col-md-6 mx-auto mt-3">
+      <a class="btn float-end" style="border-radius:1em; background-color:#2E3440" href="{% url 'teacher-add-student' session.id %}">Add Student Manually</a>
+      <a class="btn float-end" style="border-radius:1em; background-color:#2E3440" href="{% url 'teacher-add-student' session.id %}">Load Students by a .csv FILE</a>
+      <a class="btn float-end" style="border-radius:1em; background-color:#2E3440" href="{% url 'teacher-session' session.id %}">Go back to Session Page</a>
+  
+    </div>
+  
+    </div>
+  
+  </div>
+  
+  <div class="card mb-4 mt-3" style="border-radius:1em;">
+    <div class="card-header">
+      <h2 class="table">Student List</h2>
+    </div>
+    <table class="table table-light table-striped">
+      <thead>
         <tr>
-        <th scope="row">{{student.matricola}}</a></th>
-        <td>{{student.first_name}}</td>
-        <td>{{student.last_name}}</td>
-        <td>{{student.email}}</td>
-        <td><a class="table"href="{% url 'teacher-edit-student' session.pk student.pk %}"><i class="fas fa-wrench"></i></a></td>
-        <td><a class="table"href="{% url 'teacher-delete-student' session.pk student.pk %}"><i class="fas fa-trash-alt"></i></a></td>
-      </tr>
-        {% endfor %}
-     
-        
-    </tbody>
-</table>
+          <th scope="col">MATRICOLA</th>
+          <th scope="col">First Name</th>
+          <th scope="col">Last Name</th>
+          <th scope="col">Email</th>
+          <th scope="col">Edit</th>
+          <th scope="col">Delete</th>
+        </tr>
+      </thead>
+      <tbody>
+      
+          {% for student in students %}
+          <tr>
+          <th scope="row">{{student.matricola}}</a></th>
+          <td>{{student.first_name}}</td>
+          <td>{{student.last_name}}</td>
+          <td>{{student.email}}</td>
+          <td><a class="table"href="{% url 'teacher-edit-student' session.pk student.pk %}"><i class="fas fa-wrench"></i></a></td>
+          <td><a class="table"href="{% url 'teacher-delete-student' session.pk student.pk %}"><i class="fas fa-trash-alt"></i></a></td>
+        </tr>
+          {% endfor %}
+       
+          
+      </tbody>
+  </table>
+  </div>
+  
+  
+</div>
 
 {% endblock content %}
-
-
-
