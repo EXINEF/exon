@@ -75,14 +75,20 @@ def edit_subject(request, pk):
 
 
 @teacher_only
-def edit_questions(request, pk):
+def edit_questions(request, pk, page, results):
 	teacher = get_object_or_404(Teacher, user=request.user)
 	subject = get_object_or_404(Subject, id=pk, teacher=teacher)
-	questions = Question.objects.filter(subject=subject)
+	total_questions = Question.objects.filter(subject=subject).count()
+	questions = Question.objects.filter(subject=subject)[page * results:(page +1)*results]
 
 	myFilter = QuestionFilter(request.GET, queryset=questions)
 	questions = myFilter.qs
 
-	
-	context = {'subject': subject, 'questions': questions, 'myFilter':myFilter}
+	if page <= 0:
+		previous = 0
+		next = 1
+	else:
+		previous = page - 1
+		next = page + 1
+	context = {'subject': subject, 'questions': questions, 'total_questions':total_questions, 'myFilter':myFilter, 'page':page, 'results':results, 'previous':previous, 'next':next}
 	return render(request, 'teacher/subject/edit-questions.html', context)

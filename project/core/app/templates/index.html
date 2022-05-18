@@ -1,4 +1,5 @@
 {% extends 'core/base.html' %} 
+{% load static %}
 {% block content %} 
 
 <div class="container d-flex align-items-center justify-content-center mt-5">
@@ -9,10 +10,14 @@
     <div class="container d-flex align-items-center justify-content-center ">
       <div class="row">
         <div class="col-6">
-          <a class="btn btn-light btn-lg mb-5 mt-5" href="{% url 'student-login' %}">STUDENT</a>
+          <a href="{% url 'student-login' %}">
+            <img src="{% static 'res/student.png' %}" alt="" width="200" height="200">
+          </a>
         </div>
         <div class="col-6">
-            <a class="btn btn-light btn-lg mb-5 mt-5" href="{% url 'teacher-login' %}">TEACHER</a>
+          <a href="{% url 'teacher-login' %}">
+            <img src="{% static 'res/teacher.png' %}" alt="" width="200" height="200">
+          </a>
         </div>
       </div>
     </div>

@@ -63,6 +63,6 @@ urlpatterns = [
 	path('teacher/add-subject', add_subject, name='teacher-add-subject'),
 	path('teacher/delete-subject/<str:pk>', delete_subject, name='teacher-delete-subject'),
 	path('teacher/edit-subject/<str:pk>', edit_subject, name='teacher-edit-subject'),
-	path('teacher/edit-questions/<str:pk>', edit_questions, name='teacher-edit-questions'),
+	path('teacher/edit-questions/<str:pk>/<int:page>/<int:results>', edit_questions, name='teacher-edit-questions'),
 
 ]
