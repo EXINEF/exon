@@ -1,140 +1,103 @@
 {% extends 'core/base.html' %}
 {% load auth_extras %}
 {% block content %}
-
-
 <div class="container-fluid">
-    <div class="row">
-        <div class="col-sm-10 col-12 mt-2">
-            <h5 class="text-white display-5">{{request.user.last_name}} {{request.user.first_name}} - MAT: {{request.user.username}}</h1>
-        </div>
-        <div class="col-md-2 mt-2 mx-auto">
-            <h2>Remaining time: </h2>
-                 <ul id="countdown-1" class="countdown">
-                    <li><span id="hours"></span> Hours </li>
-                    <li><span id="minutes"></span> Minutes </li>
-                    <li><span id="seconds"></span> Seconds </li>
-                 </ul>
-        </div>
-
-
-
-    </div>
-</div> 
-
-
-<div class="container-xxl justify-content-center align-items-center">
-    <div class="card shadow-lg text-white rounded-lg mt-2" style="text-align: center; border-radius: 1em; background-color:#2E3440;">
-        <div class="card-header">
-            <h3 class="display-5">{{main_question.question.text}}, ({{main_question.question.get_type}})</h3>
-            
-        </div>
-        <div class="card-body">
-            <form action="" method="POST">
-                <!--Single Choice Form-->
-                {% csrf_token %}
-                {% if main_question.question.get_type == 'SINGLE CHOICE' %}
-                <ul class="list-group" style="background-color: #2E3440;">
-                    {% for answer in answers_main_question %}
-                  <li class="list-group-item text-light" style="border-radius:1em; background-color: #2E3440;">
-                    <label class="form-check-label display-6" for="answer{{answer.id}}">{{answer.text}}</label>
-                    
-                    <input class="form-check-input" type="radio" id="answer{{answer.id}}" name="answer" value="{{answer.id}}" {% if main_question|has_this_answer:answer.id %} checked {% endif %} required>
-                    <br>
-                  </li>
-                    
-               
-                    
-                {% endfor %}
-                </ul>
-                    
-                {% else %}
-                <!--Multiple Choice Form-->
-                <ul class="list-group" style="background-color: #2E3440;">
-                    {% for answer in answers_main_question %}
-                    <li class="list-group-item text-light" style="border-radius:1em; background-color: #2E3440;">
-                        <label class="form-check-label display-6" for="answer{{answer.id}}">{{answer.text}}</label>
-                    
-                        <input class="form-check-input" type="checkbox" id="answer{{answer.id}}"" name="{{answer.id}}" value="1" {% if main_question|has_this_answer:answer.id %} checked{% endif %}>
-                        <br>
-                    </li>
-                    
-                    {% endfor %}
-                </ul>
-                    
-                {% endif %}
-                
-                
-                
-            </form>
-        </div>
-        <div class="card-footer">
-            {% for q in questions %}
-            {% if q.question.pk == main_question.question.pk %}
-            <a href="{% url 'student-exam-question' q.pk %}" type="submit" class="btn float-center" style="border-radius:1em; background-color: #ebcb8b;" >{{forloop.counter}}</a>
-            {% elif q.is_answered %}
-                <a href="{% url 'student-exam-question' q.pk %}" type="submit" class="btn float-center" style="border-radius:1em; background-color:#5e81ac;">{{forloop.counter}}</a>
-            {% else %}
-                <a href="{% url 'student-exam-question' q.pk %}" type="submit" class="btn float-center" style="border-radius:1em; background-color:#b48ead ;">{{forloop.counter}}</a>
-            {% endif %}
-            
-        {% endfor %}
-
-        
-        </div>
-
-        <!-- Perchè non si espande con il form??-->
-        <form action="" method="POST">
-            {% csrf_token %}
-        <button type="submit" class="btn btn-block mb-4" style="border-radius:1em; background-color:#a3be8c;">Save and go to the next</button>
-        </form>
-    </div>
+   <div class="row">
+      <div class="col-sm-10 col-12 mt-2">
+         <h5 class="text-white display-5">
+         {{request.user.last_name}} {{request.user.first_name}} - MAT: {{request.user.username}}</h1>
+      </div>
+      <div class="col-md-2 mt-2 mx-auto">
+         <h2>Remaining time: </h2>
+         <ul id="countdown-1" class="countdown">
+            <li><span id="hours"></span> Hours </li>
+            <li><span id="minutes"></span> Minutes </li>
+            <li><span id="seconds"></span> Seconds </li>
+         </ul>
+      </div>
+   </div>
 </div>
-
+<form action="" method="POST">
+   {% csrf_token %}
+   <div class="container-xxl justify-content-center align-items-center">
+      <div class="card shadow-lg text-white rounded-lg mt-2" style="text-align: center; border-radius: 1em; background-color:#2E3440;">
+         <div class="card-header">
+            <h3 class="display-5">{{main_question.question.text}}, ({{main_question.question.get_type}})</h3>
+         </div>
+         <div class="card-body">
+<form action="" method="POST">
+<!--Single Choice Form-->
+{% csrf_token %}
+{% if main_question.question.get_type == 'SINGLE CHOICE' %}
+<ul class="list-group" style="background-color: #2E3440;">
+{% for answer in answers_main_question %}
+<li class="list-group-item text-light" style="border-radius:1em; background-color: #2E3440;">
+<label class="form-check-label display-6" for="answer{{answer.id}}">{{answer.text}}</label>
+<input class="form-check-input" type="radio" id="answer{{answer.id}}" name="answer" value="{{answer.id}}" {% if main_question|has_this_answer:answer.id %} checked {% endif %} required>
+<br>
+</li>
+{% endfor %}
+</ul>
+{% else %}
+<!--Multiple Choice Form-->
+<ul class="list-group" style="background-color: #2E3440;">
+{% for answer in answers_main_question %}
+<li class="list-group-item text-light" style="border-radius:1em; background-color: #2E3440;">
+<label class="form-check-label display-6" for="answer{{answer.id}}">{{answer.text}}</label>
+<input class="form-check-input" type="checkbox" id="answer{{answer.id}}"" name="{{answer.id}}" value="1" {% if main_question|has_this_answer:answer.id %} checked{% endif %}>
+<br>
+</li>
+{% endfor %}
+</ul>
+{% endif %}
+</div>
+<div class="card-footer">
+{% for q in questions %}
+{% if q.question.pk == main_question.question.pk %}
+<a href="{% url 'student-exam-question' q.pk %}" type="submit" class="btn float-center" style="border-radius:1em; background-color: #ebcb8b;" >{{forloop.counter}}</a>
+{% elif q.is_answered %}
+<a href="{% url 'student-exam-question' q.pk %}" type="submit" class="btn float-center" style="border-radius:1em; background-color:#5e81ac;">{{forloop.counter}}</a>
+{% else %}
+<a href="{% url 'student-exam-question' q.pk %}" type="submit" class="btn float-center" style="border-radius:1em; background-color:#b48ead ;">{{forloop.counter}}</a>
+{% endif %}
+{% endfor %}
+</div>
+<button type="submit" class="btn mb-4" style="border-radius:1em; background-color:#a3be8c;">Save and go to the next</button>
+</div>
+</div>
+</form>
 <a href="{% url 'student-confiramtion-finish-exam' %}" type="submit" class="btn float-end" style="border-radius:1em; background-color:#bf616a;" >TERMINATE THE EXAM</a>
-
-    
- 
-
-    
-
-
-
 <!--JavaScript-->
 <script>
-    function makeTimer() {
-       var endTime=new Date({{ exam.getExpirationTime|date:"U" }} * 1000);
-        endTime = (Date.parse(endTime) / 1000);
-    
-            var now = new Date();
-            now = (Date.parse(now) / 1000);
-    
-            var timeLeft = endTime - now;
-    
-            var hours = Math.floor(timeLeft / 3600);
-            var minutes = Math.floor((timeLeft - (hours * 3600 )) / 60);
-            var seconds = Math.floor((timeLeft - (hours * 3600) - (minutes * 60)));
-
-            if (hours==0 && minutes==0 && seconds==0){
-                alert('TIME EXPIRED')
-                window.location.reload();
-            }
-
-            if (hours < "10") { hours = "0" + hours; }
-            if (minutes < "10") { minutes = "0" + minutes; }
-            if (seconds < "10") { seconds = "0" + seconds; }
-
-            $("#hours").html(hours);
-            $("#minutes").html(minutes);
-            $("#seconds").html(seconds);
-    
-    }
-    
-    setInterval(function() { makeTimer(); }, 1000);
-    </script>
+   function makeTimer() {
+      var endTime=new Date({{ exam.getExpirationTime|date:"U" }} * 1000);
+       endTime = (Date.parse(endTime) / 1000);
+   
+           var now = new Date();
+           now = (Date.parse(now) / 1000);
+   
+           var timeLeft = endTime - now;
+   
+           var hours = Math.floor(timeLeft / 3600);
+           var minutes = Math.floor((timeLeft - (hours * 3600 )) / 60);
+           var seconds = Math.floor((timeLeft - (hours * 3600) - (minutes * 60)));
+   
+           if (hours==0 && minutes==0 && seconds==0){
+               alert('TIME EXPIRED')
+               window.location.reload();
+           }
+   
+           if (hours < "10") { hours = "0" + hours; }
+           if (minutes < "10") { minutes = "0" + minutes; }
+           if (seconds < "10") { seconds = "0" + seconds; }
+   
+           $("#hours").html(hours);
+           $("#minutes").html(minutes);
+           $("#seconds").html(seconds);
+   
+   }
+   
+   setInterval(function() { makeTimer(); }, 1000);
+</script>
 <br>
-
 {% endblock content %}
-
-
-
