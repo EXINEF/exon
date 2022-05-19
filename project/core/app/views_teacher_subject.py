@@ -90,5 +90,6 @@ def edit_questions(request, pk, page, results):
 	else:
 		previous = page - 1
 		next = page + 1
+		
 	context = {'subject': subject, 'questions': questions, 'total_questions':total_questions, 'myFilter':myFilter, 'page':page, 'results':results, 'previous':previous, 'next':next}
 	return render(request, 'teacher/subject/edit-questions.html', context)
