@@ -53,7 +53,7 @@ def student_exam_question(request, pk):
 	if exam.is_finished():
 		return redirect('student-exam-result')
 	
-	if exam.isExpired():
+	if exam.is_expired():
 		exam.set_finished()
 		exam.save()
 		return redirect('student-exam-time-expired')

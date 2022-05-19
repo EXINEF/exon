@@ -6,8 +6,8 @@ from .models import *
 class TeacherAdmin(admin.ModelAdmin):
 	model = Teacher
 	
-	list_display = ('__str__', 'user', 'full_name')
-	search_fields = ['full_name']
+	list_display = ('__str__', 'user', 'get_full_name')
+	search_fields = ['get_full_name']
 
 
 class SubjectAdmin(admin.ModelAdmin):

@@ -27,7 +27,7 @@
         <h1>Exam Session: {{session.name}}</h1>
 <h2>Student: {{exam.student.last_name}} {{exam.student.first_name}}</h2>
 <h4>Subject: {{session.subject.name}}</h4>
-<h4>Teacher: {{session.teacher.full_name}}</h4>
+<h4>Teacher: {{session.teacher.get_full_name}}</h4>
 <h4>Questions: {{session.number_of_questions}}</h4>
 <h4>Time: {{session.duration}} minutes</h4>
 

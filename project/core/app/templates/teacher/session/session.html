@@ -138,7 +138,7 @@
           <tr>
           <th scope="row">{{access.exam.token}}</a></th>
     
-          <td>{{access.get_num_of_access_token}}</td>
+          <td>{{access.get_number_of_access_tokens}}</td>
           <td>{{access.exam.student.last_name}} {{access.exam.student.first_name}}</td>
           <td>{{access.ip}}</td>
           <td>{{access.creation_datetime}}</td>
@@ -219,7 +219,7 @@ Show Accesses: {{accesses.count}}</a>
           <tr>
           <th scope="row">{{access.exam.token}}</a></th>
     
-          <td>{{access.get_num_of_access_token}}</td>
+          <td>{{access.get_number_of_access_tokens}}</td>
           <td>{{access.exam.student.last_name}} {{access.exam.student.first_name}}</td>
           <td>{{access.ip}}</td>
           <td>{{access.creation_datetime}}</td>
@@ -269,7 +269,7 @@ Show Accesses: {{accesses.count}}</a>
                 <td>{{exam.correct_num}} / {{exam.session.number_of_questions}}</td>
                 <td>{{exam.blank_num}} / {{exam.session.number_of_questions}}</td>
                 <td>{{exam.wrong_num}} / {{exam.session.number_of_questions}}</td>
-                <td>{{exam.votation}} / {{exam.session.getMaximumScore}}</td>
+                <td>{{exam.votation}} / {{exam.session.get_max_votation}}</td>
                 <td>{{exam.get_votation_out_of_10}}/10</td>
                 <td>{{exam.get_votation_out_of_30}}/30</td>
                 <td>{{exam.finish_datetime}}</td>

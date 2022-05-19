@@ -60,8 +60,8 @@ def edit_settings_session(request, pk):
         
         if form.is_valid():
             
-            if int(request.POST.get('number_of_questions'))>session.subject.getNumOfQuestion():
-                messages.error(request, 'ERROR: there are not enough questions, asked:%s, available:%s . Load more question to the subject or decrese the number of questions for the session.' % (int(request.POST.get('number_of_questions')), session.subject.getNumOfQuestion()))
+            if int(request.POST.get('number_of_questions'))>session.subject.get_number_of_questions():
+                messages.error(request, 'ERROR: there are not enough questions, asked:%s, available:%s . Load more question to the subject or decrese the number of questions for the session.' % (int(request.POST.get('number_of_questions')), session.subject.get_number_of_questions()))
                 return redirect('teacher-session', session.pk)
 
             form.save()
@@ -113,9 +113,9 @@ def delete_session(request, pk):
 def session_page(request, pk):
     teacher = get_object_or_404(Teacher, user=request.user)
     session = get_object_or_404(Session, id=pk, teacher=teacher)
-    exams = session.getExams()
-    num_started_exams = session.getStartedExams(exams)
-    num_finished_exams = session.getFinishedExams(exams)
+    exams = session.get_exams()
+    num_started_exams = session.get_started_exams(exams)
+    num_finished_exams = session.get_finished_exams(exams)
     accesses = Access.objects.filter(session=session)
 
     context = {'session':session, 'exams':exams, 'num_started_exams':num_started_exams, 'num_finished_exams':num_finished_exams, 'accesses':accesses}
@@ -137,7 +137,7 @@ def exam(request, session_pk, exam_pk):
 def session_all_credentials(request, pk):
     teacher = get_object_or_404(Teacher, user=request.user)
     session = get_object_or_404(Session, id=pk, teacher=teacher)
-    exams = session.getExams()
+    exams = session.get_exams()
 
     context = {'session':session, 'exams':exams }
     return render(request,'teacher/session/all-credentials.html', context)
@@ -209,7 +209,7 @@ def correct_exams(request, pk):
     exams = Exam.objects.filter(session=session)
     
     for exam in exams:
-        exam.analyzeExam()
+        exam.analyze_and_correct_exam()
         exam.save()
 
     messages.success(request,'All the Exams of the Session: %s were corrected.' % session.name)

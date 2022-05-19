@@ -2,11 +2,7 @@ from datetime import timedelta, datetime, timezone
 from django.contrib.auth.models import User
 from django.db import models
 from django.db.models.functions import Now
-"""
-	TODO ON MODELS
-		EXAM QUESTION
-			resolve the repetition problem, cause by an inner method
-"""
+
 
 # Create your models here.
 class Teacher(models.Model):
@@ -18,9 +14,9 @@ class Teacher(models.Model):
 	creation_datetime = models.DateTimeField(auto_now_add=True, null=True)
 	
 	def __str__(self):
-		return '%s - %s' % (self.full_name(), self.user.username)
+		return '%s - %s' % (self.get_full_name(), self.user.username)
 	
-	def full_name(self):
+	def get_full_name(self):
 		return '%s %s' % (self.last_name, self.first_name)
 
 
@@ -33,14 +29,14 @@ class Subject(models.Model):
 	creation_datetime = models.DateTimeField(auto_now_add=True, null=True)
 	
 	def __str__(self):
-		return '%s - %s' % (self.name, self.teacher.full_name())
+		return '%s - %s' % (self.name, self.teacher.get_full_name())
 	
 	def get_display_description(self):
 		if self.description is None or self.description == '':
 			return 'No description available.'
 		return self.description[:30] + '...'
 
-	def getNumOfQuestion(self):
+	def get_number_of_questions(self):
 		return Question.objects.filter(subject=self).count()
 
 
@@ -63,7 +59,7 @@ class Question(models.Model):
 	creation_datetime = models.DateTimeField(auto_now_add=True, null=True)
 	
 	def __str__(self):
-		return '%s - %s' % (self.teacher.full_name(), self.text)
+		return '%s - %s' % (self.teacher.get_full_name(), self.text)
 
 	def get_type(self):
 		if Answer.objects.filter(question=self, is_correct=True).count()==1:
@@ -148,34 +144,31 @@ class Session(models.Model):
 	
 	def get_students_registered(self):
 		return Student.objects.filter(session=self).count()
-		
-	def getExamsNumber(self):
-		return Exam.objects.filter(session=self).count()
 	
-	def getExams(self):
+	def get_exams(self):
 		return Exam.objects.filter(session=self)
 	
-	def getStartedExams(self, exams):
+	def get_started_exams(self, exams):
 		counter = 0
 		for exam in exams:
 			if exam.is_started():
 				counter += 1
 		return counter
 	
-	def getFinishedExams(self, exams):
+	def get_finished_exams(self, exams):
 		counter = 0
 		for exam in exams:
 			if exam.is_finished():
 				counter += 1
 		return counter
 	
-	def getMaximumScore(self):
+	def get_max_votation(self):
 		return self.weight_correct_answer * self.number_of_questions
 
 	def set_finished(self):
 		self.is_locked = True
 		self.is_finished = True
-		exams = self.getExams()
+		exams = self.get_exams()
 		for exam in exams:
 			if not exam.is_finished():
 				exam.set_finished()
@@ -210,21 +203,21 @@ class Exam(models.Model):
 
 	def set_finished(self):
 		self.finish_datetime = datetime.now()
-		self.analyzeExam()
+		self.analyze_and_correct_exam()
 	
-	def getExpirationTime(self):
+	def get_expiration_time(self):
 		return self.start_datetime + timedelta(minutes=self.session.duration)
 	
-	def isExpired(self):
-		return self.getExpirationTime() < datetime.now(timezone.utc)
+	def is_expired(self):
+		return self.get_expiration_time() < datetime.now(timezone.utc)
 	
 	def get_votation_out_of_10(self):
-		return self.votation / self.session.getMaximumScore() * 10
+		return self.votation / self.session.get_max_votation() * 10
 
 	def get_votation_out_of_30(self):
-		return self.votation / self.session.getMaximumScore() * 30
+		return self.votation / self.session.get_max_votation() * 30
 
-	def analyzeExam(self):
+	def analyze_and_correct_exam(self):
 		if not self.is_finished:
 			raise Exception('Exam must be finish to be analyzed')
 		
@@ -314,9 +307,9 @@ class Student(models.Model):
 	session = models.ForeignKey(Session, on_delete=models.CASCADE, null=True)
 	
 	def __str__(self):
-		return '%s - %s' % (self.matricola, self.full_name())
+		return '%s - %s' % (self.matricola, self.get_full_name())
 	
-	def full_name(self):
+	def get_full_name(self):
 		return '%s %s' % (self.last_name, self.first_name)
 
 class Access(models.Model):
@@ -325,6 +318,6 @@ class Access(models.Model):
 	ip = models.CharField(max_length=255, null=True)
 	creation_datetime = models.DateTimeField(auto_now_add=True, null=True) 
 
-	def get_num_of_access_token(self):
+	def get_number_of_access_tokens(self):
 		return Access.objects.filter(exam=self.exam).count()
 
