@@ -71,11 +71,11 @@
         <div class="card-footer">
             {% for q in questions %}
             {% if q.question.pk == main_question.question.pk %}
-            <a href="{% url 'student-exam-question' q.pk %}" type="submit" class="btn btn-warning float-center" >{{forloop.counter}}</a>
+            <a href="{% url 'student-exam-question' q.pk %}" type="submit" class="btn float-center" style="border-radius:1em; background-color: #ebcb8b;" >{{forloop.counter}}</a>
             {% elif q.is_answered %}
-                <a href="{% url 'student-exam-question' q.pk %}" type="submit" class="btn btn-primary float-center" >{{forloop.counter}}</a>
+                <a href="{% url 'student-exam-question' q.pk %}" type="submit" class="btn float-center" style="border-radius:1em; background-color:#5e81ac;">{{forloop.counter}}</a>
             {% else %}
-                <a href="{% url 'student-exam-question' q.pk %}" type="submit" class="btn btn-secondary float-center">{{forloop.counter}}</a>
+                <a href="{% url 'student-exam-question' q.pk %}" type="submit" class="btn float-center" style="border-radius:1em; background-color:#b48ead ;">{{forloop.counter}}</a>
             {% endif %}
             
         {% endfor %}
@@ -86,12 +86,12 @@
         <!-- Perchè non si espande con il form??-->
         <form action="" method="POST">
             {% csrf_token %}
-        <button type="submit" class="btn btn-primary btn-block mb-4">Save and go to the next</button>
+        <button type="submit" class="btn btn-block mb-4" style="border-radius:1em; background-color:#a3be8c;">Save and go to the next</button>
         </form>
     </div>
 </div>
 
-<a href="{% url 'student-confiramtion-finish-exam' %}" type="submit" class="btn btn-danger float-end" >TERMINATE THE EXAM</a>
+<a href="{% url 'student-confiramtion-finish-exam' %}" type="submit" class="btn float-end" style="border-radius:1em; background-color:#bf616a;" >TERMINATE THE EXAM</a>
 
     
  
