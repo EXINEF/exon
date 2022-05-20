@@ -1,5 +1,7 @@
 .list-group-item {
     user-select: none;
+    background-color: #1E1E1E;
+    color: white;
   }
   
   .list-group input[type="checkbox"] {
@@ -8,13 +10,6 @@
   
   .list-group input[type="checkbox"] + .list-group-item {
     cursor: pointer;
-  }
-  
-  .list-group input[type="checkbox"] + .list-group-item:before {
-    content: "\2713";
-    color: transparent;
-    font-weight: bold;
-    margin-right: 1em;
   }
   
   .list-group input[type="checkbox"]:checked + .list-group-item {
@@ -33,14 +28,7 @@
   .list-group input[type="radio"] + .list-group-item {
     cursor: pointer;
   }
-  
-  .list-group input[type="radio"] + .list-group-item:before {
-    content: "\2022";
-    color: transparent;
-    font-weight: bold;
-    margin-right: 1em;
-  }
-  
+   
   .list-group input[type="radio"]:checked + .list-group-item {
     background-color: #0275D8;
     color: #FFF;
