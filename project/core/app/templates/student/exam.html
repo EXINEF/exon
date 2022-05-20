@@ -3,7 +3,7 @@
 {% load static %}
 {% block content %}
 
-
+<br>
 <div class="container-fluid">
     <div class="row">
         <div class="col-8">
@@ -31,20 +31,19 @@
             </form>
         </div>
         <div class="col-4">
-            <h2>Remaining Time</h2>
-            <h3><span id="hours"></span>:<span id="minutes"></span>:<span id="seconds"></h3>                     
-        
+            <h4><span id="remaining_time"></h4>         
+                
             {% for q in questions %}
                 {% if q.question.pk == main_question.question.pk %}
-                    <a href="{% url 'student-exam-question' q.pk %}" type="submit" class="btn btn-warning" >{{forloop.counter}}</a>
+                    <a href="{% url 'student-exam-question' q.pk %}" type="submit" class="btn" style="border-radius:1em; background-color:#00aaff;" >{{forloop.counter}}</a>
                 {% elif q.is_answered %}
-                    <a href="{% url 'student-exam-question' q.pk %}" type="submit" class="btn btn-primary" >{{forloop.counter}}</a>
+                    <a href="{% url 'student-exam-question' q.pk %}" type="submit" class="btn" style="border-radius:1em; background-color:#4fbd00;" >{{forloop.counter}}</a>
                 {% else %}
-                    <a href="{% url 'student-exam-question' q.pk %}" type="submit" class="btn btn-secondary">{{forloop.counter}}</a>
+                    <a href="{% url 'student-exam-question' q.pk %}" type="submit" class="btn" style="border-radius:1em; background-color:#bf616a;" >{{forloop.counter}}</a>
                 {% endif %}
             {% endfor %}  
             
-            <a href="{% url 'student-confiramtion-finish-exam' %}" type="submit" class="btn btn-danger" >TERMINATE THE EXAM</a>
+            <a href="{% url 'student-confiramtion-finish-exam' %}" type="submit" class="btn" style="border-radius:1em; background-color:#bf616a;" >TERMINATE THE EXAM</a>
 
         </div>
     </div>
@@ -53,7 +52,7 @@
 
 <script>
     setInterval(function() { makeTimer({{ exam.get_expiration_time|date:"U" }}); }, 1000);
-    </script>
+</script>
 <br>
 
 {% endblock content %}

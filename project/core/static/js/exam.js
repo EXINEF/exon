@@ -22,6 +22,7 @@ function makeTimer(expiration_time) {
          if (minutes < "10") { minutes = "0" + minutes; }
          if (seconds < "10") { seconds = "0" + seconds; }
 
+         $("#remaining_time").html('Remaining Time: '+hours+':'+minutes+':'+seconds);
          $("#hours").html(hours);
          $("#minutes").html(minutes);
          $("#seconds").html(seconds);
