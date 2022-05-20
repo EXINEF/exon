@@ -107,6 +107,7 @@
        <a class="btn float-end" style="border-radius:1em; background-color:#ebcb8b" href="{% url 'teacher-lock-session' session.id %}">Lock the Session</a>
        <a class="btn float-end" style="border-radius:1em; background-color:#bf616a" href="{% url 'teacher-terminate-session-confirmation' session.id %}">Terminate the Session</a>
        <a class="btn float-end" style="border-radius:1em; background-color:#ebcb8b" href="{% url 'teacher-send-tokens-by-email' session.id %}">Send Tokens by email</a>
+       <a class="btn" style="border-radius:1em; background-color:#a3be8c" href="{% url 'teacher-all-credentials' session.id %}">Show All Credentials</a>
     </div>
   </div>
   <h5>The Session is NOT locked, so students can login</h5>
@@ -114,50 +115,6 @@
     
   <h5>Started Exams: {{num_started_exams}}/{{exams.count}}</h5>
   <h5>Finished Exams: {{num_finished_exams}}/{{exams.count}}</h5>
-
-  <!--Show All Credentials DropDown-->
-
-  <a href="#" class="btn" style="border-radius:1em; background-color:#a3be8c" data-bs-toggle="collapse" data-bs-target="#collapse_credentials" aria-expanded="false" aria-controls="collapse_exams">
-  Show All Credentials</a>
-
-  <div class="collapse" id="collapse_credentials">
-
-    <!--All Credentials Table-->
-    <div class="card mb-4 mt-3" style="border-radius:1em;">
-      <div class="card-header">
-        <h2 class="text-dark">All Credentials</h2>
-      </div>
-        
-          <table class="table table-light table-striped">
-            <thead>
-              <tr>
-                <th scope="col">Matricola</th>
-                <th scope="col">Last Name</th>
-                <th scope="col">First Name</th>
-                <th scope="col">Email</th>
-                <th scope="col">PDF</th>
-                <th scope="col">TOKEN</th>
-              </tr>
-            </thead>
-            <tbody>
-        
-                {% for exam in exams %}
-                <tr>
-                    {% with student=exam.get_student_account %}           
-                    <th scope="row">{{student.matricola}}</th>
-                    <td>{{student.last_name}}</td>
-                    <td>{{student.first_name}}</td>
-                    <td>{{student.email}}</td>
-                    <td><a href="{% url 'teacher-export-exam-pdf' session.pk exam.pk %}">Show</a></td>
-                    <td>{{exam.token}}</td>
-                    {% endwith %}
-                  </tr>
-                {% endfor %}
-              </tbody>
-     
-          </table>
-        
-    </div>
   </div>
 
   
