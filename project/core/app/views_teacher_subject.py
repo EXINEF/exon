@@ -80,9 +80,14 @@ def edit_questions(request, pk, page, results):
 	subject = get_object_or_404(Subject, id=pk, teacher=teacher)
 	total_questions = Question.objects.filter(subject=subject).count()
 	questions = Question.objects.filter(subject=subject)[page * results:(page +1)*results]
+	myFilter = QuestionFilter()
 
-	myFilter = QuestionFilter(request.GET, queryset=Question.objects.filter(subject=subject))
-	questions = myFilter.qs
+	if request.GET.get('text') is not None:
+		if len(request.GET.get('text'))>3:
+			myFilter = QuestionFilter(request.GET, queryset=Question.objects.filter(subject=subject))
+			questions = myFilter.qs
+		else:
+			messages.error(request, 'The query must be 4 characters long to search for a question.')
 
 	if page <= 0:
 		previous = 0
