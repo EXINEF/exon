@@ -1,34 +1,52 @@
 {% extends 'core/base.html' %}
 {% load auth_extras %}
 {% load static %}
+{% block style %}
+<link rel="stylesheet" type="text/css" href="{% static 'css/exam.css' %}" />
+{% endblock style %}
+
+
 {% block content %}
+
 
 <br>
 <div class="container-fluid">
     <div class="row">
         <div class="col-8">
+
             <h4>{{request.user.last_name}} {{request.user.first_name}} - MAT: {{request.user.username}}</h4>
-            <h3>{{main_question.question.text}}</h3>
-            <h5>{{main_question.question.get_type}}</h5>
-            <form action="" method="POST">
-                {% csrf_token %}
-                {% if main_question.question.get_type == 'SINGLE CHOICE' %}
-                    {% for answer in answers_main_question %}
-                        <label for="answer{{answer.id}}">{{answer.text}}</label>
-                        
-                        <input class="form-check-input mt-0" type="radio" id="answer{{answer.id}}" name="answer" value="{{answer.id}}" {% if main_question|has_this_answer:answer.id %} checked {% endif %} required>
-                        <br>
-                    {% endfor %}
-                {% else %}
-                    {% for answer in answers_main_question %}
-                        <label for="answer{{answer.id}}">{{answer.text}}</label>
-                        
-                        <input class="form-check-input mt-0" type="checkbox" id="answer{{answer.id}}" name="{{answer.id}}" value="1" {% if main_question|has_this_answer:answer.id %} checked{% endif %}>
-                        <br>
-                    {% endfor %}
-                {% endif %}
-                <button type="submit" class="btn btn-primary">Save and go to the next</button>
-            </form>
+            
+
+            <div class="container-xxl justify-content-center align-items-center">
+                <div class="card shadow-lg text-white rounded-lg mt-2" style="text-align: center; border-radius: 1em; background-color:#2E3440;">
+                   <div class="card-header">
+                      <h3>{{main_question.question.text}}</h3>
+                   </div>
+                   <div class="card-body">
+                    <h5 class="card-title">{{main_question.question.get_type}}</h5>
+                    <form action="" method="POST">
+                        {% csrf_token %}
+                        {% if main_question.question.get_type == 'SINGLE CHOICE' %}
+                            <div class="list-group">    
+                            {% for answer in answers_main_question %}
+                                <input class="form-check-input mt-0" type="radio" id="answer{{answer.id}}" name="answer" value="{{answer.id}}" {% if main_question|has_this_answer:answer.id %} checked {% endif %} required>
+                                <label class="list-group-item"  for="answer{{answer.id}}">{{answer.text}}</label>  
+                                
+                            {% endfor %}
+                            </div>
+                        {% else %}
+                            <div class="list-group">
+                            {% for answer in answers_main_question %}
+                                <input class="form-check-input mt-0" type="checkbox" id="answer{{answer.id}}" name="{{answer.id}}" value="1" {% if main_question|has_this_answer:answer.id %} checked{% endif %}> 
+                                <label class="list-group-item" for="answer{{answer.id}}">{{answer.text}}</label>
+                            {% endfor %}
+                            </div>
+                        {% endif %}
+                        <button type="submit" class="btn btn-primary">Save and go to the next</button>
+                    </form>
+                   </div>
+                </div>
+            </div>
         </div>
         <div class="col-4">
             <h4><span id="remaining_time"></h4>         
@@ -49,6 +67,8 @@
     </div>
 </div>
 <br>
+
+
 
 <script>
     setInterval(function() { makeTimer({{ exam.get_expiration_time|date:"U" }}); }, 1000);
