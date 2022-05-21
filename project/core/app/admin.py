@@ -16,6 +16,8 @@ class SubjectAdmin(admin.ModelAdmin):
 	list_display = ('__str__', 'name', 'teacher')
 	search_fields = ['name']
 
+class SubjectStatisticsAdmin(admin.ModelAdmin):
+	model = SubjectStatistics
 
 class AnswerAdmin(admin.ModelAdmin):
 	model = Answer
@@ -46,6 +48,7 @@ class AccessAdmin(admin.ModelAdmin):
 	model = Access
 
 admin.site.register(Teacher, TeacherAdmin)
+admin.site.register(SubjectStatistics, SubjectStatisticsAdmin)
 admin.site.register(Subject, SubjectAdmin)
 admin.site.register(Answer, AnswerAdmin)
 admin.site.register(Question, QuestionAdmin)
@@ -56,3 +59,4 @@ admin.site.register(ExamQuestion, ExamQuestionAdmin)
 admin.site.register(ExamAnswer, ExamAnswerAdmin)
 admin.site.register(Student, StudentAdmin)
 admin.site.register(Access, AccessAdmin)
+

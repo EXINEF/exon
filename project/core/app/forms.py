@@ -6,7 +6,7 @@ class SubjectForm(ModelForm):
 	class Meta:
 		model = Subject
 		fields = '__all__'
-		exclude = ['teacher', ]
+		exclude = ['teacher', 'statistics' ]
 
 
 class QuestionForm(ModelForm):

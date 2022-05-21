@@ -20,8 +20,22 @@
 <p class="mt-3 lead">{{subject.description}}</p>
   
 <h4 class = "text-white">Number of questions: {{num_questions}}</h4>
-<h4 class = "text-white">Success Rate: TODO</h4>
-  
+<h4 class = "text-white">Statistics: </h4>
+<a class="btn mt-3" style="border-radius:1em; background-color:#a3be8c" href="{% url 'teacher-compute-subject-statistics' subject.pk %}" class="text-decoration-none text-white">Refresh</a>
+
+<h6>total_sessions : {{subject.statistics.total_sessions}}</h6>
+<h6>not_started_sessions : {{subject.statistics.not_started_sessions}}</h6>
+<h6>started_sessions : {{subject.statistics.started_sessions}}</h6>
+<h6>finished_sessions : {{subject.statistics.finished_sessions}}</h6>
+<h6>total_exams : {{subject.statistics.total_exams}}</h6>
+<h6>started_exams : {{subject.statistics.started_exams}}</h6>
+<h6>finished_exams : {{subject.statistics.finished_exams}}</h6>
+<h6>average_votation_exams_10 : {{subject.statistics.average_votation_exams_10}}</h6>
+<h6>average_votation_exams_30 : {{subject.statistics.average_votation_exams_30}}</h6>
+<h6>total_questions : {{subject.statistics.total_questions}}</h6>
+<h6>correct_questions : {{subject.statistics.correct_questions}}</h6>
+<h6>blank_questions : {{subject.statistics.blank_questions}}</h6>
+<h6>wrong_questions : {{subject.statistics.wrong_questions}}</h6>
 <br>
 <br>
   

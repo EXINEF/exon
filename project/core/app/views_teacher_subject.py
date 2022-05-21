@@ -1,6 +1,8 @@
 from django.contrib import messages
 from django.shortcuts import get_object_or_404, render
 
+from .models import *
+
 from .decorators import *
 from .forms import *
 from .filters import QuestionFilter
@@ -17,6 +19,15 @@ def subject_page(request, pk):
 
 
 @teacher_only
+def compute_subject_statistics(request, pk):
+	teacher = get_object_or_404(Teacher, user=request.user)
+	subject = get_object_or_404(Subject, id=pk, teacher=teacher)
+	subject.calculate_statistics()
+
+	messages.success(request, 'Statistics of Subject: %s were calculated correctly.' % (subject.name))
+	return redirect('teacher-subject', pk)
+
+@teacher_only
 def load_questions_file(request, pk):
 	context = {}
 	return render(request, 'teacher/subject/load-questions-file.html', context)
@@ -31,6 +42,8 @@ def add_subject(request):
 			t = Teacher.objects.get(user=request.user)
 			new_subject = form.save(commit=False)
 			new_subject.teacher = t
+			statistics = SubjectStatistics.objects.create()
+			new_subject.statistics = statistics
 			new_subject.save()
 			form.save_m2m()
 			

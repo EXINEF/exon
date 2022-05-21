@@ -1,4 +1,5 @@
 from datetime import timedelta, datetime, timezone
+import statistics
 from django.contrib.auth.models import User
 from django.db import models
 from django.db.models.functions import Now
@@ -20,11 +21,52 @@ class Teacher(models.Model):
 		return '%s %s' % (self.last_name, self.first_name)
 
 
+class SubjectStatistics(models.Model):
+	total_sessions = models.IntegerField(blank=True, null=True)
+	not_started_sessions = models.IntegerField(blank=True, null=True)
+	started_sessions = models.IntegerField(blank=True, null=True)
+	finished_sessions = models.IntegerField(blank=True, null=True)
+	  
+	total_exams = models.IntegerField(blank=True, null=True)
+	started_exams = models.IntegerField(blank=True, null=True)
+	finished_exams = models.IntegerField(blank=True, null=True)
+	average_votation_exams_10 = models.IntegerField(blank=True, null=True) 
+	average_votation_exams_30 = models.IntegerField(blank=True, null=True)
+	
+	total_questions = models.IntegerField(blank=True, null=True)
+	correct_questions = models.IntegerField(blank=True, null=True)
+	blank_questions = models.IntegerField(blank=True, null=True)
+	wrong_questions = models.IntegerField(blank=True, null=True)
+
+	def __str__(self):
+		if not Subject.objects.filter(statistics=self).exists():
+			return 'Statistics Not Associated'
+		return 'Statistics of %s' % (Subject.objects.get(statistics=self))
+
+	def reset_all(self):
+		self.total_sessions = 0
+		self.not_started_sessions = 0
+		self.started_sessions = 0
+		self.finished_sessions = 0
+		
+		self.total_exams = 0
+		self.started_exams = 0
+		self.finished_exams = 0
+		self.average_votation_exams_10 = 0
+		self.average_votation_exams_30 = 0
+		
+		self.total_questions = 0
+		self.correct_questions = 0
+		self.blank_questions = 0
+		self.wrong_questions = 0
+
+
 class Subject(models.Model):
 	name = models.CharField(max_length=50, null=True)
 	description = models.TextField(blank=True, null=True)
 	
 	teacher = models.ForeignKey(Teacher, on_delete=models.CASCADE, null=True)
+	statistics = models.OneToOneField(SubjectStatistics, on_delete=models.CASCADE, null=True)
 	
 	creation_datetime = models.DateTimeField(auto_now_add=True, null=True)
 	
@@ -38,7 +80,47 @@ class Subject(models.Model):
 
 	def get_number_of_questions(self):
 		return Question.objects.filter(subject=self).count()
+	
+	def get_number_of_exams(self):
+		number_of_exams = 0
+		sessions = Session.objects.filter(subject=self)
+		for session in sessions:
+			number_of_exams += Exam.objects.filter(session=session)
+		return number_of_exams
 
+	def calculate_statistics(self):
+		self.statistics.reset_all()
+		votation = 0
+		sessions = Session.objects.filter(subject=self)
+		self.statistics.total_sessions = sessions.count()
+		
+		for session in sessions:
+			if session.get_status() == 'STARTED':
+				self.statistics.started_sessions += 1
+			elif session.get_status() == 'FINISHED':
+				self.statistics.finished_sessions += 1	
+			else:
+				self.statistics.not_started_sessions += 1
+
+			exams = Exam.objects.filter(session=session)	
+			self.statistics.total_exams = exams.count()
+			
+			for exam in exams:
+				if exam.is_started():
+					self.statistics.started_exams += 1
+				
+				if exam.is_finished():
+					self.statistics.finished_exams += 1
+					self.statistics.correct_questions += exam.correct_num
+					self.statistics.blank_questions += exam.blank_num
+					self.statistics.wrong_questions += exam.wrong_num
+					votation += exam.get_votation_out_of_10()
+						
+		self.statistics.total_questions = self.statistics.correct_questions+self.statistics.blank_questions+self.statistics.wrong_questions
+		self.statistics.average_votation_exams_10 = votation/self.statistics.finished_exams
+		self.statistics.average_votation_exams_30 = self.statistics.average_votation_exams_10 * 3
+
+		self.statistics.save()
 
 class Question(models.Model):
 
