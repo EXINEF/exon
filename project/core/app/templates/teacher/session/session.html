@@ -10,8 +10,8 @@
     <h4 class="text-white">STATUS: {{session.get_status}}</h4>
   </div>
   <div class="col-md-4 mt-4 mx-auto">
-    <a class="btn btn-teal float-end"  href="{% url 'teacher-subject' session.subject.pk %}">Go to the Subject</a>
-    <a class="btn btn-teal float-end" href="{% url 'teacher-edit-settings-session' session.id %}">Configure settings</a>
+    <a class="btn  float-end" style=" border-radius:1em; background-color:#2E3440;" href="{% url 'teacher-subject' session.subject.pk %}">Go to the Subject</a>
+    <a class="btn  float-end" style=" border-radius:1em; background-color:#2E3440;" href="{% url 'teacher-edit-settings-session' session.id %}">Configure settings</a>
   </div>
 </div>
 <h5>Subject: {{session.subject}}</h5>
