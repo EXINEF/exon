@@ -96,7 +96,7 @@ def delete_session(request, pk):
     session = get_object_or_404(Session, id=pk, teacher=teacher)
     
     if request.method == 'POST':
-        messages.success(request,'The Session Exam %s was deleted successfuly' % session.getName())
+        messages.success(request,'The Session Exam %s was deleted successfuly' % session.name)
         exams = Exam.objects.filter(session=session)
         for exam in exams:
             User.delete(exam.student)

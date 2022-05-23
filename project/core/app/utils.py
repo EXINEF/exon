@@ -1,6 +1,6 @@
 import random
 import string
-from .models import Exam, ExamQuestion, Question
+from .models import Exam, ExamQuestion, Question, Student
 from django.contrib.auth.models import User
 from django.contrib.auth.models import Group
 from django.core.mail import EmailMessage
@@ -68,3 +68,4 @@ def get_answer_value(value):
     if value is None:
         return False
     return True
+
