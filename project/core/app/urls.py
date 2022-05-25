@@ -49,8 +49,7 @@ urlpatterns = [
 	path('teacher/correct-exams/<str:pk>', correct_exams, name='teacher-correct-exams'),
 	path('teacher/export-exam-pdf/<str:session_pk>/<str:exam_pk>', export_exam_pdf, name='teacher-export-exam-pdf'),
 	path('teacher/send-tokens-by-email/<str:session_pk>', send_tokens_by_email, name='teacher-send-tokens-by-email'),
-	path('teacher/session-results/<str:pk>', session_results, name='teacher-session-results'),
-	
+
 	# STUDENT
 	path('teacher/add-student/<str:pk>', add_student, name='teacher-add-student'),
 	path('teacher/load-file-students/<str:pk>', load_file_students, name='teacher-load-file-students'),

@@ -123,21 +123,6 @@ def session_page(request, pk):
 
 
 @teacher_only
-def session_results(request, pk):
-    teacher = get_object_or_404(Teacher, user=request.user)
-    session = get_object_or_404(Session, id=pk, teacher=teacher)
-    if session.get_status() != 'FINISHED':
-        return redirect('teacher-session', session.pk)
-    exams = session.get_exams()
-    num_started_exams = session.get_started_exams(exams)
-    num_finished_exams = session.get_finished_exams(exams)
-    accesses = Access.objects.filter(session=session)
-
-    context = {'session':session, 'exams':exams, 'num_started_exams':num_started_exams, 'num_finished_exams':num_finished_exams, 'accesses':accesses}
-    return render(request,'teacher/session/session-results.html', context)
-
-
-@teacher_only
 def exam(request, session_pk, exam_pk):
     teacher = get_object_or_404(Teacher, user=request.user)
     session = get_object_or_404(Session, id=session_pk, teacher=teacher)

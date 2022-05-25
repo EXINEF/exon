@@ -6,7 +6,7 @@
 
 <div class="row">
   <div class="col-sm-8 col-12 mt-2">
-    <h1 class="text-white display-3">Exam Session: {{ session.name }}</h1>
+    <h2 class="text-white display-3">Exam Session: {{ session.name }}</h1>
     <h4 class="text-white">STATUS: {{session.get_status}}</h4>
   </div>
   <div class="col-md-4 mt-4 mx-auto">
@@ -189,17 +189,64 @@
           </table>
         </div>
     
-{% elif session.get_status == 'FINISHED' %}
+        {% elif session.get_status == 'FINISHED' %}
 
-<a class="btn float-end " style="border-radius: 1em; background-color:#bf616a;" href="{% url 'teacher-correct-exams' session.id %}">Correct Exams Again</a>
-    
-
-<a class="btn float-end"  style="border-radius: 1em; background-color:#bf616a;" href="{% url 'teacher-edit-weights-session' session.id %}">Edit Session's Weights</a>
-
-
-<a class="btn float-end"  style="border-radius: 1em; background-color:#a3be8c;" href="{% url 'teacher-session-results' session.id %}">Show Exams's Result: {{exams.count}}</a>
-
-{% endif %}
+        <div class="row">
+          <div class="col-sm-6 col-12 mt-2">
+            <h1 class="text-white display-3">Exam Session: {{ session.name }}</h1>
+            <h4 class="text-white">STATUS: {{session.get_status}}</h4>
+          </div>
+          <div class="col-sm-6 mt-2 mx-auto">
+            <a class="btn float-end " style="border-radius: 1em; background-color:#bf616a;" href="{% url 'teacher-correct-exams' session.id %}">Correct Exams Again</a>
+            <a class="btn float-end"  style="border-radius: 1em; background-color:#bf616a;" href="{% url 'teacher-edit-weights-session' session.id %}">Edit Session's Weights</a>
+            
+        
+          </div>
+        </div>
+        
+        <a href="#" class="btn" style="border-radius: 1em; background-color:#a3be8c;"data-bs-toggle="collapse" data-bs-target="#collapse_accesses" aria-expanded="false" aria-controls="collapse_accesses">
+          Show Exams's Result: {{exams.count}}</a>
+            <div class="collapse show" id="collapse_accesses">
+        <div class="card bg-white text-dark mt-4">
+          <div class="card-header">Exams'Result of the Session: {{students.count}}</div>
+            <div class="card-body">
+              <table class="table table-light table-striped">
+                <thead>
+                  <tr>
+                          <th scope="col">TOKEN</th>
+                          <th scope="col">Student</th>
+                          <th scope="col">Correct Answers</th>
+                          <th scope="col">Blank Answers</th>
+                          <th scope="col">Wrong Answers</th>
+                          <th scope="col">Result</th>
+                          <th scope="col">Votation out of 10</th>
+                          <th scope="col">Votation out of 30</th>
+                          <th scope="col">Finish Time</th>
+                      
+                  </tr>
+                </thead>
+                <tbody>
+                  {% for exam in exams %}
+                    <tr>
+                  <th scope="row"><a class="table"href="{% url 'teacher-exam' session.pk exam.pk%}" >{{exam.token}}</a></th>
+                    <td>{{exam.student.last_name}} {{exam.student.first_name}}</td>
+                    <td>{{exam.correct_num}} / {{exam.session.number_of_questions}}</td>
+                    <td>{{exam.blank_num}} / {{exam.session.number_of_questions}}</td>
+                    <td>{{exam.wrong_num}} / {{exam.session.number_of_questions}}</td>
+                    <td>{{exam.votation}} / {{exam.session.getMaximumScore}}</td>
+                    <td>{{exam.get_votation_out_of_10}}/10</td>
+                    <td>{{exam.get_votation_out_of_30}}/30</td>
+                    <td>{{exam.finish_datetime}}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+              </table>
+            </div>
+        </div>
+        
+        
+        {% endif %}
+        
 
 {% endblock content %}
 
