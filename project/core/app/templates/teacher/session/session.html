@@ -99,10 +99,10 @@
         <h1 class="text-white display-6">STATUS: UNLOCKED</h1>
         </div>
         <div class="col-md-6 mx-auto mt-3">
-           <a class="btn float-end" style="border-radius:1em; background-color:#ebcb8b" href="{% url 'teacher-lock-session' session.id %}">Lock the Session</a>
-           <a class="btn float-end" style="border-radius:1em; background-color:#bf616a" href="{% url 'teacher-terminate-session-confirmation' session.id %}">Terminate the Session</a>
-           <a class="btn float-end" style="border-radius:1em; background-color:#ebcb8b" href="{% url 'teacher-send-tokens-by-email' session.id %}">Send Tokens by email</a>
-           <a class="btn" style="border-radius:1em; background-color:#a3be8c" href="{% url 'teacher-all-credentials' session.id %}">Show All Credentials</a>
+          <a class="btn float-end" style="border-radius:1em; background-color:#bf616a" href="{% url 'teacher-terminate-session-confirmation' session.id %}">Terminate the Session</a>
+           <a class="btn float-end" style="border-radius:1em; background-color:#2E3440" href="{% url 'teacher-lock-session' session.id %}">Lock the Session</a>
+           <a class="btn float-end" style="border-radius:1em; background-color:#2E3440" href="{% url 'teacher-send-tokens-by-email' session.id %}">Send Tokens by email</a>
+           <a class="btn" style="border-radius:1em; background-color:#2E3440" href="{% url 'teacher-all-credentials' session.id %}">Show All Credentials</a>
         </div>
       </div>
       <h5>The Session is NOT locked, so students can login</h5>
