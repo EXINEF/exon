@@ -27,13 +27,17 @@ def load_file_students(request, pk):
         upload_file = request.FILES['file']
         file_name = upload_file._get_name().split('.')
         print(file_name)
-        if(len(file_name)!=2 or file_name[1]!='csv'):
+        if len(file_name)!=2 or file_name[1]!='csv':
             messages.error(request, 'ERROR: the file must be a .csv like this: file.csv')
             return redirect('teacher-all-students', session.pk)
         file = upload_file.read().decode('utf-8')
         csv_data = csv.reader(StringIO(file), delimiter=',')
 
         for row in csv_data:
+            if len(row) != 4:
+                messages.error(request, 'ERROR: the file must have 4 string for each row, like this: matricola_number, surname, name, email ')
+                return redirect('teacher-all-students', session.pk)
+
             if Student.objects.filter(session=session, matricola=row[0]).exists(): 
                 messages.error(request, 'ERROR: a student with this matricola( %s ) already exist in this session.' % (row[0].replace(' ', '')))
             else:    
