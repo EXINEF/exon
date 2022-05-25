@@ -25,6 +25,11 @@ def load_file_students(request, pk):
     if request.method == 'POST':
         
         upload_file = request.FILES['file']
+        file_name = upload_file._get_name().split('.')
+        print(file_name)
+        if(len(file_name)!=2 or file_name[1]!='csv'):
+            messages.error(request, 'ERROR: the file must be a .csv like this: file.csv')
+            return redirect('teacher-all-students', session.pk)
         file = upload_file.read().decode('utf-8')
         csv_data = csv.reader(StringIO(file), delimiter=',')
 

@@ -27,8 +27,8 @@
       <thead>
         <tr>
           <th scope="col">MATRICOLA</th>
-          <th scope="col">First Name</th>
           <th scope="col">Last Name</th>
+          <th scope="col">First Name</th>         
           <th scope="col">Email</th>
           <th scope="col">Edit</th>
           <th scope="col">Delete</th>
@@ -39,8 +39,8 @@
           {% for student in students %}
           <tr>
           <th scope="row">{{student.matricola}}</a></th>
-          <td>{{student.first_name}}</td>
           <td>{{student.last_name}}</td>
+          <td>{{student.first_name}}</td>        
           <td>{{student.email}}</td>
           <td><a class="table"href="{% url 'teacher-edit-student' session.pk student.pk %}"><i class="fas fa-wrench"></i></a></td>
           <td><a class="table"href="{% url 'teacher-delete-student' session.pk student.pk %}"><i class="fas fa-trash-alt"></i></a></td>
