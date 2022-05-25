@@ -32,7 +32,7 @@ def add_question(request, pk):
                 answer.save()
 
             messages.success(request, 'New question added successful')
-            return redirect('teacher-edit-questions', pk)
+            return redirect('teacher-edit-questions', pk, 0 ,5)
     
     context = {'form': form, 'range': range(4), }
     return render(request, 'teacher/question/add-question.html', context)
@@ -61,7 +61,7 @@ def edit_question(request, subjectpk, pk):
             c = 1
 
             messages.success(request, 'Question saved successfully')
-            return redirect('teacher-edit-questions', subjectpk)
+            return redirect('teacher-edit-questions', subjectpk, 0 ,5)
     
     context = {'form': form, 'answers': answers}
     return render(request, 'teacher/question/edit-question.html', context)
@@ -75,7 +75,7 @@ def delete_question(request, subjectpk, pk):
     if request.method == 'POST':
         messages.success(request, 'The Question %s was deleted successfuly' % question.text)
         Question.delete(question)
-        return redirect('teacher-edit-questions', subjectpk)
+        return redirect('teacher-edit-questions', subjectpk, 0 ,5)
     
     context = {'question': question}
     return render(request, 'teacher/question/delete-question.html', context)
