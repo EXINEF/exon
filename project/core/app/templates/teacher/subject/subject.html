@@ -11,6 +11,7 @@
 		  <a class="btn float-end" style="border-radius:1em; background-color:#2E3440;" href="{% url 'teacher-load-questions-file' subject.id %}" class="text-decoration-none text-dark">Load From File</a>
 		  <a class="btn float-end" style="border-radius:1em; background-color:#2E3440" href="{% url 'teacher-edit-questions' subject.id  0 5 %}" class="text-decoration-none text-dark">Edit Questions</a>
 		  <a class="btn float-end" style="border-radius:1em; background-color:#2E3440" href="{% url 'teacher-add-session' subject.id %}" class="text-decoration-none text-dark">Create Exam Session</a>
+		  <a class="btn float-end" style="border-radius:1em; background-color:#2E3440" href="{% url 'teacher-compute-subject-statistics' subject.pk %}" class="text-decoration-none text-white">Reload The Statistics</a>
 	  </div>
 	</div>
       	
@@ -21,22 +22,38 @@
   
 <h4 class = "text-white">Number of questions: {{num_questions}}</h4>
 <h4 class = "text-white">Statistics: TO STYLE THEM, table or other way to display them nicely</h4>
-<a class="btn mt-3" style="border-radius:1em; background-color:#a3be8c" href="{% url 'teacher-compute-subject-statistics' subject.pk %}" class="text-decoration-none text-white">Refresh</a>
+<button class="btn " style=" border-radius:1em; background-color:#2E3440;" type="button" data-bs-toggle="collapse" data-bs-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
+    Show Subject Statistics
+</button>
+<div class="collapse" id="collapseExample">
+  <div class="card shadow-lg text-white rounded-lg p-3" style=" border-radius:1em; background-color:#2E3440;">
+	  <div class="row">
+		<div class="col-6">
+			<h3>total_sessions : {{subject.statistics.total_sessions}}</h6>
+				<h3>not_started_sessions : {{subject.statistics.not_started_sessions}}</h6>
+				<h3>started_sessions : {{subject.statistics.started_sessions}}</h6>
+				<h3>finished_sessions : {{subject.statistics.finished_sessions}}</h6>
+				<h3>total_exams : {{subject.statistics.total_exams}}</h6>
+				<h3>started_exams : {{subject.statistics.started_exams}}</h6>
+				<h3>finished_exams : {{subject.statistics.finished_exams}}</h6>
+		  </div>
+		  <div class="col-6">
+			<h3>average_votation_exams_10 : {{subject.statistics.average_votation_exams_10}}</h6>
+				<h3>average_votation_exams_30 : {{subject.statistics.average_votation_exams_30}}</h6>
+				<h3>total_questions : {{subject.statistics.total_questions}}</h6>
+				<h3>correct_questions : {{subject.statistics.correct_questions}}</h6>
+				<h3>blank_questions : {{subject.statistics.blank_questions}}</h6>
+				<h3>wrong_questions : {{subject.statistics.wrong_questions}}</h6>
+		  </div>
+	  </div>
+	  
+    
+	
+  </div>
+</div>
 
-<h6>total_sessions : {{subject.statistics.total_sessions}}</h6>
-<h6>not_started_sessions : {{subject.statistics.not_started_sessions}}</h6>
-<h6>started_sessions : {{subject.statistics.started_sessions}}</h6>
-<h6>finished_sessions : {{subject.statistics.finished_sessions}}</h6>
-<h6>total_exams : {{subject.statistics.total_exams}}</h6>
-<h6>started_exams : {{subject.statistics.started_exams}}</h6>
-<h6>finished_exams : {{subject.statistics.finished_exams}}</h6>
-<h6>average_votation_exams_10 : {{subject.statistics.average_votation_exams_10}}</h6>
-<h6>average_votation_exams_30 : {{subject.statistics.average_votation_exams_30}}</h6>
-<h6>total_questions : {{subject.statistics.total_questions}}</h6>
-<h6>correct_questions : {{subject.statistics.correct_questions}}</h6>
-<h6>blank_questions : {{subject.statistics.blank_questions}}</h6>
-<h6>wrong_questions : {{subject.statistics.wrong_questions}}</h6>
-<br>
+
+
 <br>
   
 <h4 class = "text-white">Not Started sessions:</h4>
