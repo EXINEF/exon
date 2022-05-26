@@ -149,6 +149,10 @@ def session_all_credentials(request, pk):
 def generate_exams_confirmation(request, pk):
     teacher = get_object_or_404(Teacher, user=request.user)
     session = get_object_or_404(Session, id=pk, teacher=teacher)
+
+    if session.get_status() != 'READY':
+        return redirect('teacher-session', session.pk)
+
     students = Student.objects.filter(session=session)
     
     if request.method == 'POST':
