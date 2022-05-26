@@ -3,45 +3,55 @@
 {% load crispy_forms_tags %}
 
 {% block content %} 
-<h3 class="text-white">Edit Questions of: {{subject.name}}</h3>
-<div class="row">
+
+<div class="row mt-2">
+  
   <div class="col-sm-10 col-12 mt-2">
+    <h3 class="text-white">Edit Questions of: {{subject.name}}</h3>
     <h5 class="text-white">Number of Questions : {{total_questions}}</h5>
   </div>
-  <div class="col-md-2  mx-auto">
-    <a href="{% url 'teacher-add-question' subject.id %}" class="btn btn-light float-end">Add Question</a>
+  <div class="col-sm-2  mx-auto">
+    <a href="{% url 'teacher-add-question' subject.id %}" style="border-radius:1em; background-color:#2E3440;" class="btn float-end">Add Question</a>
 </div>
 </div>
 <h5>Questions with filter:</h5>
 
-<div class="container">
-  <form method="GET">
-      {{myFilter.form | crispy}}
-      <button class="btn  mt-3" style="border-radius:1em; background-color:#a3be8c" type="submit">Search Question</button>
-      <a class="btn  mt-3" style="border-radius:1em; background-color:#BF616A" href="{% url 'teacher-edit-questions' subject.id page results %}">Reset Search</a>
 
-  </form>
-</div>
-
+  
 
 
 <!--Table-->   
 <div class="container-fluid">
-  <div class="card mb-4 mt-3">
+  
+
+  
+  <div class="card mb-4 ">
     <div class="card-header">
         <h2 class="table">My Questions</h2>
+        <div class="row">
+          <div class="col-sm-11 mb-2">
+            <form method="GET">
+              {{myFilter.form | crispy}}
+            </form>
+          </div>
+          <div class="col-sm-1 mt-2">
+            <a class="btn mx-auto mt-2 " style="border-radius:1em; background-color:#BF616A" href="{% url 'teacher-edit-questions' subject.id page results %}">Reset</a>
+          </div> 
+        </div>
     </div>
+
+    
     <div class="dropdown">
-      <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
-        Results for page:
+      <button class="btn  dropdown-toggle" type="button" style="border-radius:1em; background-color:#2E3440;" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+        Results for page: {{results}}
       </button>
       <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
-        
         <li><a class="dropdown-item" href="{% url 'teacher-edit-questions' subject.id page 5 %}">5</a></li>
         <li><a class="dropdown-item" href="{% url 'teacher-edit-questions' subject.id page 10 %}">10</a></li>
         <li><a class="dropdown-item" href="{% url 'teacher-edit-questions' subject.id page 25 %}">25</a></li>
         <li><a class="dropdown-item" href="{% url 'teacher-edit-questions' subject.id page 50 %}">50</a></li>
       </ul>
+      
     </div>
     <nav aria-label="Page navigation example">
       <ul class="pagination justify-content-end">
@@ -54,6 +64,7 @@
         </li>
       </ul>
     </nav>
+    
     <table class="table table table" id="sortTable">
         <thread>
             <tr>
@@ -87,6 +98,7 @@
     </table>
   </div>
 </div>
+
 
 <!--Table Ends-->
 
