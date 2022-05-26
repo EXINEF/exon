@@ -130,16 +130,14 @@ STATIC_URL = 'static/'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-
+# DEFINE STASTIC FOLDER PATH
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
-
-STATIC_URL = '/static/'
 
 STATICFILES_DIRS = (
     os.path.join(BASE_DIR, "static/"),
 )
 
-# for display messages with different colors 
+# DEFINE MESSAGES COLOR WITH BOOSTRAP 5
 # https://getbootstrap.com/docs/5.1/components/alerts/
 MESSAGE_TAGS = {
         messages.DEBUG: 'alert-secondary',  #grey
@@ -149,11 +147,11 @@ MESSAGE_TAGS = {
         messages.ERROR: 'alert-danger',     #red
 }
 
+# DEFINE CRISPY TEMPLATE PACK used for styling the forms
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
 
 
-#SMTP Configuration
-
+# DEFINE SMTP Configuration, for sending mails
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_PORT = 587
