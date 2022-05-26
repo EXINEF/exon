@@ -9,4 +9,4 @@ class QuestionFilter(django_filters.FilterSet):
     
     class Meta:
         model = Question
-        exclude = ['teacher', 'subject','creation_datetime']
+        exclude = ['teacher', 'subject','creation_datetime','difficulty']
