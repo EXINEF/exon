@@ -1,19 +1,14 @@
-{% extends 'core/base.html' %}
-
-{% block content %}
+{% extends 'core/base.html' %} {% block content %}
 
 <div class="container">
-    <h1>Load Question from File</h1>
-    <form method="POST" action="">
-        {% csrf_token %}
-        <label for="file">Questions File:</label><br>
-        <input type="file" id="file" name="file"><br>
-        <br>
-        <input type="submit" value="Load Question from File">
-    </form>
+  <h1>Load Question from File</h1>
+  <form method="POST" action="">
+    {% csrf_token %}
+    <label for="file">Questions File:</label><br />
+    <input type="file" id="file" name="file" /><br />
+    <br />
+    <input type="submit" value="Load Question from File" />
+  </form>
 </div>
 
 {% endblock content %}
-
-
-
