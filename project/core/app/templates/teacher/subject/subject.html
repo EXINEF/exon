@@ -57,34 +57,35 @@
 
 
 <br>
-  
-<h4 class = "text-white">Not Started sessions:</h4>
-<div class = "row g-3 mt-3">
+<br> 
+{% with subject.get_numbers_of_sessions as numbers_of_sessions %}
+<h4 class = "text-white">{{numbers_of_sessions.0}} Not Started sessions: </h4>
+<div class = "row">
 	{% for session in sessions %}
 		{% if not session.is_started %}  
 			{% include "teacher/subject/session-card.html" with session=session%}
 		{% endif %}
 	{% endfor %}
 </div>
-    
-<h4 class = "text-white">Started sessions:</h4>
-<div class = "row g-3 mt-3">
+<br> 
+<h4 class = "text-white">{{numbers_of_sessions.1}} Started sessions:</h4>
+<div class = "row">
 	{% for session in sessions %}
 		{% if session.is_started and not session.is_finished %}  
 			{% include "teacher/subject/session-card.html" with session=session%}
 		{% endif %}
 	{% endfor %}
 </div>
-
-<h4 class = "text-white">Finished sessions:</h4>
-<div class = "row g-3 mt-3">
+<br>
+<h4 class = "text-white">{{numbers_of_sessions.2}} Finished sessions:</h4>
+<div class = "row">
 	{% for session in sessions %}
 		{% if session.is_finished %}  
 			{% include "teacher/subject/session-card.html" with session=session%}
 		{% endif %}
 	{% endfor %}
 </div>
-   
+{% endwith %} 
 </div>        
 {% endblock content %}
 

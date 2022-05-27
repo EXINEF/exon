@@ -1,11 +1,15 @@
+
 <div class="col-6 col-md-4 col-lg-3">
-    <a href="{% url 'teacher-session' session.id %} " class="text-decoration-none text-dark">
     <div class="card" style="border-radius:1em; background-color:#2E3440">
-        <div class="card-body">
-        <h5 class="card-title text-light">{{session.name}}</h5>
-        <p class="card-text text-light">{{session.get_display_description}}</p>
-            <a class="btn mt-3" style="border-radius:1em; background-color:#a3be8c" href="{% url 'teacher-edit-session' session.id %}" class="text-decoration-none text-white">Edit</a>
-            <a class="btn mt-3" style="border-radius:1em; background-color:#BF616A" href="{% url 'teacher-delete-session' session.id %}" class="text-decoration-none text-white" > DELETE</a>      
-        </div>
+        <a href="{% url 'teacher-session' session.id %}">
+            <div class="card-body">
+                <h5 class="card-title text-light">{{session.name}}</h5>
+                <p class="card-text text-light">{{session.get_display_description}}</p>
+                    {% if session.get_status != 'STARTED' %}
+                        <a class="btn mt-3" style="border-radius:1em; background-color:#a3be8c" href="{% url 'teacher-edit-session' session.id %}" class="text-decoration-none text-white">Edit</a>
+                        <a class="btn mt-3" style="border-radius:1em; background-color:#BF616A" href="{% url 'teacher-delete-session' session.id %}" class="text-decoration-none text-white" > DELETE</a>      
+                    {% endif %}
+            </div>
+        </a>
     </div>
 </div>  

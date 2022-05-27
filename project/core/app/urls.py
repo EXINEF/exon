@@ -58,12 +58,12 @@ urlpatterns = [
 	path('teacher/edit-student/<str:session_pk>/<str:student_pk>', edit_student, name='teacher-edit-student'),
 	
 	# SUBJECT
-	path('teacher/subject/<str:pk>', subject_page, name='teacher-subject'),
-	path('teacher/compute-subject-statistics/<str:pk>', compute_subject_statistics, name='teacher-compute-subject-statistics'),
-	path('teacher/load-questions-file/<str:pk>', load_questions_file, name='teacher-load-questions-file'),
+	path('teacher/subject/<str:subject_pk>', subject_page, name='teacher-subject'),
+	path('teacher/compute-subject-statistics/<str:subject_pk>', compute_subject_statistics, name='teacher-compute-subject-statistics'),
+	path('teacher/load-questions-file/<str:subject_pk>', load_questions_file, name='teacher-load-questions-file'),
 	path('teacher/add-subject', add_subject, name='teacher-add-subject'),
-	path('teacher/delete-subject/<str:pk>', delete_subject, name='teacher-delete-subject'),
-	path('teacher/edit-subject/<str:pk>', edit_subject, name='teacher-edit-subject'),
-	path('teacher/edit-questions/<str:pk>/<int:page>/<int:results>', edit_questions, name='teacher-edit-questions'),
+	path('teacher/delete-subject/<str:subject_pk>', delete_subject, name='teacher-delete-subject'),
+	path('teacher/edit-subject/<str:subject_pk>', edit_subject, name='teacher-edit-subject'),
+	path('teacher/edit-questions/<str:subject_pk>/<int:page>/<int:results>', edit_questions, name='teacher-edit-questions'),
 
 ]

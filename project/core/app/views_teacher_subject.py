@@ -8,9 +8,9 @@ from .forms import *
 from .filters import QuestionFilter
 
 @teacher_only
-def subject_page(request, pk):
+def subject_page(request, subject_pk):
 	teacher = get_object_or_404(Teacher, user=request.user)
-	subject = get_object_or_404(Subject, id=pk, teacher=teacher)
+	subject = get_object_or_404(Subject, id=subject_pk, teacher=teacher)
 	num_questions = Question.objects.filter(subject=subject).count()
 	sessions = Session.objects.filter(subject=subject, teacher=teacher)
 	
@@ -19,16 +19,16 @@ def subject_page(request, pk):
 
 
 @teacher_only
-def compute_subject_statistics(request, pk):
+def compute_subject_statistics(request, subject_pk):
 	teacher = get_object_or_404(Teacher, user=request.user)
-	subject = get_object_or_404(Subject, id=pk, teacher=teacher)
+	subject = get_object_or_404(Subject, id=subject_pk, teacher=teacher)
 	subject.calculate_statistics()
 
 	messages.success(request, 'Statistics of Subject: %s were calculated correctly.' % (subject.name))
-	return redirect('teacher-subject', pk)
+	return redirect('teacher-subject', subject_pk)
 
 @teacher_only
-def load_questions_file(request, pk):
+def load_questions_file(request, subject_pk):
 	context = {}
 	return render(request, 'teacher/subject/load-questions-file.html', context)
 
@@ -55,9 +55,9 @@ def add_subject(request):
 
 
 @teacher_only
-def delete_subject(request, pk):
+def delete_subject(request, subject_pk):
 	teacher = get_object_or_404(Teacher, user=request.user)
-	subject = get_object_or_404(Subject, id=pk, teacher=teacher)
+	subject = get_object_or_404(Subject, id=subject_pk, teacher=teacher)
 	
 	if request.method == 'POST':
 		messages.success(request, 'The Subject %s was deleted successfuly' % subject.name)
@@ -69,9 +69,9 @@ def delete_subject(request, pk):
 
 
 @teacher_only
-def edit_subject(request, pk):
+def edit_subject(request, subject_pk):
 	teacher = get_object_or_404(Teacher, user=request.user)
-	subject = get_object_or_404(Subject, id=pk, teacher=teacher)
+	subject = get_object_or_404(Subject, id=subject_pk, teacher=teacher)
 	
 	form = SubjectForm(instance=subject)
 	
@@ -88,9 +88,9 @@ def edit_subject(request, pk):
 
 
 @teacher_only
-def edit_questions(request, pk, page, results):
+def edit_questions(request, subject_pk, page, results):
 	teacher = get_object_or_404(Teacher, user=request.user)
-	subject = get_object_or_404(Subject, id=pk, teacher=teacher)
+	subject = get_object_or_404(Subject, id=subject_pk, teacher=teacher)
 	total_questions = Question.objects.filter(subject=subject).count()
 	questions = Question.objects.filter(subject=subject)[page * results:(page +1)*results]
 	myFilter = QuestionFilter()

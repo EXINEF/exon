@@ -87,6 +87,21 @@ class Subject(models.Model):
             number_of_exams += Exam.objects.filter(session=session)
         return number_of_exams
 
+    def get_numbers_of_sessions(self):
+        not_started = 0
+        started = 0
+        finished = 0
+
+        sessions = Session.objects.filter(subject=self)
+        for session in sessions:
+            if not session.is_started:
+                not_started += 1
+            elif session.is_started and not session.is_finished:
+                started += 1
+            else:
+                finished += 1
+        return not_started,started,finished
+
     def calculate_statistics(self):
         self.statistics.reset_all()
         votation = 0
