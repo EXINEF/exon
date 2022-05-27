@@ -255,6 +255,11 @@ class Session(models.Model):
                 exam.set_finished()
                 exam.save()
 
+    def allowed_status(self, list):
+        for status in list:
+            if self.get_status() == status:
+                return True
+        return False
 
 class Exam(models.Model):
     token = models.CharField(max_length=16, null=True, unique=True)

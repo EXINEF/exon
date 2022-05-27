@@ -34,6 +34,9 @@ def edit_session(request, pk):
     teacher = get_object_or_404(Teacher, user=request.user)  
     session = get_object_or_404(Session, id=pk, teacher=teacher)
 
+    if not session.allowed_status(['READY','FINISHED']):
+        return redirect('teacher-session', session.pk)
+
     form = SessionForm(instance = session)
     
     if request.method == 'POST':
@@ -52,6 +55,9 @@ def edit_session(request, pk):
 def edit_settings_session(request, pk):
     teacher = get_object_or_404(Teacher, user=request.user)  
     session = get_object_or_404(Session, id=pk, teacher=teacher)
+
+    if not session.allowed_status(['MISSING CONFIGURATION','READY']):
+        return redirect('teacher-session', session.pk)
 
     form = SettingsSessionForm(instance = session)
     
@@ -79,6 +85,9 @@ def edit_weights_session(request, pk):
 
     form = WeightsSessionForm(instance = session)
     
+    if not session.allowed_status(['FINISHED']):
+        return redirect('teacher-session', session.pk)
+
     if request.method == 'POST':
         form = WeightsSessionForm(request.POST, instance = session)
         
@@ -95,6 +104,9 @@ def delete_session(request, pk):
     teacher = get_object_or_404(Teacher, user=request.user)
     session = get_object_or_404(Session, id=pk, teacher=teacher)
     
+    if not session.allowed_status(['MISSING CONFIGURATION','READY','FINISHED']):
+        return redirect('teacher-session', session.pk)
+
     if request.method == 'POST':
         messages.success(request,'The Session Exam %s was deleted successfuly' % session.name)
         exams = Exam.objects.filter(session=session)
@@ -126,8 +138,10 @@ def session_page(request, pk):
 def exam(request, session_pk, exam_pk):
     teacher = get_object_or_404(Teacher, user=request.user)
     session = get_object_or_404(Session, id=session_pk, teacher=teacher)
-    if session.get_status() != 'FINISHED':
+    
+    if not session.allowed_status(['FINISHED']):
         return redirect('teacher-session', session.pk)
+
     exam = get_object_or_404(Exam, id=exam_pk, session=session)
     questions = ExamQuestion.objects.filter(exam=exam)
 
@@ -139,6 +153,10 @@ def exam(request, session_pk, exam_pk):
 def session_all_credentials(request, pk):
     teacher = get_object_or_404(Teacher, user=request.user)
     session = get_object_or_404(Session, id=pk, teacher=teacher)
+
+    if not session.allowed_status(['STARTED']):
+        return redirect('teacher-session', session.pk)
+
     exams = session.get_exams()
 
     context = {'session':session, 'exams':exams }
@@ -150,7 +168,7 @@ def generate_exams_confirmation(request, pk):
     teacher = get_object_or_404(Teacher, user=request.user)
     session = get_object_or_404(Session, id=pk, teacher=teacher)
 
-    if session.get_status() != 'READY':
+    if not session.allowed_status(['READY']):
         return redirect('teacher-session', session.pk)
 
     students = Student.objects.filter(session=session)
@@ -176,6 +194,9 @@ def terminate_session_confirmation(request, pk):
     teacher = get_object_or_404(Teacher, user=request.user)
     session = get_object_or_404(Session, id=pk, teacher=teacher)
 
+    if not session.allowed_status(['STARTED']):
+        return redirect('teacher-session', session.pk)
+
     if request.method == 'POST':
         session.set_finished()
         session.save()
@@ -191,6 +212,10 @@ def terminate_session_confirmation(request, pk):
 def lock_session(request, pk):
     teacher = get_object_or_404(Teacher, user=request.user)
     session = get_object_or_404(Session, id=pk, teacher=teacher)
+
+    if not session.allowed_status(['STARTED']):
+        return redirect('teacher-session', session.pk)
+
     session.is_locked = True
     session.save()
     messages.warning(request,'The Session: %s is now LOCKED' % session.name)
@@ -201,6 +226,10 @@ def lock_session(request, pk):
 def unlock_session(request, pk):
     teacher = get_object_or_404(Teacher, user=request.user)
     session = get_object_or_404(Session, id=pk, teacher=teacher)
+
+    if not session.allowed_status(['STARTED']):
+        return redirect('teacher-session', session.pk)
+
     session.is_locked = False
     session.save()
     messages.warning(request,'The Session: %s is now UNLOCK' % session.name)
@@ -211,6 +240,9 @@ def unlock_session(request, pk):
 def correct_exams(request, pk):
     teacher = get_object_or_404(Teacher, user=request.user)
     session = get_object_or_404(Session, id=pk, teacher=teacher)
+
+    if not session.allowed_status(['FINISHED']):
+        return redirect('teacher-session', session.pk)
 
     exams = Exam.objects.filter(session=session)
     
@@ -225,6 +257,9 @@ def correct_exams(request, pk):
 def export_exam_pdf(request, session_pk, exam_pk):
     teacher = get_object_or_404(Teacher, user=request.user)
     session = get_object_or_404(Session, pk=session_pk, teacher=teacher)
+
+    if not session.allowed_status(['STARTED']):
+        return redirect('teacher-session', session.pk)
 
     exam = Exam.objects.get(pk=exam_pk)
     questions = ExamQuestion.objects.filter(exam=exam)
