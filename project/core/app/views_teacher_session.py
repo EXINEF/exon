@@ -8,6 +8,7 @@ from .forms import *
 from .models import *
 from .utils import select_random_question_poll_from_subject, generate_user_and_exam_for_student, send_token_by_email_for_exam
 
+
 @teacher_only
 def add_session(request, pk):
     teacher = get_object_or_404(Teacher, user=request.user)
@@ -28,6 +29,7 @@ def add_session(request, pk):
 
     context = {'subject':subject, 'form':form, }
     return render(request,'teacher/session/add-session.html', context)
+
 
 @teacher_only
 def edit_session(request, pk):
@@ -83,11 +85,11 @@ def edit_weights_session(request, pk):
     teacher = get_object_or_404(Teacher, user=request.user)  
     session = get_object_or_404(Session, id=pk, teacher=teacher)
 
-    form = WeightsSessionForm(instance = session)
-    
     if not session.allowed_status(['FINISHED']):
         return redirect('teacher-session', session.pk)
 
+    form = WeightsSessionForm(instance = session)
+    
     if request.method == 'POST':
         form = WeightsSessionForm(request.POST, instance = session)
         
@@ -98,6 +100,7 @@ def edit_weights_session(request, pk):
 
     context = {'form':form, 'session':session, }
     return render(request, 'teacher/session/edit-weights-session.html', context)
+
 
 @teacher_only
 def delete_session(request, pk):
@@ -113,12 +116,10 @@ def delete_session(request, pk):
         for exam in exams:
             User.delete(exam.student)
         Session.delete(session)
-
         return redirect('teacher-subject', session.subject.id)
 
     context = {'session':session} 
     return render(request, 'teacher/session/delete-session.html', context)
-
 
 
 @teacher_only
@@ -268,13 +269,12 @@ def export_exam_pdf(request, session_pk, exam_pk):
         answers = Answer.objects.filter(question=q.question)
         answersList.append(answers)
 
-    path = 'teacher/session/export-exams-pdf.html'
     context = {'session':session, 'exam': exam, 'questions': questions, 'answersList': answersList, }
     
     response = HttpResponse(content_type='application/pdf')
     file_name = '\'filename=EXAM_' + str(session.pk) + '_' + exam.token + '\''
     response['Content-Disposition'] = file_name
-    template = get_template(path)
+    template = get_template('teacher/session/export-exams-pdf.html')
     html = template.render(context)
 
     pisa_status = pisa.CreatePDF(html, dest=response)
@@ -284,11 +284,13 @@ def export_exam_pdf(request, session_pk, exam_pk):
     return response
 
 
-
 @teacher_only
 def send_tokens_by_email(request, session_pk):
     teacher = get_object_or_404(Teacher, user=request.user)
     session = get_object_or_404(Session, pk=session_pk, teacher=teacher)
+    
+    if not session.allowed_status(['STARTED']):
+        return redirect('teacher-session', session.pk)
 
     exams = Exam.objects.filter(session=session)
 

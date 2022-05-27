@@ -255,9 +255,10 @@ class Session(models.Model):
                 exam.set_finished()
                 exam.save()
 
-    def allowed_status(self, list):
-        for status in list:
-            if self.get_status() == status:
+    def allowed_status(self, status_list):
+        session_status = self.get_status()
+        for status in status_list:
+            if session_status == status:
                 return True
         return False
 
