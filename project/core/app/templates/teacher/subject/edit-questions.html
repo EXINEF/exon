@@ -6,41 +6,35 @@
 
 <div class="row mt-2">
   
-  <div class="col-sm-10 col-12 mt-2">
+  <div class="col-sm-7 col-12 mt-2">
     <h3 class="text-white">Edit Questions of: {{subject.name}}</h3>
     <h5 class="text-white">Number of Questions : {{total_questions}}</h5>
   </div>
-  <div class="col-sm-2  mx-auto">
+  <div class="col-sm-5  mx-auto">
     <a href="{% url 'teacher-add-question' subject.id %}" style="border-radius:1em; background-color:#2E3440;" class="btn float-end">Add Question</a>
+    <a class="btn float-end" style="border-radius:1em; background-color:#2E3440;" href="{% url 'teacher-load-questions-file' subject.id %}" class="text-decoration-none text-dark">Load From File</a>
+  </div>
 </div>
-</div>
-<h5>Questions with filter:</h5>
-
-
-  
-
 
 <!--Table-->   
 <div class="container-fluid">
-  
-
-  
-  <div class="card mb-4 ">
+  <div class="card mb-4">
     <div class="card-header">
-        <h2 class="table">My Questions</h2>
+        <h5 class="table">Search for a question, by its text.</h5>
         <div class="row">
-          <div class="col-sm-11 mb-2">
+          <div class="col-sm-10 mb-2">
             <form method="GET">
               {{myFilter.form | crispy}}
             </form>
           </div>
-          <div class="col-sm-1 mt-2">
-            <a class="btn mx-auto mt-2 " style="border-radius:1em; background-color:#BF616A" href="{% url 'teacher-edit-questions' subject.id page results %}">Reset</a>
+          <div class="col-sm-2 mt-2">
+            <a class="btn mx-auto mt-2 " style="border-radius:1em; background-color:#BF616A" href="{% url 'teacher-edit-questions' subject.id page results %}">Reset Search</a>
           </div> 
         </div>
     </div>
 
-    
+    <div class="row">
+      <div class="col">
     <div class="dropdown">
       <button class="btn  dropdown-toggle" type="button" style="border-radius:1em; background-color:#2E3440;" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
         Results for page: {{results}}
@@ -51,8 +45,9 @@
         <li><a class="dropdown-item" href="{% url 'teacher-edit-questions' subject.id page 25 %}">25</a></li>
         <li><a class="dropdown-item" href="{% url 'teacher-edit-questions' subject.id page 50 %}">50</a></li>
       </ul>
-      
     </div>
+  </div>
+  <div class="col">
     <nav aria-label="Page navigation example">
       <ul class="pagination justify-content-end">
         <li class="page-item">
@@ -64,6 +59,8 @@
         </li>
       </ul>
     </nav>
+  </div>
+  </div>
     
     <table class="table table table" id="sortTable">
         <thread>
