@@ -1,5 +1,8 @@
 {% load static %}
+{% load auth_extras %}
 
+{# If is a teacher, can logout and click on the navbar #}
+{% if request.user|has_group:"teacher" %} 
 <nav class="navbar navbar-expand-lg navbar-dark" style="background-color:#2E3440">
   <div class="container-fluid">
     <a class="navbar-brand" href="{% url 'teacher-dashboard' %}">
@@ -21,3 +24,47 @@
     </div>
   </div>
 </nav>
+
+{# else if is a student, the navbar is with no links #}
+{% elif request.user|has_group:"student" %}
+<nav class="navbar navbar-expand-lg navbar-dark" style="background-color:#2E3440">
+  <div class="container-fluid">
+    <a class="navbar-brand">
+      <img src="{% static 'res/logo.png' %}" alt="" width="30" height="30" class="d-inline-block align-text-top">
+      WEBSITE_NAME
+    </a>
+    
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarText">
+      <ul class="navbar-nav me-auto mb-2 mb-lg-0"></ul>
+      
+      <span class="navbar-text">
+      </span>
+    </div>
+  </div>
+</nav>
+
+{# else if is not authenticate it can go on the homepage, the navbar is with no links #}
+{% else %}
+<nav class="navbar navbar-expand-lg navbar-dark" style="background-color:#2E3440">
+  <div class="container-fluid">
+    <a class="navbar-brand" href="{% url 'index' %}">
+      <img src="{% static 'res/logo.png' %}" alt="" width="30" height="30" class="d-inline-block align-text-top">
+      WEBSITE_NAME
+    </a>
+    
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarText">
+      <ul class="navbar-nav me-auto mb-2 mb-lg-0"></ul>
+      
+      <span class="navbar-text">
+      </span>
+    </div>
+  </div>
+</nav>
+{% endif %}
+

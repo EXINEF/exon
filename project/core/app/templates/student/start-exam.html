@@ -11,14 +11,17 @@
             <h3 class="text-white">Are You Ready To Start Your Exam?</h3>
             <h5 class="text-white">Number of questions: {{exam.session.number_of_questions}}</h5>
             <h5 class="text-white">Duration in minutes: {{exam.session.duration}}</h5>
+            <p>Once you have started the exam, you will not allowed to logout, if you will logout, you will not be able to enter, if there will be a connection error, you can ask to the teacher for log in again.</p>
 
             
         </div>
         <form action="" method="POST">
             {% csrf_token %}
-            <button type="submit" class="btn" style="border-radius:1em; background-color:#a3be8c">Start it</button>
+            <button type="submit" class="btn" style="border-radius:1em; background-color:#a3be8c">I am ready, start the exam</button>
         </form>
-
+        <div class="card-footer">
+            <p>If you are not {{request.user.last_name}} {{request.user.first_name}}, say it to the teacher, and then logout clicking <a href="{% url 'logout' %}">here</a>.</p>
+        </div>
     </div>
 
 </div>
