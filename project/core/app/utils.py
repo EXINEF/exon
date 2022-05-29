@@ -5,6 +5,8 @@ from django.contrib.auth.models import User
 from django.contrib.auth.models import Group
 from django.core.mail import EmailMessage
 
+from core.settings import TOKEN_SIZE
+
 def select_random_question_poll_from_subject(subject, number_of_questions):
     questions = []
 
@@ -32,8 +34,10 @@ def random_token_generator(str_size):
 
 
 def generate_user_and_exam_for_student(session, student, questions_poll):
-    TOKEN_SIZE = 10
     token = random_token_generator(TOKEN_SIZE)
+    while Exam.objects.filter(token=token).exists():
+        token = random_token_generator(TOKEN_SIZE)
+    
     new_student_user = User.objects.create_user(username=token, password=token, email=student.email, first_name=student.first_name, last_name=student.last_name)
     
     teacher_group = Group.objects.get(name='student')

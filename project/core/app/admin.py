@@ -37,7 +37,7 @@ class ExamAdmin(admin.ModelAdmin):
 
 class ExamQuestionAdmin(admin.ModelAdmin):
 	model = ExamQuestion
-
+ 
 class ExamAnswerAdmin(admin.ModelAdmin):
 	model = ExamAnswer
 
