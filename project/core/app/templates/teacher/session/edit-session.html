@@ -3,23 +3,24 @@
 
 {% block content %}
 
-<div class="container-fluid text-light py-3">
-    <header class="text-center">
-        <h2 class="">Edit Session {{session.name}}</h2>
-    </header>    
+<div class="container d-flex justify-content-center align-items-center py-5">
+    <div class="carddd shadow-lg text-white rounded-lg mt-2" style="text-align: center; border-radius: 1em; background-color:#2E3440; width: 50rem;">
+        <div class="card-header">
+            <h1 class="standard-form-title">Edit Session {{session.name}}</h1>
+        </div> 
+        <div class="container-fluid">
+            <form method="POST" action="" class="text-white">
+                {% csrf_token %}
+                    {{form | crispy}}
+                    <div class="d-grid gap-2">
+                        <button type="submit" class=" btn  mt-3" style="border-radius:1em; background-color:#a3be8c">Save</button> 
+                    </div> 
+            </form>
+        </div>
+    </div> 
+       
 </div>
-<div class="container col-lg-4 mt-5">
-    
-    <form method="POST" action="">
-        {% csrf_token %}
-            {{form | crispy}}
-            <div class="d-grid gap-2">
-                <button type="submit" class=" btn  mt-3" style="border-radius:1em; background-color:#a3be8c">Save</button> 
-            </div>
-            
-    </form>
 
-</div>
 
 {% endblock content %}
 

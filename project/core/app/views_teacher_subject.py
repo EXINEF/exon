@@ -83,7 +83,7 @@ def edit_subject(request, subject_pk):
 			messages.success(request, 'Subject saved successfuly')
 			return redirect('teacher-dashboard')
 	
-	context = {'form': form, }
+	context = {'form': form, 'subject': subject}
 	return render(request, 'teacher/subject/edit-subject.html', context)
 
 
