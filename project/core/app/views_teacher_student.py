@@ -75,7 +75,7 @@ def add_student(request, pk):
             messages.success(request, '%s added successful to the Session: %s' % (new_student.__str__(), session.name))
             return redirect('teacher-all-students', session.id)
 
-    context = {'form':form}
+    context = {'form':form, 'session':session}
     return render(request, 'teacher/student/add-student.html', context)
 
 

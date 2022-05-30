@@ -1,7 +1,11 @@
 {% extends 'core/base.html' %}
 {% load auth_extras %} 
 {% block content %}
-
+<div class = "card shadow-lg text-white rounded-lg mt-5"
+style="
+  border-radius: 1em;
+  background-color: #2e3440;
+">
 <h2>Exam result for: {{request.user.last_name}} {{request.user.first_name}} - Token: {{request.user.username}}</h2>
 <h3>In this page you will have the results of your exam</h3>
 <h6>Total questions: {{exam.session.number_of_questions}}<h6>
@@ -11,6 +15,8 @@
 <h6>Votation: {{exam.votation}}/{{exam.session.get_max_votation}}<h6>
 <h6>Votation out of 10: {{exam.get_votation_out_of_10}} / 10<h6>
 <h6>Votation out of 30: {{exam.get_votation_out_of_30}} / 30<h6>
+</div>
+
 
 
 <h3>Your exam</h3>
@@ -35,5 +41,5 @@
 
 {% endfor %}
 
-<a href="{% url 'index' %}"> index</a>
+<p><a href="{% url 'logout' %}">LOGOUT</a></p>
 <br> {% endblock content %}
