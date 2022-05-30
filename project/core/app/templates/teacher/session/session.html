@@ -6,7 +6,7 @@
 
 <div class="row">
   <div class="col-sm-8 col-12 mt-2">
-    <h2 class="text-white display-3">Exam Session: {{ session.name }}</h1>
+    <h2>Exam Session: {{ session.name }}</h1>
     <h4 class="text-white">STATUS: {{session.get_status}}</h4>
   </div>
   <div class="col-sm-4 mt-4 mx-auto">
@@ -23,7 +23,7 @@
 
 <div class="row">
   <div class="col-sm-8 col-12 mt-2">
-    <h1 class="text-white display-3">Exam Session: {{ session.name }}</h1>
+    <h2>Exam Session: {{ session.name }}</h2>
     <h4 class="text-white">STATUS: {{session.get_status}}</h4>
   </div>
   <div class="col-sm-4 mt-4 mx-auto">
@@ -43,8 +43,8 @@
               <h4 class="text-light">EDIT SESSION SETTINGS</h4>
               <h6 class="text-light">Number of Questions: {{session.number_of_questions}}</h6>
               <h6 class="text-light">Overall Difficulty: TODO</h6>
-              <h6 class="text-light">Start Datetime: {{session.start_datetime}}</h6>
-              <h6 class="text-light">Expiration Datetime: {{session.expiration_datetime}}</h6>
+              <h6 class="text-light">Date of Start: {{session.start_datetime|date:"d/m/Y H:i"}}</h6>
+              <h6 class="text-light">Date of Expiration: {{session.expiration_datetime|date:"d/m/Y H:i"}}</h6>
               <h6 class="text-light">Weight For Correct Answer: {{session.weight_correct_answer}}</h6>
               <h6 class="text-light">Weight For Blank Answer: {{session.weight_blank_answer}}</h6>
               <h6 class="text-light">Weight For Wrong Answer: {{session.weight_wrong_answer}}</h6>
@@ -76,14 +76,15 @@
       <div class="card-body">
     </div>
 
-    {% elif session.get_status == 'STARTED' %}
+  {% elif session.get_status == 'STARTED' %}
 
     <!--Started Exam Page-->
+    <h2>Exam Session: {{ session.name }}</h2>
     <div class="row mt-3">
       <div class="col-sm-8  ">
         {% if session.is_locked%}
         <!--Locked Exam-->
-        <h1 class="text-white display-6">STATUS: LOCKED</h1>
+        <h5>STATUS: LOCKED</h5>
       </div>
       <div class="col-sm-4  ">
         <a class="btn float-end" style="border-radius:1em; background-color:#bf616a" href="{% url 'teacher-unlock-session' session.id %}">Unlock the Session</a>
@@ -96,7 +97,7 @@
       {% else %}
     
         <!--Unlocked Exam-->
-        <h1 class="text-white display-6">STATUS: UNLOCKED</h1>
+        <h5>STATUS: UNLOCKED</h5>
         </div>
         <div class="col-sm-6 mx-auto mt-3">
           <a class="btn float-end" style="border-radius:1em; background-color:#bf616a" href="{% url 'teacher-terminate-session-confirmation' session.id %}">Terminate the Session</a>
@@ -131,8 +132,8 @@
                   <th scope="col">TOKEN</th>
                   <th scope="col">Student</th>
                   <th scope="col">Matricola</th>
-                  <th scope="col">Started</th>
-                  <th scope="col">Finished</th>
+                  <th scope="col">Is Started ?</th>
+                  <th scope="col">Is Finished ?</th>
                 </tr>
               </thead>
               <tbody>
@@ -141,8 +142,8 @@
                   <th scope="row">{{exam.token}}</a></th>
                   <td>{{exam.student.last_name}} {{exam.student.first_name}}</td>
                   <td>{{exam.student.get_matricola_from_user}}</td>
-                  <td>{{exam.is_started}} - {{exam.start_datetime}}</td>
-                  <td>{{exam.is_finished}} - {{exam.finish_datetime}}</td>
+                  <td>{{exam.get_start_infos}}</td>
+                  <td>{{exam.get_finish_infos}}</td>
                   </tr>
                   {% endfor %}
               </tbody>
@@ -180,7 +181,7 @@
                 <td>{{access.exam.student.last_name}} {{access.exam.student.first_name}}</td>
                 <td>{{access.exam.student.get_matricola_from_user}}</td>
                 <td>{{access.ip}}</td>
-                <td>{{access.creation_datetime}}</td>
+                <td>{{access.get_creation_datetime}}</td>
                 </tr>
                 {% endfor %}
              

@@ -5,10 +5,10 @@
 
 <div class="container-fluid">
     <div class="row">
-        <div class="col-sm-10 col-12 mt-2">
-            <h1 class="text-white display-3">Dashboard</h1>
+        <div class="col-md-6 mt-2">
+            <h1>Dashboard</h1>
         </div>
-        <div class="col-md-2 mt-4 mx-auto ">
+        <div class="col-md-6 mt-2">
             <a href="{% url 'teacher-add-subject' %}" class="btn  float-end" style="border-radius:1em; background-color:#2E3440;">Add Subject</a>
         </div>
 
@@ -16,7 +16,7 @@
 
     <div class="row g-3 mt-3">
         {% for subject in subjects %}
-        <div class="col-6 col-md-4 col-lg-3">
+        <div class="col-md-4 col-lg-3">
             <a href="{% url 'teacher-subject' subject.id %} " class="text-decoration-none text-light">
                 <div class="card" style="border-radius:1em; background-color:#2E3440">
                     <div class="card-body">

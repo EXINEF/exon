@@ -1,4 +1,5 @@
 from datetime import timedelta, datetime, timezone
+from multiprocessing import get_start_method
 import statistics
 from django.contrib.auth.models import User
 from django.db import models
@@ -306,6 +307,22 @@ class Exam(models.Model):
     def set_finished(self):
         self.finish_datetime = datetime.now()
         self.analyze_and_correct_exam()
+
+    def get_start_datetime(self):
+        return self.start_datetime.strftime('%d-%m-%Y %H:%M')
+
+    def get_finish_datetime(self):
+        return self.finish_datetime.strftime('%d-%m-%Y %H:%M')
+
+    def get_start_infos(self):
+        if self.start_datetime is None:
+            return 'Not started yet.'
+        return 'Started at %s' % self.get_start_datetime()
+    
+    def get_finish_infos(self):
+        if self.finish_datetime is None:
+            return 'Not finished yet.'
+        return 'Finished at %s' % self.get_finish_datetime()
     
     def get_expiration_time(self):
         return self.start_datetime + timedelta(minutes=self.session.duration)
@@ -422,6 +439,9 @@ class Access(models.Model):
 
     def get_number_of_access_tokens(self):
         return Access.objects.filter(exam=self.exam).count()
+
+    def get_creation_datetime(self):
+        return self.creation_datetime.strftime('%d-%m-%Y %H:%M')
 
 def get_matricola_from_user(self):
     students = Student.objects.filter(email=self.email)

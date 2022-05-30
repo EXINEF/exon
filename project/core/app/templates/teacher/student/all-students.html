@@ -5,13 +5,13 @@
 
 <div class="container-fluid">
   <div class="row mt-3">
-    <div class="col-md-6 col-12">
-      <h1 class="text-white display-5">Students of Session: {{session.name}}</h1>
+    <div class="col-md-6">
+      <h3>Students of Session: {{session.name}}</h3>
     </div>
-    <div class="col-md-6 mx-auto mt-3">
+    <div class="col-md-6 mx-auto">
       <a class="btn float-end" style="border-radius:1em; background-color:#2E3440" href="{% url 'teacher-add-student' session.id %}">Add Student Manually</a>
-      <a class="btn float-end" style="border-radius:1em; background-color:#2E3440" href="{% url 'teacher-load-file-students' session.id %}">Load Students by a .csv FILE</a>
-      <a class="btn float-end" style="border-radius:1em; background-color:#2E3440" href="{% url 'teacher-session' session.id %}">Go back to Session Page</a>
+      <a class="btn float-end" style="border-radius:1em; background-color:#2E3440" href="{% url 'teacher-load-file-students' session.id %}">Add Students (.csv File)</a>
+      <a class="btn float-end" style="border-radius:1em; background-color:#2E3440" href="{% url 'teacher-session' session.id %}">Go Back</a>
   
     </div>
   
