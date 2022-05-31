@@ -24,6 +24,7 @@
 <button class="btn mx-auto" style=" border-radius:1em; background-color:#2E3440;" type="button" data-bs-toggle="collapse" data-bs-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
 	Show Subject Statistics
 </button>
+<br>
 
 	<div class="collapse" id="collapseExample">
 	  <div class="card shadow-lg text-white rounded-lg p-3 mx-auto" style=" border-radius:1em; background-color:#2E3440;">
@@ -57,27 +58,44 @@
 
 
 <br>
-  
-<h4 class = "text-white">Not Started sessions:</h4>
-<div class = "row g-3 mt-3">
-	{% for session in sessions %}
-		{% if not session.is_started %}  
-			{% include "teacher/subject/session-card.html" with session=session%}
-		{% endif %}
-	{% endfor %}
-</div>
-    
-<h4 class = "text-white">Started sessions:</h4>
-<div class = "row g-3 mt-3">
-	{% for session in sessions %}
-		{% if session.is_started and not session.is_finished %}  
-			{% include "teacher/subject/session-card.html" with session=session%}
-		{% endif %}
-	{% endfor %}
+
+<div class= "card" style=" border-radius:1em; background-color:#3b4252;">
+	<div class="card-header" >
+		<h4 class = "text-white">Not Started sessions:</h4>
+	</div>
+	<div class = "row g-3 mt-3">
+		{% for session in sessions %}
+			{% if not session.is_started %}  
+				{% include "teacher/subject/session-card.html" with session=session%}
+			{% endif %}
+		{% endfor %}
+	</div>
 </div>
 
-<h4 class = "text-white">Finished sessions:</h4>
-<div class = "row g-3 mt-3">
+<br>
+
+<div class="card " style=" border-radius:1em; background-color:#3b4252;">
+	<div class="card-header">
+		<h4 class = "text-white">Started sessions:</h4>
+	</div>
+	<div class = "row g-3 mb-2 mx-2 mt-1">
+		{% for session in sessions %}
+			{% if session.is_started and not session.is_finished %}  
+				{% include "teacher/subject/session-card.html" with session=session%}
+			{% endif %}
+		{% endfor %}
+	</div>
+	
+</div>    
+
+<br>
+
+<div class="card" style=" border-radius:1em; background-color:#3b4252;">
+	<div class="card-header">
+		<h4 class = "text-white">Finished sessions:</h4>
+	</div>
+
+<div class = "row g-3 mb-2 mx-2 mt-1">
 	{% for session in sessions %}
 		{% if session.is_finished %}  
 			{% include "teacher/subject/session-card.html" with session=session%}
