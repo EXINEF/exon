@@ -1,39 +1,74 @@
 {% extends 'core/base.html' %}
 {% load auth_extras %} 
 {% block content %}
-<a class="btn float-end" style="border-radius:1em; background-color:#2E3440" href="{% url 'teacher-session' session.id %}">Go back to Session Page</a>
-<br>
 
-<h2>Exam results for: {{exam.student.last_name}} {{exam.student.first_name}} - MAT: {{exam.student.get_matricola_from_user}}</h2>
-<h3>In this page you will have the results of the exam</h3>
-<h6>Total questions: {{exam.session.number_of_questions}}<h6>
-<h6>Correct Answers: {{exam.correct_num}}<h6>
-<h6>Blank Answers: {{exam.blank_num}}<h6>
-<h6>Wrong Answers: {{exam.wrong_num}}<h6>
-<h6>Votation: {{exam.votation}}/{{exam.session.get_max_votation}}<h6>
-<h6>Votation out of 10: {{exam.get_votation_out_of_10}} / 10<h6>
-<h6>Votation out of 30: {{exam.get_votation_out_of_30}} / 30<h6>
 
-<h3>Exam Questions:</h3>
+<div class = "row mt-2">
+    <div class = "col-sm-8">
+        <h2>Exam results for: {{exam.student.last_name}} {{exam.student.first_name}} - MAT: {{exam.student.get_matricola_from_user}}</h2>
+    </div>
+    <div class = "col-sm-4">
+        <a class="btn float-end" style="border-radius:1em; background-color:#2E3440" href="{% url 'teacher-session' session.id %}">Go back to Session Page</a>
+    </div>
+</div>
 
-{% for q in questions %}
+</br>
 
-    <h5>{{q.question.text}}</h5>
-    <h6>Status: {{q.get_status}}</h6>
-    <ul>
-    {% for answer in q.get_all_possibles_answers %}
-        {% if q|has_this_answer:answer.id %}
-            {% if q|get_status_of_answer:answer.id == 'CORRECT' %}
-                <p class="text-success bg-dark">{{answer.text}}</p>
+
+
+<div class = "card text-white" style="background-color: #2e3440 ; border-radius: 1em;" >
+    <div class = "card-header text-white">
+        <h3>In this page you will have the results of the exam</h3>
+    </div>
+        <div class ="row" style="align-items: center;">
+            <div class = "col-sm-6 mx-3">
+                <h6 class="">Total questions: {{exam.session.number_of_questions}}<h6>
+                <h6 class="">Correct Answers: {{exam.correct_num}}<h6>
+                <h6 class="">Blank Answers: {{exam.blank_num}}<h6>
+                <h6 class="">Wrong Answers: {{exam.wrong_num}}<h6>
+                <h6 class="">Votation: {{exam.votation}}/{{exam.session.get_max_votation}}<h6>
+                <h6 class="">Votation out of 10: {{exam.get_votation_out_of_10}} / 10<h6>
+            </div>
+            <div class = "col-sm-4 mx-3">
+                <h1 class="">Votation out of 30: {{exam.get_votation_out_of_30}} / 30<h6>
+            </div>
+        </div>    
+</div>
+
+
+
+
+</br>
+
+<div class = "card text-white" style="background-color: #2e3440 ; border-radius: 1em;">
+    <div class="card-header text-white">
+        <h3>Exam Questions:</h3>
+        
+    </div>
+
+    <div class= "container mx-3 mt-2">
+        {% for q in questions %}
+
+        <h5>{{q.question.text}}</h5>
+        <h6>Status: {{q.get_status}}</h6>
+        <ul>
+        {% for answer in q.get_all_possibles_answers %}
+            {% if q|has_this_answer:answer.id %}
+                {% if q|get_status_of_answer:answer.id == 'CORRECT' %}
+                    <p class="text-success bg-dark">{{answer.text}}</p>
+                {% else %}
+                    <p class="text-danger bg-dark">{{answer.text}}</p>
+                {% endif %}
             {% else %}
-                <p class="text-danger bg-dark">{{answer.text}}</p>
-            {% endif %}
-        {% else %}
-            <li><p>{{answer.text}}</p></li>
-        {% endif %} 
+                <li><p>{{answer.text}}</p></li>
+            {% endif %} 
+        {% endfor %}
+        </ul>
+    
     {% endfor %}
-    </ul>
+    </div>
+    
+</div> 
 
-{% endfor %}
 <br> {% endblock content %}
 
