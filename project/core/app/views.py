@@ -26,6 +26,10 @@ def student_login(request):
 				messages.error(request, 'You are a teacher, you have to log in as a teacher')
 				return redirect('index')
 			else:
+				if not Exam.objects.filter(token=token).exists():
+					messages.error(request, 'You don\'t have an exam associated with this account please, tell this to the teacher.')
+					return redirect('index')
+
 				exam = Exam.objects.get(student=user)
 				if exam.session.is_locked:
 					messages.error(request, 'ERROR: The session you are trying to Login is LOCKED, ask to the teacher to unlock it.')

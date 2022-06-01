@@ -2,7 +2,6 @@ from django.test import TestCase
 from app.models import Teacher
 from django.contrib.auth.models import User, Group
 
-# Create your tests here.
 class TestTeacherActions(TestCase):
     @classmethod
     def setUpTestData(cls):
