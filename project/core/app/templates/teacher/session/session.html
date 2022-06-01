@@ -32,58 +32,59 @@
   </div>
 </div>
 
-<div class="card bg-dark text-white">
-    <div class="card-header">STUDENTS REGISTERED TO THIS SESSION: {{session.get_students_registered}}</div>
-
-    <div class="container-fluid">
-      <div class="row">
-        <div class="col-md">
-          <div class="card " style="border-radius:1em; background-color:#2E3440;">
-            <div class="card-body">
-              <h4 class="text-light">EDIT SESSION SETTINGS</h4>
-              <h6 class="text-light">Number of Questions: {{session.number_of_questions}}</h6>
-              <h6 class="text-light">Overall Difficulty: TODO</h6>
-              <h6 class="text-light">Start Datetime: {{session.start_datetime}}</h6>
-              <h6 class="text-light">Expiration Datetime: {{session.expiration_datetime}}</h6>
-              <h6 class="text-light">Weight For Correct Answer: {{session.weight_correct_answer}}</h6>
-              <h6 class="text-light">Weight For Blank Answer: {{session.weight_blank_answer}}</h6>
-              <h6 class="text-light">Weight For Wrong Answer: {{session.weight_wrong_answer}}</h6>
-              <a class="btn" style="border-radius:1em; background-color:#ebcb8b;" href="{% url 'teacher-edit-settings-session' session.id %}">Edit General Settings</a>
-              <a class="btn" style="border-radius:1em; background-color:#ebcb8b;" href="{% url 'teacher-edit-session' session.id %}">Edit All Settings</a>
-            </div>
+<div class="card  text-white" style="background-color: #3b4252; border-radius: 1em;">
+  <div class="card-header">STUDENTS REGISTERED TO THIS SESSION: {{session.get_students_registered}}</div>
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-md">
+        <div class="card " style="border-radius:1em; background-color:#2E3440;">
+          <div class="card-body">
+            <h4 class="text-light">EDIT SESSION SETTINGS</h4>
+            <h6 class="text-light">Number of Questions: {{session.number_of_questions}}</h6>
+            <h6 class="text-light">Overall Difficulty: TODO</h6>
+            <h6 class="text-light">Start Datetime: {{session.start_datetime}}</h6>
+            <h6 class="text-light">Expiration Datetime: {{session.expiration_datetime}}</h6>
+            <h6 class="text-light">Weight For Correct Answer: {{session.weight_correct_answer}}</h6>
+            <h6 class="text-light">Weight For Blank Answer: {{session.weight_blank_answer}}</h6>
+            <h6 class="text-light">Weight For Wrong Answer: {{session.weight_wrong_answer}}</h6>
+            <a class="btn" style="border-radius:1em; background-color:#ebcb8b;" href="{% url 'teacher-edit-settings-session' session.id %}">Edit General Settings</a>
+            <a class="btn" style="border-radius:1em; background-color:#ebcb8b;" href="{% url 'teacher-edit-session' session.id %}">Edit All Settings</a>
           </div>
         </div>
-        <div class="col-md">
-          <div class="card" style="border-radius:1em; background-color:#2E3440;">
-            <div class="card-body">
-              <h4 class="card-title text-light">Student Information</h4>
-              <h6 class="text-light">Students registered: {{session.get_students_registered}}</h6>
-              <a class="btn" style="border-radius:1em; background-color:#a3be8c" href="{% url 'teacher-all-students' session.id %}">Show all registered Students</a>
-              </div>
+      </div>
+      <div class="col-md">
+        <div class="card" style="border-radius:1em; background-color:#2E3440;">
+          <div class="card-body">
+            <h4 class="card-title text-light">Student Information</h4>
+            <h6 class="text-light">Students registered: {{session.get_students_registered}}</h6>
+            <a class="btn" style="border-radius:1em; background-color:#a3be8c" href="{% url 'teacher-all-students' session.id %}">Show all registered Students</a>
             </div>
-        </div>
-        <div class="col-md">
-          <div class="card" style="border-radius:1em; background-color:#2E3440;">
-            <div class="card-body">
-              <h4 class="text-light">Generate Exam</h5>
-                <h6 class="text-light">Here you can generate the exams, before doing this check if all the settings are good before proceding.</h6>
-              <a class="btn " style="border-radius:1em; background-color:#BF616A" href="{% url 'teacher-generate-exams-confirmation' session.id %}">GENERATE EXAMS</a>
-            </div>
+          </div>
+      </div>
+      <div class="col-md">
+        <div class="card" style="border-radius:1em; background-color:#2E3440;">
+          <div class="card-body">
+            <h4 class="text-light">Generate Exam</h5>
+              <h6 class="text-light">Here you can generate the exams, before doing this check if all the settings are good before proceding.</h6>
+            <a class="btn " style="border-radius:1em; background-color:#BF616A" href="{% url 'teacher-generate-exams-confirmation' session.id %}">GENERATE EXAMS</a>
           </div>
         </div>
       </div>
     </div>
-      <div class="card-body">
-    </div>
-
-    {% elif session.get_status == 'STARTED' %}
+  </div>
+    <div class="card-body">
+  </div>
+</div>
+    
+{% elif session.get_status == 'STARTED' %}
 
     <!--Started Exam Page-->
-    <div class="row mt-3">
-      <div class="col-sm-8  ">
+    
         {% if session.is_locked%}
         <!--Locked Exam-->
-        <h1 class="text-white display-6">STATUS: LOCKED</h1>
+        <div class="row mt-3">
+          <div class="col-sm-8  ">
+        <h1 class="text-white">STATUS: LOCKED</h1>
       </div>
       <div class="col-sm-4  ">
         <a class="btn float-end" style="border-radius:1em; background-color:#bf616a" href="{% url 'teacher-unlock-session' session.id %}">Unlock the Session</a>
@@ -95,22 +96,31 @@
         
       {% else %}
     
-        <!--Unlocked Exam-->
-        <h1 class="text-white display-6">STATUS: UNLOCKED</h1>
-        </div>
-        <div class="col-sm-6 mx-auto mt-3">
-          <a class="btn float-end" style="border-radius:1em; background-color:#bf616a" href="{% url 'teacher-terminate-session-confirmation' session.id %}">Terminate the Session</a>
-           <a class="btn float-end" style="border-radius:1em; background-color:#2E3440" href="{% url 'teacher-lock-session' session.id %}">Lock the Session</a>
-           <a class="btn float-end" style="border-radius:1em; background-color:#2E3440" href="{% url 'teacher-send-tokens-by-email' session.id %}">Send Tokens by email</a>
-           <a class="btn" style="border-radius:1em; background-color:#2E3440" href="{% url 'teacher-all-credentials' session.id %}">Show All Credentials</a>
-        </div>
-      </div>
+      <!--Unlocked Exam-->
+        
+     <div class="row mt-3">
+       <div class="col-sm-2">
+        <h1 class="text-white">STATUS: UNLOCKED</h1>
+       </div>
+       <div class="col-sm-10">
+        <a class="btn float-end" style="border-radius:1em; background-color:#bf616a" href="{% url 'teacher-terminate-session-confirmation' session.id %}">Terminate the Session</a>
+        <a class="btn float-end" style="border-radius:1em; background-color:#ebcb8b " href="{% url 'teacher-lock-session' session.id %}">Lock the Session</a>
+        <a class="btn float-end" style="border-radius:1em; background-color:#2E3440" href="{% url 'teacher-send-tokens-by-email' session.id %}">Send Tokens by email</a>
+        <a class="btn float-end" style="border-radius:1em; background-color:#2E3440" href="{% url 'teacher-all-credentials' session.id %}">Show All Credentials</a>
+       </div>
+     </div>   
+        
+        
+        
+           
+      
+      
       <h5>The Session is NOT locked, so students can login</h5>
       {% endif %}
         
       <h5>Started Exams: {{num_started_exams}}/{{exams.count}}</h5>
       <h5>Finished Exams: {{num_finished_exams}}/{{exams.count}}</h5>
-      </div>
+     
     
       
     
