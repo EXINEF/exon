@@ -18,6 +18,10 @@ class Teacher(models.Model):
         return '%s - %s' % (self.get_full_name(), self.user.username)
     
     def get_full_name(self):
+        if self.last_name == '':
+            return self.first_name
+        if self.first_name == '':
+            return self.last_name
         return '%s %s' % (self.last_name, self.first_name)
 
 
