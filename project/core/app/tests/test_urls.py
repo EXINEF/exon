@@ -26,6 +26,16 @@ class TestUrls(TestCase):
         response = self.client.get("/teacher/subject/0")
         self.assertEqual(response.status_code, 302)
 
+    def test_start_exam(self):
+        response = self.client.get("/student/start-exam")
+        self.assertEqual(response.status_code, 302)
+
+    def test_exam_access_with_exam(self):
+        response = self.client.get("/student/exam/0")
+        self.assertEqual(response.status_code, 302)
+    
+
+
 
 
 

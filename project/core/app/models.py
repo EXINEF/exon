@@ -1,9 +1,6 @@
 from datetime import timedelta, datetime, timezone
-from multiprocessing import get_start_method
-import statistics
 from django.contrib.auth.models import User
 from django.db import models
-from django.db.models.functions import Now
 
 # Create your models here.
 class Teacher(models.Model):
@@ -26,6 +23,9 @@ class Teacher(models.Model):
 
 
 class SubjectStatistics(models.Model):
+    class Meta:
+        verbose_name_plural = "Subject Statistics"
+
     total_sessions = models.IntegerField(blank=True, null=True)
     not_started_sessions = models.IntegerField(blank=True, null=True)
     started_sessions = models.IntegerField(blank=True, null=True)
@@ -436,6 +436,9 @@ class Student(models.Model):
         return '%s %s' % (self.last_name, self.first_name)
 
 class Access(models.Model):
+    class Meta:
+        verbose_name_plural = "Accesses"
+
     session = models.ForeignKey(Session, on_delete=models.CASCADE, null=True)
     exam = models.ForeignKey(Exam, on_delete=models.CASCADE, null=True)
     ip = models.CharField(max_length=255, null=True)
@@ -447,11 +450,13 @@ class Access(models.Model):
     def get_creation_datetime(self):
         return self.creation_datetime.strftime('%d-%m-%Y %H:%M')
 
+
 def get_matricola_from_user(self):
     students = Student.objects.filter(email=self.email)
     if students.exists():
         return students[0].matricola
     else:
         'MATRICOLA NOT FOUND'
-        
+
+# Add a custom method to the Default Django Class User    
 User.add_to_class('get_matricola_from_user', get_matricola_from_user)

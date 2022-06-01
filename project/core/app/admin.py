@@ -46,6 +46,7 @@ class StudentAdmin(admin.ModelAdmin):
 
 class AccessAdmin(admin.ModelAdmin):
 	model = Access
+	
 
 admin.site.register(Teacher, TeacherAdmin)
 admin.site.register(SubjectStatistics, SubjectStatisticsAdmin)

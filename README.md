@@ -4,18 +4,14 @@
 To generate Django Class-Diagram use this command:
 python manage.py graph_models -a -o myapp_models.png
 
-## TODOLIST
-Exam statistics
+To run the server:
+python manage.py runserver
 
-- sessioni fatte
+To run the tests:
+python manage.py test
 
-- esami fatti
+To run the tests with coverage:
+python manage.py test --cov-report term-missing --cov-report html
 
-
-- votazione media / votazione massima, 
-- 10 
-- 30
-
-
-- esami passati / esami totali
-- domande corrette/sbagliate/vuote / totali
+To run the tests with coverage and profiling:
+python manage.py test --cov-report term-missing --cov-report html --profile
