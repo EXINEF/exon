@@ -82,15 +82,19 @@
   
       {% if session.is_locked%}
       <!--Locked Exam-->
+
       <div class="row mt-3">
-        <div class="col-sm-8  ">
-      <h1 class="text-white">STATUS: LOCKED</h1>
+        <div class="col-sm-2">
+         <h1 class="text-white">STATUS: LOCKED</h1>
+        </div>
+        <div class="col-sm-10">
+         <a class="btn float-end" style="border-radius:1em; background-color:#bf616a" href="{% url 'teacher-terminate-session-confirmation' session.id %}">Terminate the Session</a>
+         <a class="btn float-end" style="border-radius:1em; background-color:#ebcb8b" href="{% url 'teacher-unlock-session' session.id %}">Unlock the Session</a>
+         <a class="btn float-end" style="border-radius:1em; background-color:#2E3440" href="{% url 'teacher-send-tokens-by-email' session.id %}">Send Tokens by email</a>
+         <a class="btn float-end" style="border-radius:1em; background-color:#2E3440" href="{% url 'teacher-all-credentials' session.id %}">Show All Credentials</a>
+        </div>
     </div>
-    <div class="col-sm-4  ">
-      <a class="btn float-end" style="border-radius:1em; background-color:#bf616a" href="{% url 'teacher-unlock-session' session.id %}">Unlock the Session</a>
-      <a class="btn float-end" style="border-radius:1em; background-color:#bf616a" href="{% url 'teacher-terminate-session-confirmation' session.id %}">Terminate the Session</a>
-    </div>
-  </div>
+
   
       <h5>The Session is locked, so students cannot login</h5>
       
@@ -208,9 +212,7 @@
           </div>
           <div class="col-sm-6 mt-2 mx-auto">
             <a class="btn float-end " style="border-radius: 1em; background-color:#bf616a;" href="{% url 'teacher-correct-exams' session.id %}">Correct Exams Again</a>
-            <a class="btn float-end"  style="border-radius: 1em; background-color:#bf616a;" href="{% url 'teacher-edit-weights-session' session.id %}">Edit Session's Weights</a>
-            
-        
+            <a class="btn float-end"  style=" border-radius:1em; background-color:#2E3440;" href="{% url 'teacher-edit-weights-session' session.id %}">Edit Session's Weights</a>  
           </div>
         </div>
         
