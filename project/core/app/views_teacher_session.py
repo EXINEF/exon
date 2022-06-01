@@ -55,6 +55,7 @@ def edit_session(request, pk):
 
 @teacher_only
 def edit_settings_session(request, pk):
+    # FIXME - this is not working when try to add nothing in the form
     teacher = get_object_or_404(Teacher, user=request.user)  
     session = get_object_or_404(Session, id=pk, teacher=teacher)
 

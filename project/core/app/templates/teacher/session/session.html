@@ -18,23 +18,22 @@
 <h6 class="lead">SESSION IS MISSING CONFIGURATION SETTINGS, ADD THEM AND TRY AGAIN</div>
 
     
-{% elif session.get_status == 'READY' %}
+  {% elif session.get_status == 'READY' %}
 
 
-<div class="row">
-  <div class="col-sm-8 col-12 mt-2">
-    <h2>Exam Session: {{ session.name }}</h2>
-    <h4 class="text-white">STATUS: {{session.get_status}}</h4>
+  <div class="row">
+    <div class="col-sm-8 col-12 mt-2">
+      <h1 class="text-white display-3">Exam Session: {{ session.name }}</h1>
+      <h4 class="text-white">STATUS: {{session.get_status}}</h4>
+    </div>
+    <div class="col-sm-4 mt-4 mx-auto">
+      <a class="btn float-end" style=" border-radius:1em; background-color:#2E3440;" href="{% url 'teacher-subject' session.subject.pk %}">Go to the Subject</a>
+      <a class="btn float-end" style="border-radius:1em; background-color:#BF616A;" href="{% url 'teacher-delete-session' session.id %}">DELETE THIS SESSION</a>
+    </div>
   </div>
-  <div class="col-sm-4 mt-4 mx-auto">
-    <a class="btn float-end" style=" border-radius:1em; background-color:#2E3440;" href="{% url 'teacher-subject' session.subject.pk %}">Go to the Subject</a>
-    <a class="btn float-end" style="border-radius:1em; background-color:#BF616A;" href="{% url 'teacher-delete-session' session.id %}">DELETE THIS SESSION</a>
-  </div>
-</div>
-
-<div class="card bg-dark text-white">
+  
+  <div class="card  text-white" style="background-color: #3b4252; border-radius: 1em;">
     <div class="card-header">STUDENTS REGISTERED TO THIS SESSION: {{session.get_students_registered}}</div>
-
     <div class="container-fluid">
       <div class="row">
         <div class="col-md">
@@ -43,8 +42,8 @@
               <h4 class="text-light">EDIT SESSION SETTINGS</h4>
               <h6 class="text-light">Number of Questions: {{session.number_of_questions}}</h6>
               <h6 class="text-light">Overall Difficulty: TODO</h6>
-              <h6 class="text-light">Date of Start: {{session.start_datetime|date:"d/m/Y H:i"}}</h6>
-              <h6 class="text-light">Date of Expiration: {{session.expiration_datetime|date:"d/m/Y H:i"}}</h6>
+              <h6 class="text-light">Start Datetime: {{session.start_datetime}}</h6>
+              <h6 class="text-light">Expiration Datetime: {{session.expiration_datetime}}</h6>
               <h6 class="text-light">Weight For Correct Answer: {{session.weight_correct_answer}}</h6>
               <h6 class="text-light">Weight For Blank Answer: {{session.weight_blank_answer}}</h6>
               <h6 class="text-light">Weight For Wrong Answer: {{session.weight_wrong_answer}}</h6>
@@ -75,7 +74,8 @@
     </div>
       <div class="card-body">
     </div>
-
+  </div>
+      
   {% elif session.get_status == 'STARTED' %}
 
     <!--Started Exam Page-->
