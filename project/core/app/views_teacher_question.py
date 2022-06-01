@@ -9,16 +9,16 @@ from .utils import get_answer_value
 @teacher_only
 def add_question(request, pk):
     form = QuestionForm()
+    teacher = get_object_or_404(Teacher, user=request.user)
+    subject = get_object_or_404(Subject, pk=pk)
     
     if request.method == 'POST':
         form = QuestionForm(request.POST)
         
         if form.is_valid():
-            t = get_object_or_404(Teacher, user=request.user)
-            s = get_object_or_404(Subject, id=pk)
             new_question = form.save(commit=False)
-            new_question.teacher = t
-            new_question.subject = s
+            new_question.teacher = teacher
+            new_question.subject = subject
             new_question.save()
             form.save_m2m()
             
@@ -27,14 +27,14 @@ def add_question(request, pk):
                 answer = Answer()
                 answer.text = text
                 answer.question = new_question
-                answer.teacher = t
+                answer.teacher = teacher
                 answer.is_correct = get_answer_value(request.POST.get('is_correct'+str(i)))
                 answer.save()
 
             messages.success(request, 'New question added successful')
             return redirect('teacher-edit-questions', pk, 0 ,5)
     
-    context = {'form': form, 'range': range(4), }
+    context = {'form': form, 'range': range(4), 'subject': subject}
     return render(request, 'teacher/question/add-question.html', context)
 
 

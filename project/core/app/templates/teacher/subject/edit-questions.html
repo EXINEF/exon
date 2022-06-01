@@ -78,7 +78,7 @@
             <tr>
               {% for question in questions %}
                 <tr>
-                <th scope="row"><a class="table"href="{% url 'teacher-edit-question' subject.id question.id  %}" >{{question.text}}</a></th>
+                <th scope="row"><a class="table"href="{% url 'teacher-edit-question' subject.id question.id  %}"><b>{{question.text}}</b></a></th>
                 <th scope="col">{{question.get_type}}</th>
                 {% with question.get_statistics as statistics %}
                 <th scope="col">{{statistics.0}}</th>
