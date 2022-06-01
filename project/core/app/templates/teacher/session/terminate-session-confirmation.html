@@ -2,20 +2,39 @@
 
 {% block content %}
 
-<h3>Do you want to terminate the Exam Session {{session.name}}</h3>
 
-<h5>ATTENTION: Once you terminate the Exam Session, you will not be able to go back.</h5>
-<ul>
-    <li>All exams will be terminated, so students that are doing the exams will be kicked out from the exam</li>
-    <li>The session will be locked, and no student will be able to do an exam</li>
-</ul>
+<div class = "container  d-flex justify-content-center align-items-center">
+    <div class = "card shadow-lg text-white rounded-lg mt-5" style="text-align: center; border-radius:1em; background-color:#2E3440;">
+        <form action="" method="POST">
+            {% csrf_token %}
+        <div class = "card-header">
+            <h1 class = "text-white mt-5"> Do you want to terminate the Exam Session {{session.name}} ?</h1>
+        </div>
+    </br>
+        <h5>ATTENTION: Once you terminate the Exam Session, you will not be able to go back.</h5>
+        <li>All exams will be terminated, so students that are doing the exams will be kicked out from the exam</li>
+        <li>The session will be locked, and no student will be able to do an exam</li>
+        <div class="row">
+            <div class="col-6">
+                <button type="submit" class="btn mt-5 mb-5" style="border-radius: 1em; background-color:#bf616a ">Yes, I want to terminate the Exam Session</button>
+                </div>
+                <div class="col-6">
+                    <a class="btn mt-5 mb-5"style="border-radius:1em; background-color:#a3be8c;" href="{% url 'teacher-session' session.id %}">No, I want to go back</a>
+                </div>
+            </div>
+            
+       
+            
 
-<form action="" method="POST">
-    {% csrf_token %}
-    <button type="submit" class="btn btn-danger">Yes, I want to terminate the Exam Session</button>
-</form>
+    </form>
+</div>
 
-<a class="btn btn-success" href="{% url 'teacher-session' session.id %}">No, I want to go back</a>
+
+
+    
+
+
+
 {% endblock content %}
 
 
