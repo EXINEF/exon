@@ -42,6 +42,7 @@ urlpatterns = [
 	path('teacher/delete-session/<str:pk>', delete_session, name='teacher-delete-session'),
 	path('teacher/exam/<str:session_pk>/<str:exam_pk>', exam, name='teacher-exam'),
 	path('teacher/all-credentials/<str:pk>', session_all_credentials, name='teacher-all-credentials'),
+	path('teacher/all-credentials-pdf/<str:pk>', session_all_credentials_pdf, name='teacher-all-credentials-pdf'),
 	path('teacher/generate-exams-confirmation/<str:pk>', generate_exams_confirmation, name='teacher-generate-exams-confirmation'),
 	path('teacher/terminate-session-confirmation/<str:pk>', terminate_session_confirmation, name='teacher-terminate-session-confirmation'),
 	path('teacher/lock-session/<str:pk>', lock_session, name='teacher-lock-session'),

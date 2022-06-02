@@ -164,6 +164,29 @@ def session_all_credentials(request, pk):
     context = {'session':session, 'exams':exams }
     return render(request,'teacher/session/all-credentials.html', context)
 
+@teacher_only
+def session_all_credentials_pdf(request, pk):
+    teacher = get_object_or_404(Teacher, user=request.user)
+    session = get_object_or_404(Session, id=pk, teacher=teacher)
+
+    if not session.allowed_status(['STARTED']):
+        return redirect('teacher-session', session.pk)
+
+    exams = session.get_exams()
+
+    context = {'session':session, 'exams':exams }
+    
+    response = HttpResponse(content_type='application/pdf')
+    file_name = '\'filename=credentials_session_' + session.name + '\''
+    response['Content-Disposition'] = file_name
+    template = get_template('teacher/session/all-credentials-pdf.html')
+    html = template.render(context)
+
+    pisa_status = pisa.CreatePDF(html, dest=response)
+
+    if pisa_status.err:
+        return HttpResponse('ERROR: writing the pdf')
+    return response
 
 @teacher_only
 def generate_exams_confirmation(request, pk):
