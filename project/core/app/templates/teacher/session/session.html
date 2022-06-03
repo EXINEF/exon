@@ -4,12 +4,12 @@
 
 {% if session.get_status == 'MISSING CONFIGURATION' %}
 
-<div class="row">
-  <div class="col-sm-8 col-12 mt-2">
-    <h2>Exam Session: {{ session.name }}</h1>
+<div class="row mt-2">
+  <div class="col-sm-8 col-12">
+    <h1>Exam Session: {{ session.name }}</h1>
     <h4 class="text-white">STATUS: {{session.get_status}}</h4>
   </div>
-  <div class="col-sm-4 mt-4 mx-auto">
+  <div class="col-sm-4 mx-auto">
     <a class="btn float-end"  style=" border-radius:1em; background-color:#2E3440;"href="{% url 'teacher-subject' session.subject.pk %}">Go to the Subject</a>
     <a class="btn float-end"  style=" border-radius:1em; background-color:#2E3440;"href="{% url 'teacher-edit-settings-session' session.id %}">Configure settings</a>
   </div>
@@ -21,12 +21,12 @@
   {% elif session.get_status == 'READY' %}
 
 
-  <div class="row">
-    <div class="col-sm-8 col-12 mt-2">
-      <h1 class="text-white display-3">Exam Session: {{ session.name }}</h1>
+  <div class="row mt-2">
+    <div class="col-sm-8 col-12 ">
+      <h1 class="text-white ">Exam Session: {{ session.name }}</h1>
       <h4 class="text-white">STATUS: {{session.get_status}}</h4>
     </div>
-    <div class="col-sm-4 mt-4 mx-auto">
+    <div class="col-sm-4 mx-auto">
       <a class="btn float-end" style=" border-radius:1em; background-color:#2E3440;" href="{% url 'teacher-subject' session.subject.pk %}">Go to the Subject</a>
       <a class="btn float-end" style="border-radius:1em; background-color:#BF616A;" href="{% url 'teacher-delete-session' session.id %}">DELETE THIS SESSION</a>
     </div>
@@ -83,11 +83,11 @@
       {% if session.is_locked%}
       <!--Locked Exam-->
 
-      <div class="row mt-3">
-        <div class="col-sm-2">
+      <div class="row mt-2">
+        <div class="col-sm-3">
          <h1 class="text-white">STATUS: LOCKED</h1>
         </div>
-        <div class="col-sm-10">
+        <div class="col-sm-9">
          <a class="btn float-end" style="border-radius:1em; background-color:#bf616a" href="{% url 'teacher-terminate-session-confirmation' session.id %}">Terminate the Session</a>
          <a class="btn float-end" style="border-radius:1em; background-color:#ebcb8b" href="{% url 'teacher-unlock-session' session.id %}">Unlock the Session</a>
          <a class="btn float-end" style="border-radius:1em; background-color:#2E3440" href="{% url 'teacher-send-tokens-by-email' session.id %}">Send Tokens by email</a>
@@ -103,10 +103,10 @@
     <!--Unlocked Exam-->
       
    <div class="row mt-3">
-     <div class="col-sm-2">
+     <div class="col-sm-3">
       <h1 class="text-white">STATUS: UNLOCKED</h1>
      </div>
-     <div class="col-sm-10">
+     <div class="col-sm-9">
       <a class="btn float-end" style="border-radius:1em; background-color:#bf616a" href="{% url 'teacher-terminate-session-confirmation' session.id %}">Terminate the Session</a>
       <a class="btn float-end" style="border-radius:1em; background-color:#ebcb8b " href="{% url 'teacher-lock-session' session.id %}">Lock the Session</a>
       <a class="btn float-end" style="border-radius:1em; background-color:#2E3440" href="{% url 'teacher-send-tokens-by-email' session.id %}">Send Tokens by email</a>
@@ -205,12 +205,12 @@
 
         {% elif session.get_status == 'FINISHED' %}
 
-        <div class="row">
-          <div class="col-sm-6 col-12 mt-2">
-            <h1 class="text-white display-3">Exam Session: {{ session.name }}</h1>
+        <div class="row mt-2">
+          <div class="col-sm-6 col-12 ">
+            <h1 class="text-white">Exam Session: {{ session.name }}</h1>
             <h4 class="text-white">STATUS: {{session.get_status}}</h4>
           </div>
-          <div class="col-sm-6 mt-2 mx-auto">
+          <div class="col-sm-6 mx-auto">
             <a class="btn float-end " style="border-radius: 1em; background-color:#bf616a;" href="{% url 'teacher-correct-exams' session.id %}">Correct Exams Again</a>
             <a class="btn float-end"  style=" border-radius:1em; background-color:#2E3440;" href="{% url 'teacher-edit-weights-session' session.id %}">Edit Session's Weights</a>  
           </div>

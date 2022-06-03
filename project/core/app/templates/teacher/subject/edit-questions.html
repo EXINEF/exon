@@ -6,11 +6,11 @@
 
 <div class="row mt-2">
   
-  <div class="col-sm-7 col-12 mt-2">
-    <h3 class="text-white">Edit Questions of: {{subject.name}}</h3>
+  <div class="col-sm-8 col-12">
+    <h1 class="text-white">Edit Questions of: {{subject.name}}</h1>
     <h5 class="text-white">Number of Questions : {{total_questions}}</h5>
   </div>
-  <div class="col-sm-5  mx-auto">
+  <div class="col-sm-4 ">
     <a href="{% url 'teacher-add-question' subject.id %}" style="border-radius:1em; background-color:#2E3440;" class="btn float-end">Add Question</a>
     <a class="btn float-end" style="border-radius:1em; background-color:#2E3440;" href="{% url 'teacher-load-questions-file' subject.id %}" class="text-decoration-none text-dark">Load From File</a>
   </div>
