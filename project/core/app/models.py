@@ -224,8 +224,7 @@ class Session(models.Model):
         return self.description[:30] + '...'
     
     def is_open(self):
-        return self.start_datetime < datetime.now(
-            timezone.utc) and self.expiration_datetime > datetime.now(timezone.utc)
+        return self.start_datetime < datetime.now() and self.expiration_datetime > datetime.now()
     
     def is_not_started(self):
         return not self.is_open() and self.start_datetime > datetime.now(timezone.utc)
@@ -329,10 +328,16 @@ class Exam(models.Model):
         return 'Finished at %s' % self.get_finish_datetime()
     
     def get_expiration_time(self):
+        print(self.session.duration)
         return self.start_datetime + timedelta(minutes=self.session.duration)
     
     def is_expired(self):
-        return self.get_expiration_time() < datetime.now(timezone.utc)
+        print('START TIME\n' +str(self.start_datetime))
+        print('EXPIRATION TIME\n' +str(self.get_expiration_time()))
+        print('\nCURRENT DATETIME\n' +str(datetime.now()))
+        print(type(self.get_expiration_time()))
+        print(type(datetime.now()))
+        return self.get_expiration_time() < datetime.now()
     
     def get_votation_out_of_10(self):
         return self.votation / self.session.get_max_votation() * 10

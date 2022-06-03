@@ -26,7 +26,7 @@ def student_start_exam(request):
 
 
 @student_only
-def student_exam(request, ):
+def student_exam(request):
 	exam = Exam.objects.get(student=request.user)
 	if not exam.is_started():
 		return redirect('student-start-exam')
@@ -48,6 +48,10 @@ def student_exam_time_expired(request):
 @student_only
 def student_exam_question(request, pk):
 	exam = Exam.objects.get(student=request.user)
+	if exam.is_expired():
+		exam.set_finished()
+		exam.save()
+		return redirect('student-exam-time-expired')
 	if not exam.is_started():
 		return redirect('student-start-exam')
 	if exam.is_finished():
