@@ -3,11 +3,18 @@
 {% block content %}
 
 
+<div class="container d-flex justify-content-center align-items-center mt-5 py-5">
+    <div class="card shadow-lg text-white rounded-lg mt-5" style="text-align: center; border-radius: 1em; background-color:#2E3440; width: 50rem;">
+        <div class="card-header">
+            <h2 class="standard-form-title">TIME EXPIRED</h2>
+            <p>Your time for doing the exam is finished, so we counted only the questions that you have already selected.</p>
+        </div>
+        <a class="btn mb-3 mt-2" href="{% url 'student-exam-result' %}" style="border-radius:1em; background-color:#a3be8c" >Go to Exam Result</a>
+    </div>
+</div>
 
-<h1>TIME EXPIRED</h1>
-<p>Your time for doing the exam is finished, so we counted only the questions that you have already selected.</p>
 
-<a href="{% url 'student-exam-result' %}">Go to Exam Result</a>
+
 <br>
 
 <br>
