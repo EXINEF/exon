@@ -1,36 +1,25 @@
-{% extends 'core/base.html' %} 
-{% load crispy_forms_tags %} 
+{% extends 'core/base.html' %}
+{% load crispy_forms_tags %}
 
 {% block content %}
 
 <div class="container d-flex justify-content-center align-items-center py-5">
-  <div
-    class="card shadow-lg text-white rounded-lg mt-5"
-    style="
-      text-align: center;
-      border-radius: 1em;
-      background-color: #2e3440;
-      width: 50rem;
-    "
-  >
-    <div class="card-header">
-      <h1 class="standard-form-title">Edit Subject: {{subject.name}}</h1>
-    </div>
-    <div class="container-fluid ">
-      <form method="POST" action="" class="text-white">
-        {% csrf_token %} {{form | crispy}}
-        <div class="d-grid gap-2">
-          <button
-            type="submit"
-            class="btn  mb-3 mt-3"
-            style="border-radius: 1em; background-color: #a3be8c"
-          >
-            Save
-          </button>
+    <div class="card shadow-lg text-white rounded-lg mt-5"
+        style="text-align: center; border-radius: 1em;background-color: #2e3440; width: 50rem;">
+        <div class="card-header">
+            <h1 class="standard-form-title">Edit Subject: {{subject.name}}</h1>
         </div>
-      </form>
+        <div class="container-fluid ">
+            <form method="POST" action="" class="text-white">
+                {% csrf_token %} {{form | crispy}}
+                <div class="d-grid gap-2">
+                    <button type="submit" class="btn  mb-3 mt-3" style="border-radius: 1em; background-color: #a3be8c">
+                        Save
+                    </button>
+                </div>
+            </form>
+        </div>
     </div>
-  </div>
 </div>
 
 {% endblock content %}
