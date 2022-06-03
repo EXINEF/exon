@@ -136,9 +136,12 @@ class Subject(models.Model):
                     votation += exam.get_votation_out_of_10()
                         
         self.statistics.total_questions = self.statistics.correct_questions+self.statistics.blank_questions+self.statistics.wrong_questions
-        self.statistics.average_votation_exams_10 = votation/self.statistics.finished_exams
-        self.statistics.average_votation_exams_30 = self.statistics.average_votation_exams_10 * 3
-
+        if self.statistics.finished_exams > 0:
+            self.statistics.average_votation_exams_10 = votation/self.statistics.finished_exams
+            self.statistics.average_votation_exams_30 = votation/self.statistics.finished_exams*30
+        else:
+            self.statistics.average_votation_exams_10 = 0
+            self.statistics.average_votation_exams_30 = 0
         self.statistics.save()
 
 class Question(models.Model):
