@@ -5,21 +5,21 @@
 <div class="container d-flex justify-content-center align-items-center py-5">
   <div class="card shadow-lg text-white rounded-lg mt-5 " style="text-align:center;border-radius: 1em; background-color:#2E3440; width: 50rem;">
     <div class="card-header">
-    <h3 class="text-white mt-5 mb-3">Are you a Teacher or a Student?</h3>
+    <h3 class="text-white mt-3 mb-3">Are you a Teacher or a Student?</h3>
     </div>
     <div class="container d-flex align-items-center justify-content-center mt-5 mb-5">
       <div class="row">
         <div class="col-6">
           <a href="{% url 'student-login' %}">
-            <img src="{% static 'res/student.png' %}" alt="" width="200" height="200">
+            <img src="{% static 'res/student.png' %}" alt="" width="100%"  style="max-width:200px;">
           </a>
-          <h6 class="mt-3">Student</h6>
+          <h5 class="mt-3">STUDENT</h5>
         </div>
         <div class="col-6">
           <a href="{% url 'teacher-login' %}">
-            <img src="{% static 'res/teacher.png' %}" alt="" width="200" height="200">
+            <img src="{% static 'res/teacher.png' %}" alt="" width="100%"  style="max-width:200px;">
           </a>
-          <h6 class="mt-3">Teacher</h6>
+          <h5 class="mt-3">TEACHER</h5>
         </div>
       </div>
     </div>
