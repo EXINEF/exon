@@ -1,6 +1,9 @@
 {% extends 'core/base.html' %}
 {% load auth_extras %} 
 {% block content %}
+
+
+
 <div class = "card shadow-lg text-white rounded-lg mt-5"
 style="
   border-radius: 1em;
@@ -41,5 +44,6 @@ style="
 
 {% endfor %}
 
-<p><a href="{% url 'logout' %}">LOGOUT</a></p>
+<a class= "btn" style="border-radius: 1em; background-color:#2E3440;" href="{% url 'logout' %}">LOGOUT</a>
+
 <br> {% endblock content %}
