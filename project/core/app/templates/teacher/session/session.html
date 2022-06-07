@@ -137,6 +137,7 @@
       <div class="card-header">
         <h2 class="text-dark">Exams of the Session: {{students.count}}</h2>
       </div>
+      <div class="table-responsive">
           <table class="table table-light table-striped">
             <thead>
               <tr>
@@ -159,7 +160,7 @@
                 {% endfor %}
             </tbody>
           </table>
-        
+        </div>
     </div>
   </div>
   
@@ -172,6 +173,7 @@
         <div class="card-header">
           <h2 class="table">Accesses List</h2>
         </div>
+        <div class="table-responsive">
         <table class="table table-light table-striped">
           <thead>
             <tr>
@@ -200,6 +202,7 @@
           </tbody>
         </table>
       </div>
+      </div>
 
         {% elif session.get_status == 'FINISHED' %}
 
@@ -221,6 +224,7 @@
         <div class="card bg-white text-dark mt-4">
           <div class="card-header">Exams'Result of the Session: {{students.count}}</div>
             <div class="card-body">
+              <div class="table-responsive">
               <table class="table table-light table-striped">
                 <thead>
                   <tr>
@@ -253,6 +257,7 @@
                 </tbody>
               </table>
             </div>
+          </div>
         </div>
         
         
