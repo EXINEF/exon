@@ -63,7 +63,7 @@ class SubjectStatistics(models.Model):
         self.correct_questions = 0
         self.blank_questions = 0
         self.wrong_questions = 0
-
+        
 
 class Subject(models.Model):
     name = models.CharField(max_length=50, null=True)
@@ -122,8 +122,8 @@ class Subject(models.Model):
                 self.statistics.not_started_sessions += 1
 
             exams = Exam.objects.filter(session=session)	
-            self.statistics.total_exams = exams.count()
-            
+            self.statistics.total_exams += exams.count()
+
             for exam in exams:
                 if exam.is_started():
                     self.statistics.started_exams += 1
@@ -138,7 +138,7 @@ class Subject(models.Model):
         self.statistics.total_questions = self.statistics.correct_questions+self.statistics.blank_questions+self.statistics.wrong_questions
         if self.statistics.finished_exams > 0:
             self.statistics.average_votation_exams_10 = votation/self.statistics.finished_exams
-            self.statistics.average_votation_exams_30 = votation/self.statistics.finished_exams*30
+            self.statistics.average_votation_exams_30 = self.statistics.average_votation_exams_10*3
         else:
             self.statistics.average_votation_exams_10 = 0
             self.statistics.average_votation_exams_30 = 0
