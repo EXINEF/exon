@@ -343,10 +343,10 @@ class Exam(models.Model):
         return self.get_expiration_time() < datetime.now()
     
     def get_votation_out_of_10(self):
-        return self.votation / self.session.get_max_votation() * 10
+        return int(self.votation / self.session.get_max_votation() * 10)
 
     def get_votation_out_of_30(self):
-        return self.votation / self.session.get_max_votation() * 30
+        return int(self.votation / self.session.get_max_votation() * 30)
 
     def analyze_and_correct_exam(self):
         if not self.is_finished:
@@ -370,6 +370,11 @@ class Exam(models.Model):
                 self.wrong_num += 1
 
         self.votation = self.correct_num * self.session.weight_correct_answer + self.blank_num * self.session.weight_blank_answer + self.wrong_num * self.session.weight_wrong_answer
+        
+        if self.votation<0:
+            self.votation = 0
+        
+        self.votation = format(self.votation, ".2f")
         self.save()
 
 class ExamQuestion(models.Model):
