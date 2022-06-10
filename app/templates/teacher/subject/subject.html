@@ -33,80 +33,65 @@
 <br>
 
 <div class="collapse" id="collapseStats">
-	<div class="card shadow-lg text-white rounded-lg p-3 mx-auto" style=" border-radius:1em; background-color:#2E3440;">
-		<table class="table table-borderless text-white">
-			<tbody>
+	<div class="card shadow-lg text-white rounded-lg p-3 mx-auto" style=" border-radius:1em; background-color:#3b4252;">
+		<div class = "row">
+			<div class="col-md-3">
+				<div class="card p-3 mb-2 " style="border-radius:1em; background-color:#2e3440;">
+					<h4 class="flot-start">Sessions</h4>
+					<tr class="statistics">Total : {{subject.statistics.total_sessions}}</tr>
+				</br>
+					<tr class="statistics">Not Started : {{subject.statistics.not_started_sessions}}</tr>
+				</br>
+					<tr class="statistics">Started : {{subject.statistics.started_sessions}}</tr>
+				</br>
+					<tr class="statistics">Finished : {{subject.statistics.finished_sessions}}</tr>
+				</br>
+				</div>
+			</div>	
+			<div class="col-md-3"> 
+				<div class="card p-3 mb-2" style="border-radius:1em; background-color:#2e3440;">
+						<h4>Exams</h4>
+					<tr class="statistics">Total : {{subject.statistics.total_exams}}</tr>
+				</br>
+					<tr class="statistics">Started : {{subject.statistics.started_exams}}</tr>
+				</br>
+					<tr class="statistics">Finished : {{subject.statistics.finished_exams}}</tr>
+				</br>
 				
-						
-							<tr>
-							 <th scope="row">Total Sessions:</th>
-							 <td>{{subject.statistics.total_sessions}}</td>
-							</tr>
-							<tr>
-							  <th scope="row">Not Started Sessions :</th>
-							  <td>{{subject.statistics.not_started_sessions}}</td>
-							</tr>
-							<tr>
-							  <th scope="row">Started Sessions :</th>
-							  <td>{{subject.statistics.started_sessions}}</td>
-							</tr>
-							<tr>
-								<th scope="row">Finished Sessions :</th>
-								<td>{{subject.statistics.finished_sessions}}</td>
-							</tr>
-							<tr>
-								<th scope="row">Total Exams :</th>
-								<td>{{subject.statistics.total_exams}}</td>
-							</tr>
-							<tr>
-								<th scope="row">Started Exams :</th>
-								<td>{{subject.statistics.started_exams}}</td></td>
-							</tr>
-							<tr>
-								<th scope="row">Finished Exams :</th>
-								<td>{{subject.statistics.finished_exams}}</td></td>
-							</tr>
-					</div>	
-							  
-					
-					
-						<tr>
-						  <th scope="row">Average Votation Exams 10 :</th>
-						  <td>{{subject.statistics.average_votation_exams_10}}</td>
-						</tr>
-						<tr>
-						  <th scope="row">Average Votation Exams 30 : </th>
-						  <td>{{subject.statistics.average_votation_exams_30}}</td>
-						</tr>
-						<tr>
-						  <th scope="row">Total Questions :</th>
-						  <td> {{subject.statistics.total_questions}}</td>
-						</tr>
-						<tr>
-						  <th scope="row">Correct Questions :</th>
-						  <td>{{subject.statistics.correct_questions}}</td>
-						</tr>
-						<tr>
-						  <th scope="row">Blank Questions :</th>
-						  <td>{{subject.statistics.blank_questions}}</td>
-						</tr>
-						<tr>
-						  <th scope="row">Wrong Questions :</th>
-						  <td>{{subject.statistics.wrong_questions}}</td>
-						  </tr>
-					  
-					
-						  
+				</div>
+			</div>
+			<div class="col-md-3">
+				<div class="card p-3 mb-2" style="border-radius:1em; background-color:#2e3440;">
+						<h4>Grades</h4>
+					<tr class="statistics">Average Grades Exams 10 : {{subject.statistics.average_votation_exams_10}}</tr>
+				</br>
+					<tr class="statistics">Average Grades Exams 30 : {{subject.statistics.average_votation_exams_30}}</tr>
 				
+				</div>
+					
+				
+			</div>
+					
+			</br>
+				
+			
+			<div class="col-md-3">
+				<div class="card p-3 mb-2" style="border-radius:1em; background-color:#2e3440;">
+					<h4>Questions</h4>
+					<tr class="statistics">Total : {{subject.statistics.total_questions}}</tr>
+				</br>
+					<tr class="statistics">Correct : {{subject.statistics.correct_questions}}</tr>
+				</br>
+					<tr class="statistics">Blank : {{subject.statistics.blank_questions}}</tr>
+				</br>
+					<tr class="statistics">Wrong : {{subject.statistics.wrong_questions}}</tr>
+				</br>
+				</div>
 
+			</div>
+			</div>
+		</div>
 
-			</tbody>
-			
-				
-				
-			
-			
-		  </table>
 	</div>
 	
 </div>
@@ -114,72 +99,75 @@
 
 
 
-{% with subject.get_numbers_of_sessions as numbers_of_sessions %}
-<br>
-<button class="btn mx-auto" style=" border-radius:1em; background-color:#2E3440;" type="button"
-	data-bs-toggle="collapse" data-bs-target="#collapseNotStarted" aria-expanded="false"
-	aria-controls="collapseExample">
-	Show Not Started Sessions ({{numbers_of_sessions.0}})
-</button>
-<div class="collapse" id="collapseNotStarted">
-	<div class="card" style=" border-radius:1em; background-color:#3b4252;">
-		<div class="card-header">
-			<h4 class="text-white">Not Started Sessions: {{numbers_of_sessions.0}}</h4>
-		</div>
-		<div class="row g-3 mb-3 mx-2 mt-1">
-			{% for session in sessions %}
-			{% if not session.is_started %}
-			{% include "teacher/subject/session-card.html" with session=session%}
-			{% endif %}
-			{% endfor %}
-		</div>
-	</div>
-</div>
-
-
-<br>
-
-<button class="btn mx-auto" style=" border-radius:1em; background-color:#2E3440;" type="button"
-	data-bs-toggle="collapse" data-bs-target="#collapseStarted" aria-expanded="false" aria-controls="collapseExample">
-	Show Started Sessions ({{numbers_of_sessions.1}})
-</button>
-<div class="collapse" id="collapseStarted">
-	<div class="card " style=" border-radius:1em; background-color:#3b4252;">
-		<div class="card-header">
-			<h4 class="text-white">Started sessions: {{numbers_of_sessions.1}}</h4>
-		</div>
-		<div class="row g-3 mb-3 mx-2 mt-1">
-			{% for session in sessions %}
-			{% if session.is_started and not session.is_finished %}
-			{% include "teacher/subject/session-card.html" with session=session%}
-			{% endif %}
-			{% endfor %}
-		</div>
-
-	</div>
-</div>
-
-
-<br>
-
-<button class="btn mx-auto" style=" border-radius:1em; background-color:#2E3440;" type="button"
-	data-bs-toggle="collapse" data-bs-target="#collapseEnded" aria-expanded="false" aria-controls="collapseExample">
-	Show Finished Sessions ({{numbers_of_sessions.2}})
-</button>
-<div class="collapse" id="collapseEnded">
-	<div class="card" style=" border-radius:1em; background-color:#3b4252;">
-		<div class="card-header">
-			<h4 class="text-white">Finished sessions: {{numbers_of_sessions.2}}</h4>
-		</div>
-
-		<div class="row g-3 mb-3 mx-2 mt-1">
-			{% for session in sessions %}
-			{% if session.is_finished %}
-			{% include "teacher/subject/session-card.html" with session=session%}
-			{% endif %}
-			{% endfor %}
+<div class="container-fluid">
+	{% with subject.get_numbers_of_sessions as numbers_of_sessions %}
+	<br>
+	<button class="btn mx-auto" style=" border-radius:1em; background-color:#2E3440;" type="button"
+		data-bs-toggle="collapse" data-bs-target="#collapseNotStarted" aria-expanded="false"
+		aria-controls="collapseExample">
+		Show Not Started Sessions ({{numbers_of_sessions.0}})
+	</button>
+	<div class="collapse" id="collapseNotStarted">
+		<div class="card" style=" border-radius:1em; background-color:#3b4252;">
+			<div class="card-header">
+				<h4 class="text-white">Not Started Sessions: {{numbers_of_sessions.0}}</h4>
+			</div>
+			<div class="row g-3 mb-3 mx-2 mt-1">
+				{% for session in sessions %}
+				{% if not session.is_started %}
+				{% include "teacher/subject/session-card.html" with session=session%}
+				{% endif %}
+				{% endfor %}
+			</div>
 		</div>
 	</div>
+	
+	
+	<br>
+	
+	<button class="btn mx-auto" style=" border-radius:1em; background-color:#2E3440;" type="button"
+		data-bs-toggle="collapse" data-bs-target="#collapseStarted" aria-expanded="false" aria-controls="collapseExample">
+		Show Started Sessions ({{numbers_of_sessions.1}})
+	</button>
+	<div class="collapse" id="collapseStarted">
+		<div class="card " style=" border-radius:1em; background-color:#3b4252;">
+			<div class="card-header">
+				<h4 class="text-white">Started sessions: {{numbers_of_sessions.1}}</h4>
+			</div>
+			<div class="row g-3 mb-3 mx-2 mt-1">
+				{% for session in sessions %}
+				{% if session.is_started and not session.is_finished %}
+				{% include "teacher/subject/session-card.html" with session=session%}
+				{% endif %}
+				{% endfor %}
+			</div>
+	
+		</div>
+	</div>
+	
+	
+	<br>
+	
+	<button class="btn mx-auto" style=" border-radius:1em; background-color:#2E3440;" type="button"
+		data-bs-toggle="collapse" data-bs-target="#collapseEnded" aria-expanded="false" aria-controls="collapseExample">
+		Show Finished Sessions ({{numbers_of_sessions.2}})
+	</button>
+	<div class="collapse" id="collapseEnded">
+		<div class="card" style=" border-radius:1em; background-color:#3b4252;">
+			<div class="card-header">
+				<h4 class="text-white">Finished sessions: {{numbers_of_sessions.2}}</h4>
+			</div>
+	
+			<div class="row g-3 mb-3 mx-2 mt-1">
+				{% for session in sessions %}
+				{% if session.is_finished %}
+				{% include "teacher/subject/session-card.html" with session=session%}
+				{% endif %}
+				{% endfor %}
+			</div>
+		</div>
+	</div>
+	{% endwith %}
 </div>
-{% endwith %}
+
 {% endblock content %}
