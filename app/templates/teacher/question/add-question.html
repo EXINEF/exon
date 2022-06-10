@@ -1,4 +1,9 @@
-{% extends 'core/base.html' %} {% load crispy_forms_tags %} {% block content %} 
+{% extends 'core/base.html' %} 
+{% load crispy_forms_tags %} 
+
+{% block title %}Add Question for {{subject.name}}{% endblock title %}
+
+{% block content %} 
 <div class="container d-flex justify-content-center align-items-center py-5">
    <div class= "card shadow-lg text-white rounded-lg mt-5" style="text-align: center; border-radius: 1em; background-color:#2E3440; width: 50rem;">
       <div class= "card-header">

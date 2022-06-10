@@ -82,6 +82,7 @@ def add_student(request, pk):
 @teacher_only
 def edit_student(request, session_pk, student_pk):
     teacher = get_object_or_404(Teacher, user=request.user)
+    session = get_object_or_404(Session, id=session_pk, teacher=teacher)
     student = get_object_or_404(Student, id=student_pk)
 
     form = StudentForm(instance = student)
@@ -94,13 +95,14 @@ def edit_student(request, session_pk, student_pk):
             messages.success(request, 'Student saved successfuly')
             return redirect('teacher-all-students', session_pk)
 
-    context = {'form':form,}
+    context = {'form':form, 'session':session}
     return render(request, 'teacher/student/edit-student.html', context)
 
 
 @teacher_only
 def delete_student(request, session_pk, student_pk):
     teacher = get_object_or_404(Teacher, user=request.user)
+    session = get_object_or_404(Session, id=session_pk, teacher=teacher)
     student = get_object_or_404(Student, id=student_pk)
     
     if request.method == 'POST':
@@ -108,7 +110,7 @@ def delete_student(request, session_pk, student_pk):
         Student.delete(student)
         return redirect('teacher-all-students', session_pk)
 
-    context = {'student':student}
+    context = {'student':student, 'session':session}
     return render(request, 'teacher/student/delete-student.html', context)
 
 

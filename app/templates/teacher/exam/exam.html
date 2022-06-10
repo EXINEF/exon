@@ -1,5 +1,8 @@
 {% extends 'core/base.html' %}
 {% load auth_extras %} 
+
+{% block title %}Exam of {{exam.student.last_name}} {{exam.student.first_name}} - MAT: {{exam.student.get_matricola_from_user}}{% endblock title %}
+
 {% block content %}
 <a class="btn float-end" style="border-radius:1em; background-color:#2E3440" href="{% url 'teacher-session' session.id %}">Go back to Session Page</a>
 <br>

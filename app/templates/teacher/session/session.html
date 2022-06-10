@@ -1,5 +1,7 @@
 {% extends 'core/base.html' %}
 
+{% block title %}Session: {{session.name}}{% endblock title %}
+
 {% block content %}
 
 {% if session.get_status == 'MISSING CONFIGURATION' %}
