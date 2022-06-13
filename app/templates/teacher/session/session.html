@@ -124,13 +124,7 @@
       
     <h5>Started Exams: {{num_started_exams}}/{{exams.count}}</h5>
     <h5>Finished Exams: {{num_finished_exams}}/{{exams.count}}</h5>
-   
   
-    
-  
-  
-  
-  <!--Show Exam DropDown-->  
     <a href="#" class="btn" style="border-radius: 1em; background-color:#a3be8c;" data-bs-toggle="collapse" data-bs-target="#collapse_exams" aria-expanded="false" aria-controls="collapse_exams">
   Show Exams: {{exams.count}}</a>
   
@@ -174,6 +168,7 @@
         <div class="card-header">
           <h2 class="table">Accesses List</h2>
         </div>
+        <div class="table-responsive">
         <table class="table table-light table-striped">
           <thead>
             <tr>
@@ -202,6 +197,7 @@
           </tbody>
         </table>
       </div>
+      </div>
 
         {% elif session.get_status == 'FINISHED' %}
 
@@ -223,6 +219,7 @@
         <div class="card bg-white text-dark mt-4">
           <div class="card-header">Exams'Result of the Session: {{students.count}}</div>
             <div class="card-body">
+              <div class="table-responsive">
               <table class="table table-light table-striped">
                 <thead>
                   <tr>
@@ -254,6 +251,7 @@
                     {% endfor %}
                 </tbody>
               </table>
+            </div>
             </div>
         </div>
         
