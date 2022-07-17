@@ -27,7 +27,7 @@ SECRET_KEY = 'django-insecure-stivza!7q_&=l57(ci7suqxnoyczqykkrpihw@q^!h^6e$#4z&
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['127.0.0.1','exon-beta.herokuapp.com']
+ALLOWED_HOSTS = ['*','127.0.0.1','exon-beta.herokuapp.com']
 
 # Uncomment this if you want to allow CSRF in a specific url
 # CSRF_TRUSTED_ORIGINS = ['https://f147-92-34-110-58.ngrok.io']

@@ -1,0 +1,16 @@
+{% extends 'core/base.html' %}
+
+{% block title %}Personal Area{% endblock title %}
+
+{% block content %}
+
+<h1>Personal Area</h1>
+
+<h3>{{ user.name }}</h3>
+
+<a href="#">Load Subject and Questions from a File</a>
+<a href="#">Save Subject and Questions to File</a>
+<a href="#">Edit App Settings</a>
+<a href="#">Edit Personal Information</a>
+
+{% endblock content %}

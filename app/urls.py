@@ -2,11 +2,11 @@ from django.urls import path
 from .views import *
 
 from .views_student import *
-from .views_teacher import dashboard
+from .views_teacher import dashboard, personal_area
 from .views_teacher_question import add_question, edit_question, delete_question
 from .views_teacher_session import *
 from .views_teacher_student import add_student, load_file_students, all_students, delete_student, edit_student
-from .views_teacher_subject import compute_subject_statistics, add_subject, delete_subject, edit_questions, edit_subject, load_questions_file, subject_page
+from .views_teacher_subject import compute_subject_statistics, add_subject, delete_subject, edit_questions, edit_subject, load_questions_file, subject_page, save_questions_to_file
 
 urlpatterns = [
 	path('', indexPage, name='index'),
@@ -27,6 +27,7 @@ urlpatterns = [
 	path('student/student-exam-time-expired', student_exam_time_expired, name='student-exam-time-expired'),
 	
 	### TEACHER
+	path('teacher/personal-area', personal_area, name='teacher-personal-area'),
 	
 	# QUESTION
 	path('teacher/add-question/<str:pk>', add_question, name='teacher-add-question'),
@@ -66,5 +67,5 @@ urlpatterns = [
 	path('teacher/delete-subject/<str:subject_pk>', delete_subject, name='teacher-delete-subject'),
 	path('teacher/edit-subject/<str:subject_pk>', edit_subject, name='teacher-edit-subject'),
 	path('teacher/edit-questions/<str:subject_pk>/<int:page>/<int:results>', edit_questions, name='teacher-edit-questions'),
-
+	path('teacher/save-questions-to-file/<str:subject_pk>', save_questions_to_file, name='teacher-save-questions-to-file'),
 ]

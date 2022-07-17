@@ -12,8 +12,12 @@ def dashboard(request):
     subjects = Subject.objects.filter(teacher=teacher)
 
     context = {'subjects':subjects, }
-    return render(request,'teacher/dashboard.html', context)
+    return render(request, 'teacher/dashboard.html', context)
 
+def personal_area(request):
+    teacher = get_object_or_404(Teacher, user=request.user) 
 
+    context = {'teacher':teacher, }
+    return render(request, 'teacher/settings/personal-area.html', context)
 
 
