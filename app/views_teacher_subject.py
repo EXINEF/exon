@@ -126,8 +126,10 @@ def save_questions_to_file(request, subject_pk):
     teacher = get_object_or_404(Teacher, user=request.user)
     subject = get_object_or_404(Subject, id=subject_pk, teacher=teacher)
     questions = Question.objects.filter(subject=subject)
-    data = serializers.serialize("yaml", questions)
-    
+    questions_data = serializers.serialize("yaml", questions, fields=('text','difficulty',))
+    answers = Answer.objects.filter(question__in=questions)
+    answers_data = serializers.serialize("yaml", answers, fields=('text','is_correct','question'))
+
     messages.success(request, 'We are generating a file with the questions of the subject %s' % subject.name + ' please wait...')
     BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
     filename = teacher.user.username + '_' + str(subject.id) + '_questions_backup.yaml'
@@ -135,7 +137,8 @@ def save_questions_to_file(request, subject_pk):
 
     f = open(filepath, 'w')
     myfile = File(f)
-    myfile.write(data)
+    myfile.write(questions_data)
+    myfile.write(answers_data)
     myfile.close()
     f.close()
     
