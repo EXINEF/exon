@@ -1,12 +1,17 @@
 import random
 import string
-from .models import Exam, ExamQuestion, Question, Answer, Subject
+import os
+import mimetypes
+import yaml
+
+from .models import Exam, ExamQuestion, Question, Answer
 from django.contrib.auth.models import User
 from django.contrib.auth.models import Group
 from django.core.mail import EmailMessage
-import yaml
-
+from django.http import HttpResponse
+from django.core.files import File
 from core.settings import TOKEN_SIZE
+
 
 def select_random_question_poll_from_subject(subject, number_of_questions):
     questions = []
@@ -54,6 +59,7 @@ def getAnswerValue(value):
         return 0
     return 1
 
+
 def get_client_ip(request):
     x_forwarded_for = request.META.get('HTTP_X_FORWARDED_FOR')
     if x_forwarded_for:
@@ -62,6 +68,7 @@ def get_client_ip(request):
         ip = request.META.get('REMOTE_ADDR')
     return ip
 
+
 def send_token_by_email_for_exam(session, exam):
     mail_object = 'TOKEN EXAM SESSION: '+session.name
     mail_body = 'Hello, this is the token for entering your exam: '+ exam.token
@@ -69,28 +76,33 @@ def send_token_by_email_for_exam(session, exam):
     email = EmailMessage(mail_object, mail_body, to=[exam.student.email])
     email.send()
 
+
 def get_answer_value(value):
     if value is None:
         return False
     return True
 
+
 def get_converted_questions_and_answers_to_yaml(questions):
-    yaml_string = ''
+    data = ''
     for question in questions:
         answers = Answer.objects.filter(question=question)
-        yaml_string += '- question: '+question.text+'\n'
-        yaml_string += '  difficulty: '+question.difficulty+'\n\n'
+        data += '- question: '+question.text+'\n'
+        data += '  difficulty: '+question.difficulty+'\n\n'
         counter = 0
-        for answer in answers:
-            yaml_string += '  answer'+str(counter)+': '+answer.text+'\n'
-            yaml_string += '  is_correct'+str(counter)+': '+str(answer.is_correct)+'\n\n'
-            counter += 1
-        yaml_string += '\n'
-    return yaml_string
 
-def save_questions_and_answers_from_yaml(yaml_file, teacher, subject):
-    yaml_str = yaml_file.read().decode('utf-8')
-    yaml_questions = yaml.safe_load(yaml_str)
+        for answer in answers:
+            data += '  answer'+str(counter)+': '+answer.text+'\n'
+            data += '  is_correct'+str(counter)+': '+str(answer.is_correct)+'\n\n'
+            counter += 1
+        
+        data += '\n'
+
+    return data
+
+def save_questions_and_answers_from_yaml(file, teacher, subject):
+    file_data = file.read().decode('utf-8')
+    yaml_questions = yaml.safe_load(file_data)
     
     for question in yaml_questions:
         new_question = Question(text=question['question'], difficulty=question['difficulty'], subject=subject, teacher=teacher)
@@ -101,3 +113,23 @@ def save_questions_and_answers_from_yaml(yaml_file, teacher, subject):
             new_answer = Answer(text=question['answer'+str(counter)], is_correct=question['is_correct'+str(counter)], question=new_question)
             new_answer.save()
             counter += 1
+
+
+def get_response_download_questions_and_answers_file(questions, teacher, subject):
+    yaml_data = get_converted_questions_and_answers_to_yaml(questions)
+
+    BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+    filename = teacher.user.username + '_' + str(subject.id) + '_questions_backup.yaml'
+    filepath = BASE_DIR + filename
+
+    stream = open(filepath, 'w')
+    file = File(stream)
+    file.write(yaml_data)
+    file.close()
+    stream.close()
+    
+    stream = open(filepath, 'r')
+    mime_type, _ = mimetypes.guess_type(filepath)
+    response = HttpResponse(stream, content_type=mime_type)
+    response['Content-Disposition'] = "attachment; filename=%s" % filename    
+    return response
