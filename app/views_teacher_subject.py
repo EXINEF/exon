@@ -2,6 +2,7 @@ from urllib import response
 from django.contrib import messages
 from django.http import HttpResponse
 from django.shortcuts import get_object_or_404, render
+from .utils import get_converted_questions_and_answers_to_yaml, save_questions_and_answers_from_yaml
 
 from .models import *
 
@@ -33,11 +34,6 @@ def compute_subject_statistics(request, subject_pk):
 
     messages.success(request, 'Statistics of Subject: %s were calculated correctly.' % (subject.name))
     return redirect('teacher-subject', subject_pk)
-
-@teacher_only
-def load_questions_file(request, subject_pk):
-    context = {}
-    return render(request, 'teacher/subject/load-questions-file.html', context)
 
 
 @teacher_only
@@ -126,28 +122,40 @@ def save_questions_to_file(request, subject_pk):
     teacher = get_object_or_404(Teacher, user=request.user)
     subject = get_object_or_404(Subject, id=subject_pk, teacher=teacher)
     questions = Question.objects.filter(subject=subject)
-    questions_data = serializers.serialize("yaml", questions, fields=('text','difficulty',))
-    answers = Answer.objects.filter(question__in=questions)
-    answers_data = serializers.serialize("yaml", answers, fields=('text','is_correct','question'))
+    yaml_data = get_converted_questions_and_answers_to_yaml(questions)
 
-    messages.success(request, 'We are generating a file with the questions of the subject %s' % subject.name + ' please wait...')
+    #messages.success(request, 'We are generating a file with the questions of the subject %s' % subject.name + ' please wait...')
     BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
     filename = teacher.user.username + '_' + str(subject.id) + '_questions_backup.yaml'
     filepath = BASE_DIR + filename
 
     f = open(filepath, 'w')
     myfile = File(f)
-    myfile.write(questions_data)
-    myfile.write(answers_data)
+    myfile.write(yaml_data)
     myfile.close()
     f.close()
     
     fil = open(filepath, 'r')
     mime_type, _ = mimetypes.guess_type(filepath)
     response = HttpResponse(fil, content_type=mime_type)
-    messages.success(request, 'The questions were saved to file successfully')
+    #messages.success(request, 'The questions were saved to file successfully')
     response['Content-Disposition'] = "attachment; filename=%s" % filename    
     return response
+
+
+@teacher_only
+def load_questions_file(request, subject_pk):
+    teacher = get_object_or_404(Teacher, user=request.user)
+    subject = get_object_or_404(Subject, id=subject_pk, teacher=teacher)
+
+    if request.method == 'POST':
+        yaml_file = request.FILES['file']
+        save_questions_and_answers_from_yaml(yaml_file, teacher, subject)
+        return redirect('teacher-edit-questions', subject_pk=subject.id, page=0, results=10)
+    
+    context = {}
+    return render(request, 'teacher/subject/load-questions-file.html', context)
+
 
 
 
